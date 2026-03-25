@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contact — Jun Luu</title>
+  <link rel="stylesheet" href="shared_v4.css">
+  <style>
+    .contact-body { padding: 5rem 4rem 7rem; display: grid; grid-template-columns: 1fr 1fr; gap: 7rem; align-items: start; }
+    .contact-left { position: sticky; top: 7rem; }
+    .contact-intro { font-size: 1rem; font-weight: 300; line-height: 1.85; color: var(--ink-soft); margin-bottom: 3rem; max-width: 400px; }
+    .channels { display: flex; flex-direction: column; }
+    .channel { display: flex; align-items: center; justify-content: space-between; padding: 1.4rem 0; border-bottom: 1px solid var(--cream-dark); text-decoration: none; color: var(--ink); transition: padding-left 0.22s; }
+    .channel:first-child { border-top: 1px solid var(--cream-dark); }
+    .channel:hover { padding-left: 0.5rem; }
+    .channel:hover .ch-arrow { color: var(--cobalt); transform: translateX(4px); }
+    .ch-left { display: flex; flex-direction: column; gap: 0.2rem; }
+    .ch-label { font-size: 0.65rem; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase; color: var(--cobalt); }
+    .ch-val { font-family: 'Cormorant Garamond', serif; font-size: 1.25rem; font-weight: 400; color: var(--ink); }
+    .ch-arrow { font-size: 1.1rem; color: var(--ink-muted); transition: color 0.2s, transform 0.2s; }
+
+    /* Right context card */
+    .context-card { background: var(--white); border: 1px solid var(--cream-dark); border-top: 3px solid var(--cobalt); padding: 3rem; }
+    .ctx-label { font-size: 0.65rem; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase; color: var(--cobalt); margin-bottom: 1.25rem; }
+    .ctx-title { font-family: 'Cormorant Garamond', serif; font-size: 1.75rem; font-weight: 300; line-height: 1.15; color: var(--ink); margin-bottom: 2rem; }
+    .ctx-title em { font-style: italic; color: var(--orange); }
+    .ctx-items { display: flex; flex-direction: column; gap: 1.4rem; }
+    .ctx-item { display: flex; gap: 1rem; align-items: flex-start; }
+    .ctx-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--cobalt); margin-top: 5px; flex-shrink: 0; }
+    .ctx-text { font-size: 0.9rem; font-weight: 300; line-height: 1.75; color: var(--ink-soft); }
+    .ctx-text strong { font-weight: 500; color: var(--ink); }
+    .avail-bar { margin-top: 2.5rem; padding: 1.1rem 1.4rem; background: var(--cobalt-pale); border-left: 3px solid var(--cobalt); }
+    .avail-label { font-size: 0.65rem; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; color: var(--cobalt); margin-bottom: 0.3rem; }
+    .avail-text { font-size: 0.86rem; font-weight: 300; color: var(--ink-soft); line-height: 1.55; }
+
+    @media (max-width: 900px) {
+      .contact-body { grid-template-columns: 1fr; gap: 3rem; padding: 3rem 1.5rem 5rem; }
+      .contact-left { position: static; }
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <a href="index.html" class="nav-logo">Jun Luu</a>
+    <ul class="nav-links">
+      <li><a href="about.html">About</a></li>
+      <li><a href="work.html">Works</a></li>
+      <li><a href="experience.html">Experience</a></li>
+      <li><a href="inspiration.html">Inspiration</a></li>
+      <li><a href="contact.html" class="active">Contact</a></li>
+    </ul>
+  </nav>
+
+  <div class="page-banner">
+    <p class="banner-eyebrow">Let's connect</p>
+    <h1 class="banner-title">Get in <em>Touch</em></h1>
+  </div>
+
+  <div class="marquee-bar"><div class="marquee-track">
+    <span>Open to opportunities</span><span class="hi">Graduating May 2026</span><span>Research · Analytics · Policy</span><span class="hi">Housing Equity</span>
+    <span>Open to opportunities</span><span class="hi">Graduating May 2026</span><span>Research · Analytics · Policy</span><span class="hi">Housing Equity</span>
+  </div></div>
+
+  <div class="contact-body">
+    <div class="contact-left">
+      <p class="contact-intro">I'm graduating in May 2026 and actively looking for my next role. Most interested in research, analytics, and policy work where data connects to urban equity — at nonprofits, research institutions, city agencies, or mission-driven firms.</p>
+      <div class="channels">
+        <a href="mailto:your@email.com" class="channel">
+          <div class="ch-left"><span class="ch-label">Email</span><span class="ch-val">jennifer.luu6@gmail.com</span></div>
+          <span class="ch-arrow">→</span>
+        </a>
+        <a href="https://linkedin.com/in/yourprofile" target="_blank" class="channel">
+          <div class="ch-left"><span class="ch-label">LinkedIn</span><span class="ch-val">linkedin.com/in/jenniferluu6</span></div>
+          <span class="ch-arrow">→</span>
+        </a>
+        <a href="https://github.com/yourgithub" target="_blank" class="channel">
+          <div class="ch-left"><span class="ch-label">GitHub</span><span class="ch-val">github.com/jenniferluu6</span></div>
+          <span class="ch-arrow">→</span>
+        </a>
+        <a href="#" class="channel">
+          <div class="ch-left"><span class="ch-label">Resume</span><span class="ch-val">Download PDF</span></div>
+          <span class="ch-arrow">↓</span>
+        </a>
+      </div>
+    </div>
+
+    <div>
+      <div class="context-card">
+        <p class="ctx-label">What I'm looking for</p>
+        <h3 class="ctx-title">Open to the <em>right opportunity</em></h3>
+        <div class="ctx-items">
+          <div class="ctx-item">
+            <div class="ctx-dot"></div>
+            <p class="ctx-text"><strong>Role types:</strong> Research analyst, data analyst, urban planner, policy analyst, or geospatial analyst where the work connects to housing, climate, and public health as a whole.</p>
+          </div>
+          <div class="ctx-item">
+            <div class="ctx-dot"></div>
+            <p class="ctx-text"><strong>Organizations:</strong> Research institutions, policy nonprofits, city planning agencies, real estate analytics firms, or mission-aligned consulting.</p>
+          </div>
+          <div class="ctx-item">
+            <div class="ctx-dot"></div>
+            <p class="ctx-text"><strong>Location:</strong> Preference towards New York, Boston, and San Francisco, but open to other locations depending on the role.</p>
+          </div>
+          <div class="ctx-item">
+            <div class="ctx-dot"></div>
+            <p class="ctx-text"><strong>Start date:</strong> Available from June 2026 onward, following graduation and post-graduation travel in May.</p>
+          </div>
+        </div>
+        <div class="avail-bar">
+          <p class="avail-label">Current status</p>
+          <p class="avail-text">Actively interviewing. Graduating May 2026. Open to conversations now.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer><p>© 2026 Jun Luu</p><p>MUSA, University of Pennsylvania</p></footer>
+</body>
+</html>

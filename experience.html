@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Experience — Jun Luu</title>
+  <link rel="stylesheet" href="shared_v4.css">
+  <style>
+    .exp-body { padding: 4rem 4rem 7rem; }
+    .map-section { background: var(--ink); padding: 4rem; margin-bottom: 5rem; position: relative; overflow: hidden; }
+    .map-section::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(to right, var(--cobalt), var(--orange) 60%, var(--green)); }
+    .map-intro { margin-bottom: 2.5rem; }
+    .map-intro .section-eyebrow { color: var(--orange); }
+    .map-intro .section-title { color: var(--cream); margin-bottom: 0.5rem; }
+    .map-intro .section-title em { color: rgba(214,224,250,0.8); }
+    .map-intro p { font-size: 0.85rem; font-weight: 300; color: rgba(248,244,236,0.4); margin-top: 0.5rem; }
+    .map-wrapper { position: relative; max-width: 900px; margin: 0 auto; }
+    .journey-path { fill: none; stroke: var(--orange); stroke-width: 1.5; stroke-dasharray: 2000; stroke-dashoffset: 2000; animation: drawPath 2.5s ease 0.6s forwards; opacity: 0.55; }
+    @keyframes drawPath { to { stroke-dashoffset: 0; } }
+    .city-dot { cursor: pointer; }
+    .city-pulse { transform-origin: center; animation: pulse 2.8s ease-out infinite; }
+    @keyframes pulse { 0% { r: 5; opacity: 0.5; } 70% { r: 15; opacity: 0; } 100% { r: 15; opacity: 0; } }
+    .map-tooltip { position: absolute; background: var(--white); border-top: 3px solid var(--cobalt); padding: 1.1rem 1.4rem; min-width: 220px; max-width: 270px; pointer-events: none; opacity: 0; transform: translateY(6px); transition: opacity 0.2s, transform 0.2s; z-index: 10; box-shadow: 0 8px 32px rgba(20,18,16,0.18); }
+    .map-tooltip.visible { opacity: 1; transform: translateY(0); }
+    .tt-city { font-family: 'Cormorant Garamond', serif; font-size: 1.15rem; font-weight: 400; color: var(--ink); margin-bottom: 0.7rem; }
+    .tt-role { margin-bottom: 0.45rem; padding-bottom: 0.45rem; border-bottom: 1px solid var(--cream-dark); }
+    .tt-role:last-child { border-bottom: none; padding-bottom: 0; margin-bottom: 0; }
+    .tt-title { font-size: 0.8rem; font-weight: 500; color: var(--ink-soft); }
+    .tt-org { font-size: 0.72rem; font-weight: 300; color: var(--ink-muted); }
+    .tt-dates { font-size: 0.68rem; font-weight: 400; letter-spacing: 0.06em; color: var(--cobalt); margin-top: 0.1rem; }
+    .map-legend { display: flex; gap: 2rem; margin-top: 2rem; flex-wrap: wrap; }
+    .legend-item { display: flex; align-items: center; gap: 0.55rem; font-size: 0.7rem; font-weight: 400; letter-spacing: 0.08em; text-transform: uppercase; color: rgba(248,244,236,0.35); }
+    .legend-dot { width: 9px; height: 9px; border-radius: 50%; background: var(--orange); }
+    .legend-line { width: 22px; height: 1.5px; background: var(--orange); opacity: 0.55; }
+    .legend-dot-current { width: 9px; height: 9px; border-radius: 50%; background: var(--cobalt-pale); }
+    .timeline-section { margin-top: 1rem; }
+    .timeline-header { margin-bottom: 3rem; padding-bottom: 1.5rem; border-bottom: 1px solid var(--cream-dark); }
+    @media (max-width: 900px) {
+      .exp-body { padding: 3rem 1.5rem 5rem; }
+      .map-section { padding: 2.5rem 1.5rem; }
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <a href="index.html" class="nav-logo">Jun Luu</a>
+    <ul class="nav-links">
+      <li><a href="about.html">About</a></li>
+      <li><a href="work.html">Works</a></li>
+      <li><a href="experience.html" class="active">Experience</a></li>
+      <li><a href="inspiration.html">Inspiration</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+  </nav>
+
+  <div class="page-banner">
+    <p class="banner-eyebrow">Career &amp; Education</p>
+    <h1 class="banner-title">My <em>Journey</em></h1>
+  </div>
+
+  <div class="exp-body">
+    <div class="map-section">
+      <div class="map-intro">
+        <p class="section-eyebrow">Where I've been</p>
+        <h2 class="section-title">Across <em>America</em></h2>
+        <p>Hover a city to see my experience there. The line traces the order of my moves.</p>
+      </div>
+      <div class="map-wrapper">
+        <div class="map-tooltip" id="tooltip"></div>
+        <svg id="us-map" viewBox="0 0 960 600" xmlns="http://www.w3.org/2000/svg">
+          <g fill="rgba(248,244,236,0.04)" stroke="rgba(248,244,236,0.1)" stroke-width="0.8">
+            <polygon points="850,95 870,90 875,105 865,112 848,108"/>
+            <polygon points="845,108 865,112 862,125 840,122"/>
+            <polygon points="840,122 862,125 860,138 838,135"/>
+            <polygon points="838,135 862,125 865,112 875,105 880,120 878,145 855,148 838,135"/>
+            <polygon points="855,148 878,145 876,162 858,160"/>
+            <polygon points="838,135 855,148 858,160 876,162 872,178 845,175 830,155 832,140"/>
+            <polygon points="830,155 845,175 872,178 870,198 840,200 820,182 818,168"/>
+            <polygon points="818,168 820,182 840,200 838,215 810,218 798,200 800,178"/>
+            <polygon points="800,178 798,200 810,218 808,235 785,238 775,218 778,195"/>
+            <polygon points="775,218 785,238 808,235 805,255 778,255 762,240"/>
+            <polygon points="762,240 778,255 805,255 808,278 775,282 750,268 748,248"/>
+            <polygon points="748,248 750,268 775,282 778,305 748,310 728,295 730,270"/>
+            <polygon points="728,295 748,310 758,322 755,345 728,348 708,332 710,310"/>
+            <polygon points="710,310 708,332 728,348 725,368 705,372 688,355 688,330"/>
+            <polygon points="688,330 688,355 705,372 700,400 680,415 665,395 668,365 672,340"/>
+            <polygon points="730,270 750,268 748,248 775,218 778,195 752,188 730,205 718,240 722,258"/>
+            <polygon points="718,240 722,258 730,270 710,282 692,272 695,252 705,238"/>
+            <polygon points="692,272 710,282 708,295 688,300 672,288 678,272"/>
+            <polygon points="672,288 688,300 688,330 672,340 655,328 658,310 662,295"/>
+            <polygon points="658,310 655,328 672,340 668,365 645,368 635,348 638,328 645,308"/>
+            <polygon points="638,328 645,308 635,290 612,285 605,305 615,328 630,335"/>
+            <polygon points="548,248 578,245 580,270 555,275 538,260"/>
+            <polygon points="538,260 555,275 580,270 578,295 550,300 525,288 528,268"/>
+            <polygon points="525,288 550,300 578,295 580,320 552,328 525,318 510,305"/>
+            <polygon points="510,305 525,318 552,328 548,355 520,360 498,345 500,325"/>
+            <polygon points="580,215 612,225 625,215 622,195 598,188 578,195"/>
+            <polygon points="578,195 598,188 622,195 618,172 595,165 575,170"/>
+            <polygon points="575,170 595,165 618,172 615,148 590,142 572,148"/>
+            <polygon points="572,148 590,142 615,148 612,125 585,118 570,125"/>
+            <polygon points="700,155 748,150 748,170 752,188 728,192 705,185 698,168"/>
+            <polygon points="660,140 700,138 700,155 698,168 705,185 678,188 658,178 655,158"/>
+            <polygon points="620,128 660,125 660,140 655,158 658,178 628,180 610,165 612,145"/>
+            <polygon points="570,125 612,125 612,145 610,165 588,168 568,155 568,138"/>
+            <polygon points="568,138 588,168 588,188 568,192 548,178 548,158 555,140"/>
+            <polygon points="425,115 478,112 478,188 422,192 420,148"/>
+            <polygon points="422,192 478,188 478,250 420,252 418,225"/>
+            <polygon points="418,225 478,250 478,308 415,312 412,270"/>
+            <polygon points="412,270 415,312 478,308 475,365 408,368 405,328"/>
+            <polygon points="310,85 365,82 368,148 310,152 308,118"/>
+            <polygon points="308,118 368,148 365,215 305,218 302,180"/>
+            <polygon points="302,180 365,215 362,285 295,292 288,238 298,205"/>
+            <polygon points="758,155 800,152 800,178 778,195 752,188 748,170"/>
+            <polygon points="362,285 420,252 420,148 478,188 478,250 478,308 415,312 412,270 405,328 365,332 362,285"/>
+          </g>
+
+          <!-- Journey path: DC→Blacksburg→Chicago→LA→NYC→Philly -->
+          <path class="journey-path" d="M 822,292 C 800,268 750,228 618,158 C 500,86 380,210 318,268 C 250,328 580,238 858,195 C 868,193 828,248 798,252 C 784,255 845,222 838,218"/>
+
+          <!-- Washington DC -->
+          <g class="city-dot" data-city="dc" transform="translate(798,252)">
+            <circle r="14" fill="rgba(217,90,24,0.1)" class="city-pulse"/>
+            <circle r="6" fill="#D95A18" stroke="rgba(248,244,236,0.3)" stroke-width="1.5"/>
+            <text y="-14" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="10" fill="rgba(248,244,236,0.65)">D.C.</text>
+          </g>
+          <!-- Blacksburg, VA -->
+          <g class="city-dot" data-city="blacksburg" transform="translate(822,292)">
+            <circle r="14" fill="rgba(217,90,24,0.1)" class="city-pulse"/>
+            <circle r="6" fill="#D95A18" stroke="rgba(248,244,236,0.3)" stroke-width="1.5"/>
+            <text y="-14" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="10" fill="rgba(248,244,236,0.65)">Blacksburg</text>
+          </g>
+          <!-- Chicago, IL -->
+          <g class="city-dot" data-city="chicago" transform="translate(618,158)">
+            <circle r="16" fill="rgba(217,90,24,0.1)" class="city-pulse"/>
+            <circle r="7" fill="#D95A18" stroke="rgba(248,244,236,0.3)" stroke-width="1.5"/>
+            <text y="-16" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="10" fill="rgba(248,244,236,0.65)">Chicago</text>
+          </g>
+          <!-- Los Angeles, CA -->
+          <g class="city-dot" data-city="la" transform="translate(318,268)">
+            <circle r="16" fill="rgba(217,90,24,0.1)" class="city-pulse"/>
+            <circle r="7" fill="#D95A18" stroke="rgba(248,244,236,0.3)" stroke-width="1.5"/>
+            <text y="-16" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="10" fill="rgba(248,244,236,0.65)">Los Angeles</text>
+          </g>
+          <!-- New York, NY -->
+          <g class="city-dot" data-city="nyc" transform="translate(860,195)">
+            <circle r="16" fill="rgba(217,90,24,0.1)" class="city-pulse"/>
+            <circle r="7" fill="#D95A18" stroke="rgba(248,244,236,0.3)" stroke-width="1.5"/>
+            <text y="-16" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="10" fill="rgba(248,244,236,0.65)">New York</text>
+          </g>
+          <!-- Philadelphia — current -->
+          <g class="city-dot" data-city="philly" transform="translate(838,218)">
+            <circle r="18" fill="rgba(26,59,212,0.15)" class="city-pulse"/>
+            <circle r="8" fill="#1A3BD4" stroke="rgba(214,224,250,0.6)" stroke-width="2"/>
+            <text y="-18" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="10" fill="rgba(214,224,250,0.9)" font-weight="500">Philadelphia ★</text>
+          </g>
+        </svg>
+      </div>
+      <div class="map-legend">
+        <div class="legend-item"><div class="legend-dot"></div>City</div>
+        <div class="legend-item"><div class="legend-line"></div>Journey order</div>
+        <div class="legend-item"><div class="legend-dot-current"></div>Current city</div>
+      </div>
+    </div>
+
+    <div class="timeline-section">
+      <div class="timeline-header">
+        <p class="section-eyebrow">Full timeline</p>
+        <h2 class="section-title">Where I've <em>worked</em></h2>
+      </div>
+      <div class="timeline">
+        <div class="timeline-item">
+          <p class="timeline-date">2025 – Present · Philadelphia, PA</p>
+          <h3 class="timeline-role">Research Analyst</h3>
+          <p class="timeline-org">Penn Institute for Urban Research, University of Pennsylvania</p>
+          <p class="timeline-detail">Contributing to urban research initiatives including the Draw Down the Lightning grant under Dr. Eugenia Birch. Spatial and qualitative analysis in support of policy-facing research on anchor institutions and urban development.</p>
+        </div>
+        <div class="timeline-item">
+          <p class="timeline-date">2025 – Present · Philadelphia, PA</p>
+          <h3 class="timeline-role">Geospatial Research Assistant</h3>
+          <p class="timeline-org">CAtRES, University of Pennsylvania (NASA-funded, Dr. Megan Ryerson)</p>
+          <p class="timeline-detail">Remote sensing and spatial analysis supporting NASA-funded climate and transportation research.</p>
+        </div>
+        <div class="timeline-item">
+          <p class="timeline-date">2025 – Present · Philadelphia, PA</p>
+          <h3 class="timeline-role">Master of Urban Spatial Analytics (MUSA)</h3>
+          <p class="timeline-org">Weitzman School of Design, University of Pennsylvania — Expected May 2026</p>
+          <p class="timeline-detail">Coursework spanning machine learning, geospatial analysis, remote sensing, and public policy. Thesis research on NLP-based neighborhood change detection using Self-Organizing Maps, advised by Prof. Elizabeth Delmelle (Penn) and Prof. Isabelle Nilsson (UNC Charlotte).
+        </div>
+        <div class="timeline-item">
+          <p class="timeline-date">2024 – 2025 · New York, NY</p>
+          <h3 class="timeline-role">Project Manager</h3>
+          <p class="timeline-org">Fairstead — NYCHA Reid Apartments PACT/RAD Conversion</p>
+          <p class="timeline-detail">Managed occupied affordable housing renovation across a multi-building NYCHA portfolio. Coordinated subcontractors, tenant communications, phased construction, and compliance with federal and city regulatory frameworks under the PACT/RAD conversion program.</p>
+        </div>
+        <div class="timeline-item">
+          <p class="timeline-date">2023 – 2024 · Los Angeles, CA</p>
+          <h3 class="timeline-role">Project Engineer</h3>
+          <p class="timeline-org">Hensel Phelps — Harbor-UCLA Medical Center</p>
+          <p class="timeline-detail">Engineering coordination and construction management on a major healthcare campus expansion. Managed RFIs, submittals, and subcontractor coordination across multiple building systems.</p>
+        </div>
+        <div class="timeline-item">
+          <p class="timeline-date">2022 – 2023 · Chicago, IL</p>
+          <h3 class="timeline-role">Project Engineer</h3>
+          <p class="timeline-org">Turner Construction — Advocate Illinois Masonic Medical Center</p>
+          <p class="timeline-detail">Construction management on major occupied hospital renovation in Chicago. Coordinated complex phasing requirements to maintain full hospital operations throughout construction.</p>
+        </div>
+        <div class="timeline-item">
+          <p class="timeline-date">2018 – 2022 · Blacksburg, VA</p>
+          <h3 class="timeline-role">B.S., Construction Engineering &amp; Management</h3>
+          <p class="timeline-org">Virginia Tech</p>
+          <p class="timeline-detail">Undergraduate degree in construction engineering and management. Foundation in structural systems, project controls, and construction finance.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer><p>© 2026 Jun Luu</p><p>MUSA, University of Pennsylvania</p></footer>
+
+  <script>
+    const cityData = {
+      blacksburg: { name:'Blacksburg, VA', roles:[{title:'B.S., Construction Engineering & Management',org:'Virginia Tech',dates:'2013 – 2017'}] },
+      chicago: { name:'Chicago, IL', roles:[{title:'Project Engineer',org:'Turner Construction — Advocate Illinois Masonic',dates:'2017 – 2019'}] },
+      la: { name:'Los Angeles, CA', roles:[{title:'Project Engineer',org:'Hensel Phelps — Harbor-UCLA Medical Center',dates:'2019 – 2021'}] },
+      nyc: { name:'New York, NY', roles:[{title:'Project Manager',org:'Fairstead — NYCHA Reid Apartments PACT/RAD',dates:'2021 – 2023'}] },
+      dc: { name:'Washington, D.C.', roles:[{title:'Research (short-term)',org:'Various policy contexts',dates:'2022 – 2023'}] },
+      philly: { name:'Philadelphia, PA ★ Current', roles:[{title:'Master of Urban Spatial Analytics (MUSA)',org:'Penn Weitzman School of Design',dates:'2023 – Present'},{title:'Research Analyst',org:'Penn Institute for Urban Research',dates:'2024 – Present'},{title:'Geospatial Research Assistant',org:'CAtRES, Penn (NASA-funded)',dates:'2023'}] }
+    };
+    const tooltip = document.getElementById('tooltip');
+    const wrapper = document.querySelector('.map-wrapper');
+    document.querySelectorAll('.city-dot').forEach(dot => {
+      dot.addEventListener('mouseenter', () => {
+        const d = cityData[dot.dataset.city]; if (!d) return;
+        tooltip.innerHTML = `<div class="tt-city">${d.name}</div>${d.roles.map(r=>`<div class="tt-role"><div class="tt-title">${r.title}</div><div class="tt-org">${r.org}</div><div class="tt-dates">${r.dates}</div></div>`).join('')}`;
+        const wRect = wrapper.getBoundingClientRect();
+        const svgEl = document.getElementById('us-map');
+        const svgRect = svgEl.getBoundingClientRect();
+        const m = dot.getAttribute('transform').match(/translate\(([^,]+),\s*([^)]+)\)/);
+        if (!m) return;
+        const px = (svgRect.left - wRect.left) + parseFloat(m[1]) * (svgRect.width/960);
+        const py = (svgRect.top - wRect.top) + parseFloat(m[2]) * (svgRect.height/600);
+        let left = px + 18, top = py - 20;
+        if (left + 270 > wrapper.offsetWidth) left = px - 270 - 18;
+        if (top < 0) top = py + 22;
+        tooltip.style.left = left+'px'; tooltip.style.top = top+'px';
+        tooltip.classList.add('visible');
+      });
+      dot.addEventListener('mouseleave', () => tooltip.classList.remove('visible'));
+    });
+  </script>
+</body>
+</html>

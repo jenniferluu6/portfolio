@@ -1,0 +1,187 @@
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap');
+
+:root {
+  --cream:       #F8F4EC;
+  --cream-mid:   #EDE8DC;
+  --cream-dark:  #E0D9C8;
+  --white:       #FDFBF7;
+  --ink:         #141210;
+  --ink-soft:    #3A3630;
+  --ink-muted:   #7A7468;
+  --cobalt:      #1A3BD4;
+  --cobalt-mid:  #2E52E8;
+  --cobalt-pale: #D6E0FA;
+  --orange:      #D95A18;
+  --orange-pale: #FAE8DC;
+  --green:       #2A6040;
+  --green-mid:   #3A8055;
+  --green-pale:  #D8EDE2;
+  --red:         #B81C1C;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--cream);
+  color: var(--ink);
+  overflow-x: hidden;
+}
+
+/* NAV */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 1.4rem 4rem;
+  background: rgba(248,244,236,0.94);
+  backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--cream-dark);
+}
+.nav-logo {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1rem; font-weight: 400;
+  letter-spacing: 0.18em; text-transform: uppercase;
+  color: var(--ink); text-decoration: none;
+}
+.nav-links { display: flex; gap: 2.5rem; list-style: none; }
+.nav-links a {
+  font-size: 0.72rem; font-weight: 400;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--ink-muted); text-decoration: none;
+  transition: color 0.2s; position: relative;
+}
+.nav-links a::after {
+  content: '';
+  position: absolute; bottom: -3px; left: 0; right: 0;
+  height: 1.5px; background: var(--cobalt);
+  transform: scaleX(0); transform-origin: left;
+  transition: transform 0.25s;
+}
+.nav-links a:hover { color: var(--ink); }
+.nav-links a:hover::after, .nav-links a.active::after { transform: scaleX(1); }
+.nav-links a.active { color: var(--ink); }
+
+/* PAGE BANNER */
+.page-banner {
+  padding: 9rem 4rem 5rem;
+  background: var(--white);
+  border-bottom: 1px solid var(--cream-dark);
+  position: relative; overflow: hidden;
+}
+.page-banner::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0;
+  height: 3px;
+  background: linear-gradient(to right, var(--cobalt) 50%, var(--orange) 75%, var(--green) 100%);
+}
+.banner-eyebrow {
+  font-size: 0.68rem; font-weight: 500;
+  letter-spacing: 0.22em; text-transform: uppercase;
+  color: var(--cobalt); margin-bottom: 1rem;
+  display: flex; align-items: center; gap: 0.75rem;
+  opacity: 0; animation: fadeUp 0.7s ease 0.15s forwards;
+}
+.banner-eyebrow::before {
+  content: ''; display: block; width: 22px; height: 1.5px; background: var(--cobalt);
+}
+.banner-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(3rem, 6vw, 5.5rem);
+  font-weight: 300; line-height: 0.95; color: var(--ink);
+  opacity: 0; animation: fadeUp 0.8s ease 0.3s forwards;
+}
+.banner-title em { font-style: italic; color: var(--cobalt); }
+
+/* SECTION LABELS */
+.section-eyebrow {
+  font-size: 0.65rem; font-weight: 500;
+  letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--orange); margin-bottom: 0.6rem;
+}
+.section-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(2rem, 3.5vw, 2.8rem);
+  font-weight: 300; color: var(--ink); line-height: 1.1;
+  margin-bottom: 2.5rem;
+}
+.section-title em { font-style: italic; color: var(--cobalt); }
+
+/* MARQUEE */
+.marquee-bar { background: var(--ink); overflow: hidden; padding: 0.6rem 0; }
+.marquee-track { display: flex; width: max-content; animation: marquee 30s linear infinite; }
+.marquee-track span {
+  font-size: 0.63rem; font-weight: 500;
+  letter-spacing: 0.18em; text-transform: uppercase;
+  color: rgba(248,244,236,0.3); padding: 0 2rem; white-space: nowrap;
+}
+.marquee-track span.hi { color: var(--orange); }
+.marquee-track span::after { content: '·'; margin-left: 2rem; opacity: 0.2; }
+
+/* TIMELINE */
+.timeline { position: relative; padding-left: 2rem; }
+.timeline::before {
+  content: ''; position: absolute; left: 0; top: 0; bottom: 0;
+  width: 1.5px;
+  background: linear-gradient(to bottom, var(--cobalt), var(--green) 60%, transparent);
+}
+.timeline-item { position: relative; padding: 0 0 3.5rem 3rem; }
+.timeline-item::before {
+  content: ''; position: absolute; left: -5px; top: 6px;
+  width: 10px; height: 10px; border-radius: 50%;
+  background: var(--cobalt); border: 2px solid var(--cream);
+  box-shadow: 0 0 0 1px var(--cobalt);
+}
+.timeline-date {
+  font-size: 0.7rem; font-weight: 500; letter-spacing: 0.12em;
+  text-transform: uppercase; color: var(--cobalt); margin-bottom: 0.4rem;
+}
+.timeline-role {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.5rem; font-weight: 400; color: var(--ink); margin-bottom: 0.2rem;
+}
+.timeline-org { font-size: 0.84rem; font-weight: 400; color: var(--ink-muted); margin-bottom: 0.85rem; }
+.timeline-detail { font-size: 0.88rem; font-weight: 300; line-height: 1.75; color: var(--ink-soft); max-width: 560px; }
+
+/* BUTTONS */
+.btn-primary {
+  display: inline-block; padding: 0.8rem 1.8rem;
+  background: var(--cobalt); color: white;
+  font-size: 0.7rem; font-weight: 500; letter-spacing: 0.12em;
+  text-transform: uppercase; text-decoration: none;
+  transition: background 0.2s;
+}
+.btn-primary:hover { background: var(--cobalt-mid); }
+.btn-outline {
+  display: inline-block; padding: 0.8rem 1.8rem;
+  border: 1.5px solid var(--ink); color: var(--ink);
+  font-size: 0.7rem; font-weight: 500; letter-spacing: 0.12em;
+  text-transform: uppercase; text-decoration: none;
+  transition: background 0.2s, color 0.2s;
+}
+.btn-outline:hover { background: var(--ink); color: var(--cream); }
+
+/* FOOTER */
+footer {
+  background: var(--ink); padding: 2rem 4rem;
+  display: flex; justify-content: space-between; align-items: center;
+}
+footer p { font-size: 0.7rem; color: rgba(248,244,236,0.25); letter-spacing: 0.08em; }
+
+/* ANIMATIONS */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(18px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+@media (max-width: 900px) {
+  nav { padding: 1.2rem 1.5rem; }
+  .nav-links { gap: 1.2rem; }
+  .page-banner { padding: 7rem 1.5rem 4rem; }
+  footer { flex-direction: column; gap: 0.5rem; padding: 1.5rem; text-align: center; }
+}

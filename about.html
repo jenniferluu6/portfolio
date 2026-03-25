@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>About — Jun Luu</title>
+  <link rel="stylesheet" href="shared_v4.css">
+  <style>
+    .about-body { padding: 5rem 4rem 7rem; }
+    .about-grid { display: grid; grid-template-columns: 1fr 1.7fr; gap: 7rem; align-items: start; margin-bottom: 5rem; }
+    .about-sticky { position: sticky; top: 7rem; }
+    .portrait { width: 100%; aspect-ratio: 3/4; background: var(--white); border: 1px solid var(--cream-dark); position: relative; overflow: hidden; margin-bottom: 1.5rem; }
+    .portrait svg { width: 100%; height: 100%; }
+    .portrait-cap { font-size: 0.72rem; font-weight: 400; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-muted); }
+    .color-stripe { display: flex; gap: 3px; margin-top: 1.5rem; }
+    .cs { height: 4px; flex: 1; }
+    .about-text p { font-size: 1.02rem; font-weight: 300; line-height: 1.88; color: var(--ink-soft); margin-bottom: 1.5rem; }
+    .about-text p strong { font-weight: 500; color: var(--ink); }
+    .pull-quote { border-left: 3px solid var(--cobalt); padding: 0.5rem 0 0.5rem 1.75rem; margin: 2.5rem 0; }
+    .pull-quote p { font-family: 'Cormorant Garamond', serif; font-size: 1.65rem !important; font-style: italic; font-weight: 300 !important; line-height: 1.4 !important; color: var(--ink) !important; margin: 0 !important; }
+    .stats-band { display: grid; grid-template-columns: repeat(4,1fr); border: 1px solid var(--cream-dark); margin: 5rem 0; background: var(--white); }
+    .stat-cell { padding: 2.5rem 2rem; text-align: center; border-right: 1px solid var(--cream-dark); }
+    .stat-cell:last-child { border-right: none; }
+    .stat-num { font-family: 'Cormorant Garamond', serif; font-size: 3rem; font-weight: 300; line-height: 1; margin-bottom: 0.4rem; }
+    .stat-num.c { color: var(--cobalt); } .stat-num.o { color: var(--orange); } .stat-num.g { color: var(--green); } .stat-num.r { color: var(--red); }
+    .stat-lbl { font-size: 0.68rem; font-weight: 400; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-muted); }
+    .values-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 1px; background: var(--cream-dark); margin-top: 2.5rem; }
+    .value-card { background: var(--white); padding: 2.5rem; border-top: 2px solid transparent; transition: border-color 0.3s; }
+    .value-card:hover { border-color: var(--cobalt); }
+    .value-card:nth-child(2):hover { border-color: var(--orange); }
+    .value-card:nth-child(3):hover { border-color: var(--green); }
+    .val-num { font-family: 'Cormorant Garamond', serif; font-size: 2.5rem; font-weight: 300; color: rgba(20,18,16,0.07); line-height: 1; margin-bottom: 0.7rem; }
+    .val-title { font-family: 'Cormorant Garamond', serif; font-size: 1.3rem; font-weight: 400; color: var(--ink); margin-bottom: 0.7rem; }
+    .val-desc { font-size: 0.86rem; font-weight: 300; line-height: 1.72; color: var(--ink-soft); }
+    .skills-band { background: var(--white); padding: 4rem; border: 1px solid var(--cream-dark); margin-top: 5rem; }
+    .skills-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2.5rem; margin-top: 2rem; }
+    .sg-label { font-size: 0.68rem; font-weight: 500; letter-spacing: 0.16em; text-transform: uppercase; color: var(--ink-muted); margin-bottom: 0.85rem; }
+    .tags { display: flex; flex-wrap: wrap; gap: 0.45rem; }
+    .tag { font-size: 0.8rem; font-weight: 400; color: var(--ink-soft); background: var(--cream); padding: 0.35rem 0.85rem; border: 1px solid var(--cream-dark); transition: border-color 0.2s, color 0.2s; }
+    .tag:hover { border-color: var(--cobalt); color: var(--cobalt); }
+    @media (max-width: 900px) {
+      .about-body { padding: 3.5rem 1.5rem 5rem; }
+      .about-grid { grid-template-columns: 1fr; gap: 3rem; }
+      .about-sticky { position: static; }
+      .stats-band { grid-template-columns: 1fr 1fr; }
+      .values-grid { grid-template-columns: 1fr; }
+      .skills-band { padding: 2.5rem 1.5rem; }
+      .skills-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <a href="index.html" class="nav-logo">Jun Luu</a>
+    <ul class="nav-links">
+      <li><a href="about.html" class="active">About</a></li>
+      <li><a href="work.html">Works</a></li>
+      <li><a href="experience.html">Experience</a></li>
+      <li><a href="inspiration.html">Inspiration</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+  </nav>
+
+  <div class="page-banner">
+    <p class="banner-eyebrow">Who I am</p>
+    <h1 class="banner-title">About <em>Me</em></h1>
+  </div>
+
+  <div class="marquee-bar"><div class="marquee-track">
+    <span>Urban Spatial Analytics</span><span class="hi">Penn Weitzman</span><span>Construction Engineering</span><span>Housing Policy</span><span class="hi">AAG 2026</span><span>Dual US/Canadian Citizen</span>
+    <span>Urban Spatial Analytics</span><span class="hi">Penn Weitzman</span><span>Construction Engineering</span><span>Housing Policy</span><span class="hi">AAG 2026</span><span>Dual US/Canadian Citizen</span>
+  </div></div>
+
+  <div class="about-body">
+    <div class="about-grid">
+      <div class="about-sticky">
+        <div class="portrait">
+          <svg viewBox="0 0 400 540" xmlns="http://www.w3.org/2000/svg">
+            <rect width="400" height="540" fill="#EDE8DC"/>
+            <rect x="0" y="0" width="400" height="3" fill="#1A3BD4"/>
+            <ellipse cx="160" cy="200" rx="140" ry="155" fill="rgba(26,59,212,0.08)"/>
+            <ellipse cx="270" cy="370" rx="110" ry="110" fill="rgba(217,90,24,0.1)"/>
+            <ellipse cx="100" cy="420" rx="80" ry="70" fill="rgba(42,96,64,0.08)"/>
+            <g opacity="0.08">
+              <line x1="0" y1="108" x2="400" y2="108" stroke="#141210" stroke-width="0.5"/>
+              <line x1="0" y1="216" x2="400" y2="216" stroke="#141210" stroke-width="0.5"/>
+              <line x1="0" y1="324" x2="400" y2="324" stroke="#141210" stroke-width="0.5"/>
+              <line x1="0" y1="432" x2="400" y2="432" stroke="#141210" stroke-width="0.5"/>
+              <line x1="100" y1="0" x2="100" y2="540" stroke="#141210" stroke-width="0.5"/>
+              <line x1="200" y1="0" x2="200" y2="540" stroke="#141210" stroke-width="0.5"/>
+              <line x1="300" y1="0" x2="300" y2="540" stroke="#141210" stroke-width="0.5"/>
+            </g>
+            <text x="30" y="492" font-family="Cormorant Garamond,serif" font-size="58" font-weight="300" fill="rgba(20,18,16,0.65)">Jun</text>
+            <text x="30" y="538" font-family="Cormorant Garamond,serif" font-size="58" font-weight="300" font-style="italic" fill="rgba(26,59,212,0.75)">Luu</text>
+            <circle cx="358" cy="72" r="22" fill="rgba(217,90,24,0.15)"/>
+            <circle cx="358" cy="72" r="6" fill="rgba(217,90,24,0.6)"/>
+          </svg>
+        </div>
+        <p class="portrait-cap">Philadelphia, PA · 2026</p>
+        <div class="color-stripe">
+          <div class="cs" style="background:#1A3BD4"></div>
+          <div class="cs" style="background:#D95A18"></div>
+          <div class="cs" style="background:#2A6040"></div>
+          <div class="cs" style="background:#B81C1C"></div>
+          <div class="cs" style="background:#E0D9C8"></div>
+        </div>
+      </div>
+      <div class="about-text">
+        <p class="section-eyebrow">Background</p>
+        <h2 class="section-title" style="margin-bottom:2rem;">Two careers,<br>one <em>through-line.</em></h2>
+        <p>I came to urban research through construction. I managed large-scale building projects at Turner, Hensel Phelps, and Fairstead — on healthcare campuses, medical centers, and NYCHA affordable housing in New York.</p>
+        <div class="pull-quote"><p>"I wanted to work upstream, on the questions that shape decisions before anyone breaks ground."</p></div>
+        <p>Managing occupied affordable housing renovations at NYCHA put me inside the machinery of how housing decisions get made. I saw firsthand how much of what happens to a neighborhood is determined long before a contractor arrives — by policy, by investment patterns, by who gets to name what's desirable. That's what brought me to Penn.</p>
+        <p>At the <strong>Weitzman School of Design</strong>, I've built a practice at the intersection of spatial analysis, machine learning, and housing policy. My thesis research uses NLP and Self-Organizing Maps to read real estate listing language as evidence of neighborhood change.</p>
+        <p>I presented this work at the <strong>AAG Annual Meeting in San Francisco</strong> in March 2026. I also work as a Research Analyst at the <strong>Penn Institute for Urban Research</strong> under Dr. Eugenia Birch, and previously contributed to NASA-funded climate and transportation research at CAtRES under Dr. Megan Ryerson.</p>
+        <p>I hold dual US and Canadian citizenship and have lived in Blacksburg, Chicago, Los Angeles, New York, Washington D.C., and Philadelphia. I'm graduating in May 2026 and open to research, analytics, and policy roles.</p>
+      </div>
+    </div>
+
+    <div class="stats-band">
+      <div class="stat-cell"><div class="stat-num c">6</div><div class="stat-lbl">Cities lived in</div></div>
+      <div class="stat-cell"><div class="stat-num o">5+</div><div class="stat-lbl">Years in construction</div></div>
+      <div class="stat-cell"><div class="stat-num g">AAG</div><div class="stat-lbl">Presenter, SF 2026</div></div>
+      <div class="stat-cell"><div class="stat-num r">May '26</div><div class="stat-lbl">Graduation</div></div>
+    </div>
+
+    <p class="section-eyebrow">What drives me</p>
+    <h2 class="section-title">Research with a <em>point of view.</em></h2>
+    <div class="values-grid">
+      <div class="value-card">
+        <div class="val-num">01</div><h3 class="val-title">Equity first</h3>
+        <p class="val-desc">The neighborhoods that get studied least usually need attention most. My research is oriented toward displacement, disinvestment, and the language used to obscure both.</p>
+      </div>
+      <div class="value-card">
+        <div class="val-num">02</div><h3 class="val-title">Methods that answer questions</h3>
+        <p class="val-desc">I'm interested in spatial analytics as a tool for answering policy questions, not as an end in itself. The method should follow the question.</p>
+      </div>
+      <div class="value-card">
+        <div class="val-num">03</div><h3 class="val-title">Implementation matters</h3>
+        <p class="val-desc">My experience inconstruction taught me the gap between good policy and good outcomes is usually an implementation problem. I bring that lens to research.</p>
+      </div>
+    </div>
+
+    <div class="skills-band">
+      <p class="section-eyebrow">Skills &amp; Tools</p>
+      <div class="skills-grid">
+        <div><p class="sg-label">Spatial Analysis &amp; GIS</p><div class="tags"><span class="tag">R / sf / tidyverse</span><span class="tag">Python / GeoPandas</span><span class="tag">ArcGIS Pro</span><span class="tag">QGIS</span><span class="tag">PostGIS</span><span class="tag">Google Earth Engine</span></div></div>
+        <div><p class="sg-label">Machine Learning &amp; NLP</p><div class="tags"><span class="tag">Self-Organizing Maps</span><span class="tag">Sentence Embeddings</span><span class="tag">K-Means</span><span class="tag">scikit-learn</span><span class="tag">HuggingFace</span><span class="tag">Anthropic API</span></div></div>
+        <div><p class="sg-label">Data &amp; Infrastructure</p><div class="tags"><span class="tag">SQL / PostgreSQL</span><span class="tag">Docker</span><span class="tag">BigQuery</span><span class="tag">Git / GitHub</span><span class="tag">Census / ACS</span></div></div>
+        <div><p class="sg-label">Visualization &amp; Communication</p><div class="tags"><span class="tag">ggplot2</span><span class="tag">Mapbox</span><span class="tag">D3 / Observable</span><span class="tag">Illustrator</span><span class="tag">Academic Writing</span><span class="tag">Policy Communication</span></div></div>
+      </div>
+    </div>
+  </div>
+
+  <footer><p>© 2026 Jun Luu</p><p>MUSA, University of Pennsylvania</p></footer>
+</body>
+</html>
