@@ -7,28 +7,18 @@
   <style>
     .inspo-body { padding: 3.5rem 4rem 7rem; }
 
-    /* Filter tabs */
     .filter-bar { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 3rem; padding-bottom: 2rem; border-bottom: 1px solid var(--cream-dark); }
     .filter-btn { padding: 0.4rem 1rem; font-size: 0.7rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; background: transparent; border: 1px solid var(--cream-dark); color: var(--ink-muted); cursor: pointer; transition: all 0.2s; font-family: 'DM Sans', sans-serif; }
     .filter-btn:hover { border-color: var(--cobalt); color: var(--cobalt); }
     .filter-btn.active { background: var(--ink); border-color: var(--ink); color: white; }
 
-    /* Masonry grid */
-    .masonry {
-      columns: 4;
-      column-gap: 12px;
-    }
-    .masonry-item {
-      break-inside: avoid;
-      margin-bottom: 12px;
-      cursor: pointer;
-      position: relative;
-    }
+    .masonry { columns: 4; column-gap: 12px; }
+    .masonry-item { break-inside: avoid; margin-bottom: 12px; cursor: pointer; position: relative; }
     .masonry-item.hidden { display: none; }
 
     /* Image card */
     .img-card { position: relative; overflow: hidden; background: var(--cream-mid); }
-    .img-card svg { display: block; width: 100%; }
+    .img-card img { display: block; width: 100%; height: auto; object-fit: cover; }
     .img-card-overlay {
       position: absolute; inset: 0;
       background: rgba(20,18,16,0);
@@ -37,27 +27,39 @@
       padding: 1rem;
       transition: background 0.28s;
     }
-    .masonry-item:hover .img-card-overlay { background: rgba(20,18,16,0.55); }
-    .img-card-label { font-size: 0.65rem; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: white; opacity: 0; transform: translateY(6px); transition: opacity 0.28s, transform 0.28s; }
-    .masonry-item:hover .img-card-label { opacity: 1; transform: translateY(0); }
+    .masonry-item:hover .img-card-overlay { background: rgba(20,18,16,0.7); }
+    .img-card-meta { opacity: 0; transform: translateY(6px); transition: opacity 0.28s, transform 0.28s; }
+    .masonry-item:hover .img-card-meta { opacity: 1; transform: translateY(0); }
+    .img-card-creator {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1rem; font-weight: 400; font-style: italic;
+      color: white; line-height: 1.3; margin-bottom: 0.15rem;
+    }
+    .img-card-label {
+      font-size: 0.58rem; font-weight: 500; letter-spacing: 0.14em;
+      text-transform: uppercase; color: rgba(255,255,255,0.5);
+    }
 
     /* Paper card */
-    .paper-card {
-      background: var(--white);
-      border: 1px solid var(--cream-dark);
-      padding: 1.5rem;
-      transition: border-color 0.2s, box-shadow 0.2s;
-      text-decoration: none;
-      display: block;
-    }
+    .paper-card { background: var(--white); border: 1px solid var(--cream-dark); padding: 1.5rem; transition: border-color 0.2s, box-shadow 0.2s; text-decoration: none; display: block; }
     .paper-card:hover { border-color: var(--cobalt); box-shadow: 0 4px 16px rgba(26,59,212,0.08); }
     .paper-card-color-bar { height: 3px; margin: -1.5rem -1.5rem 1.25rem; }
-    .paper-journal { font-size: 0.62rem; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-muted); margin-bottom: 0.5rem; }
-    .paper-title { font-family: 'Cormorant Garamond', serif; font-size: 1.05rem; font-weight: 400; color: var(--ink); line-height: 1.35; margin-bottom: 0.6rem; }
-    .paper-authors { font-size: 0.75rem; font-weight: 300; color: var(--ink-muted); margin-bottom: 0.75rem; }
-    .paper-note { font-size: 0.8rem; font-weight: 300; line-height: 1.65; color: var(--ink-soft); border-top: 1px solid var(--cream-dark); padding-top: 0.75rem; margin-top: 0.75rem; }
-    .paper-note::before { content: '" '; color: var(--cobalt); font-family: 'Cormorant Garamond', serif; font-size: 1.2rem; font-style: italic; }
+    .paper-type { font-size: 0.58rem; font-weight: 500; letter-spacing: 0.16em; text-transform: uppercase; color: var(--ink-muted); margin-bottom: 0.3rem; }
+    .paper-journal { font-size: 0.62rem; font-weight: 400; letter-spacing: 0.08em; color: var(--ink-muted); margin-bottom: 0.5rem; }
+    .paper-title { font-family: 'Cormorant Garamond', serif; font-size: 1.05rem; font-weight: 400; color: var(--ink); line-height: 1.35; margin-bottom: 0.5rem; }
+    .paper-authors { font-size: 0.75rem; font-weight: 300; color: var(--ink-muted); margin-bottom: 0.6rem; }
+    .paper-note { font-size: 0.8rem; font-weight: 300; line-height: 1.65; color: var(--ink-soft); border-top: 1px solid var(--cream-dark); padding-top: 0.75rem; margin-top: 0.6rem; }
+    .paper-note::before { content: '\201C\00A0'; color: var(--cobalt); font-family: 'Cormorant Garamond', serif; font-size: 1.2rem; font-style: italic; }
     .paper-link-label { display: inline-block; margin-top: 0.75rem; font-size: 0.65rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--cobalt); }
+
+    /* Link / talk / website card */
+    .link-card { background: var(--white); border: 1px solid var(--cream-dark); padding: 1.5rem; transition: border-color 0.2s; text-decoration: none; display: block; }
+    .link-card:hover { border-color: var(--green); }
+    .link-card-color-bar { height: 3px; margin: -1.5rem -1.5rem 1.25rem; }
+    .link-type { font-size: 0.58rem; font-weight: 500; letter-spacing: 0.16em; text-transform: uppercase; color: var(--ink-muted); margin-bottom: 0.5rem; }
+    .link-title { font-family: 'Cormorant Garamond', serif; font-size: 1.05rem; font-weight: 400; color: var(--ink); line-height: 1.35; margin-bottom: 0.5rem; }
+    .link-sub { font-size: 0.8rem; font-weight: 300; color: var(--ink-soft); line-height: 1.65; }
+    .link-cta { display: inline-block; margin-top: 0.75rem; font-size: 0.65rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--green); }
 
     @media (max-width: 1100px) { .masonry { columns: 3; } }
     @media (max-width: 700px) { .masonry { columns: 2; } .inspo-body { padding: 2.5rem 1.5rem 5rem; } }
@@ -76,8 +78,8 @@
   </nav>
 
   <div class="page-banner">
-    <p class="banner-eyebrow">What I look at when I'm thinking</p>
-    <h1 class="banner-title">Inspi<em>ration</em></h1>
+    <p class="banner-eyebrow">What's been making me think lately</p>
+    <h1 class="banner-title">Inspiration</em></h1>
   </div>
 
   <div class="marquee-bar"><div class="marquee-track">
@@ -93,368 +95,177 @@
       <button class="filter-btn" data-filter="nature">Nature</button>
       <button class="filter-btn" data-filter="paper">Papers</button>
       <button class="filter-btn" data-filter="design">Design</button>
+      <button class="filter-btn" data-filter="talk">Talks &amp; Websites</button>
     </div>
 
     <div class="masonry" id="masonry">
 
-      <!-- PAPER: Neighborhood change NLP -->
-      <div class="masonry-item" data-tags="paper">
-        <a class="paper-card" href="https://doi.org/10.1177/0042098019866980" target="_blank">
-          <div class="paper-card-color-bar" style="background:var(--cobalt)"></div>
-          <p class="paper-journal">Urban Studies · 2019</p>
-          <p class="paper-title">Neighborhood change and the city: Using text analysis to track gentrification</p>
-          <p class="paper-authors">Pennington, K.</p>
-          <div class="paper-note">Using language as a lens for neighborhood change — this is the methodological lineage my SOM work sits in.</div>
-          <span class="paper-link-label">Read paper →</span>
-        </a>
-      </div>
-
-      <!-- IMAGE: Cobalt blue wall + flowers -->
-      <div class="masonry-item" data-tags="art urban">
-        <div class="img-card">
-          <svg viewBox="0 0 280 360" xmlns="http://www.w3.org/2000/svg">
-            <rect width="280" height="360" fill="#1A3BD4"/>
-            <!-- Wood grain lines -->
-            <line x1="95" y1="0" x2="95" y2="360" stroke="rgba(10,25,100,0.5)" stroke-width="3"/>
-            <line x1="185" y1="0" x2="185" y2="360" stroke="rgba(10,25,100,0.5)" stroke-width="3"/>
-            <!-- Paint chips -->
-            <ellipse cx="140" cy="180" rx="18" ry="12" fill="rgba(10,25,100,0.7)"/>
-            <ellipse cx="80" cy="240" rx="10" ry="7" fill="rgba(10,25,100,0.6)"/>
-            <!-- Flower stems -->
-            <line x1="140" y1="360" x2="140" y2="200" stroke="rgba(30,80,30,0.8)" stroke-width="1.5"/>
-            <line x1="110" y1="360" x2="115" y2="250" stroke="rgba(30,80,30,0.6)" stroke-width="1"/>
-            <!-- Orange flowers -->
-            <circle cx="140" cy="195" r="12" fill="#E85D1A"/>
-            <circle cx="152" cy="188" r="9" fill="#F07040"/>
-            <circle cx="128" cy="192" r="8" fill="#D95A18"/>
-            <circle cx="115" cy="245" r="7" fill="#E85D1A"/>
-            <!-- Leaf -->
-            <ellipse cx="155" cy="225" rx="12" ry="6" fill="rgba(42,96,64,0.8)" transform="rotate(-30,155,225)"/>
-            <!-- Shadow -->
-            <ellipse cx="152" cy="210" rx="8" ry="4" fill="rgba(10,25,100,0.4)"/>
-          </svg>
-          <div class="img-card-overlay"><p class="img-card-label">Blue wall, orange flowers</p></div>
-        </div>
-      </div>
-
-      <!-- IMAGE: Koi fish in green water -->
-      <div class="masonry-item" data-tags="nature art">
-        <div class="img-card">
-          <svg viewBox="0 0 280 320" xmlns="http://www.w3.org/2000/svg">
-            <rect width="280" height="320" fill="#1A4A2A"/>
-            <ellipse cx="90" cy="160" rx="75" ry="55" fill="rgba(30,100,50,0.5)"/>
-            <ellipse cx="190" cy="120" rx="60" ry="50" fill="rgba(20,80,40,0.4)"/>
-            <ellipse cx="140" cy="240" rx="80" ry="45" fill="rgba(25,90,45,0.5)"/>
-            <!-- Lily pads -->
-            <ellipse cx="60" cy="100" rx="28" ry="20" fill="rgba(30,100,40,0.75)"/>
-            <ellipse cx="200" cy="200" rx="32" ry="22" fill="rgba(30,100,40,0.7)"/>
-            <ellipse cx="140" cy="60" rx="22" ry="16" fill="rgba(30,100,40,0.65)"/>
-            <!-- Red accents on pads -->
-            <circle cx="60" cy="100" r="5" fill="rgba(184,28,28,0.7)"/>
-            <circle cx="200" cy="200" r="4" fill="rgba(184,28,28,0.6)"/>
-            <!-- Koi fish 1: orange -->
-            <ellipse cx="130" cy="150" rx="32" ry="12" fill="#E85D1A" transform="rotate(-15,130,150)"/>
-            <ellipse cx="150" cy="144" rx="14" ry="8" fill="#F07040" transform="rotate(-15,150,144)"/>
-            <!-- Koi fish 2: red-white -->
-            <ellipse cx="180" cy="240" rx="28" ry="10" fill="#B81C1C" transform="rotate(20,180,240)"/>
-            <ellipse cx="195" cy="235" rx="10" ry="6" fill="rgba(248,244,236,0.8)" transform="rotate(20,195,235)"/>
-            <!-- Ripple lines -->
-            <ellipse cx="130" cy="150" rx="45" ry="18" fill="none" stroke="rgba(214,230,220,0.15)" stroke-width="1" transform="rotate(-15,130,150)"/>
-          </svg>
-          <div class="img-card-overlay"><p class="img-card-label">Koi in green water</p></div>
-        </div>
-      </div>
-
-      <!-- PAPER: SOM for urban analysis -->
-      <div class="masonry-item" data-tags="paper">
-        <a class="paper-card" href="https://doi.org/10.1080/13658810600661826" target="_blank">
-          <div class="paper-card-color-bar" style="background:var(--green)"></div>
-          <p class="paper-journal">International Journal of GIS · 2006</p>
-          <p class="paper-title">Self-Organizing Maps as a tool for exploratory spatial data analysis</p>
-          <p class="paper-authors">Agarwal, P. &amp; Skupin, A.</p>
-          <div class="paper-note">The methodological foundation for using SOMs spatially — helped me think about the visual dimension of the clustering output.</div>
-          <span class="paper-link-label">Read paper →</span>
-        </a>
-      </div>
-
-      <!-- IMAGE: Canyon red walls with tree -->
-      <div class="masonry-item" data-tags="nature art">
-        <div class="img-card">
-          <svg viewBox="0 0 280 400" xmlns="http://www.w3.org/2000/svg">
-            <defs>
-              <linearGradient id="canyonGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-                <stop offset="0%" stop-color="#8B3010"/>
-                <stop offset="50%" stop-color="#C45020"/>
-                <stop offset="100%" stop-color="#7A2808"/>
-              </linearGradient>
-            </defs>
-            <rect width="280" height="400" fill="url(#canyonGrad)"/>
-            <!-- Canyon layers -->
-            <rect x="0" y="0" width="60" height="400" fill="rgba(80,20,5,0.4)"/>
-            <rect x="220" y="0" width="60" height="400" fill="rgba(80,20,5,0.35)"/>
-            <!-- Rock texture bands -->
-            <rect x="0" y="80" width="280" height="8" fill="rgba(90,30,8,0.3)"/>
-            <rect x="0" y="160" width="280" height="6" fill="rgba(90,30,8,0.25)"/>
-            <rect x="0" y="240" width="280" height="10" fill="rgba(90,30,8,0.3)"/>
-            <!-- Sky peep -->
-            <ellipse cx="140" cy="30" rx="60" ry="40" fill="rgba(100,140,180,0.4)"/>
-            <!-- Small tree -->
-            <line x1="140" y1="400" x2="140" y2="280" stroke="rgba(30,50,20,0.9)" stroke-width="4"/>
-            <line x1="140" y1="320" x2="110" y2="295" stroke="rgba(30,50,20,0.7)" stroke-width="2"/>
-            <line x1="140" y1="300" x2="165" y2="282" stroke="rgba(30,50,20,0.7)" stroke-width="2"/>
-            <ellipse cx="140" cy="265" rx="20" ry="22" fill="rgba(42,96,64,0.85)"/>
-            <ellipse cx="112" cy="288" rx="14" ry="12" fill="rgba(42,96,64,0.7)"/>
-            <ellipse cx="166" cy="276" rx="12" ry="11" fill="rgba(42,96,64,0.7)"/>
-            <!-- Light shaft -->
-            <polygon points="120,0 160,0 180,400 100,400" fill="rgba(255,200,120,0.05)"/>
-          </svg>
-          <div class="img-card-overlay"><p class="img-card-label">Canyon walls</p></div>
-        </div>
-      </div>
-
-      <!-- IMAGE: Green tree on hillside -->
-      <div class="masonry-item" data-tags="nature art">
-        <div class="img-card">
-          <svg viewBox="0 0 280 280" xmlns="http://www.w3.org/2000/svg">
-            <rect width="280" height="280" fill="#7AAA3A"/>
-            <!-- Sky -->
-            <rect width="280" height="160" fill="#4A80B8"/>
-            <!-- Rolling hill -->
-            <ellipse cx="140" cy="200" rx="200" ry="80" fill="#6A9A30"/>
-            <ellipse cx="140" cy="220" rx="200" ry="70" fill="#5A8A25"/>
-            <!-- Small house -->
-            <rect x="170" y="188" width="35" height="22" fill="rgba(248,244,236,0.9)"/>
-            <polygon points="165,188 210,188 187,172" fill="#C45020"/>
-            <!-- Big tree -->
-            <line x1="100" y1="280" x2="100" y2="170" stroke="#3A2010" stroke-width="6"/>
-            <line x1="100" y1="210" x2="70" y2="185" stroke="#3A2010" stroke-width="3"/>
-            <line x1="100" y1="195" x2="128" y2="175" stroke="#3A2010" stroke-width="3"/>
-            <ellipse cx="100" cy="155" rx="38" ry="32" fill="#2A5018"/>
-            <ellipse cx="72" cy="178" rx="25" ry="20" fill="#2A5018"/>
-            <ellipse cx="128" cy="168" rx="22" ry="19" fill="#2A5018"/>
-            <ellipse cx="100" cy="155" rx="28" ry="24" fill="#3A6824"/>
-            <!-- Rock -->
-            <ellipse cx="178" cy="205" rx="25" ry="12" fill="#8A7A60"/>
-          </svg>
-          <div class="img-card-overlay"><p class="img-card-label">Lone tree, red roof</p></div>
-        </div>
-      </div>
-
-      <!-- PAPER: Language and housing markets -->
-      <div class="masonry-item" data-tags="paper">
-        <a class="paper-card" href="https://doi.org/10.1177/0042098017712439" target="_blank">
-          <div class="paper-card-color-bar" style="background:var(--orange)"></div>
-          <p class="paper-journal">Urban Studies · 2018</p>
-          <p class="paper-title">Linguistic landscapes and the commodification of place: Real estate language and housing markets</p>
-          <p class="paper-authors">Slater, T. &amp; Anderson, N.</p>
-          <div class="paper-note">How listing language performs place — the cultural-economic argument that anchors what my NLP pipeline is really measuring.</div>
-          <span class="paper-link-label">Read paper →</span>
-        </a>
-      </div>
-
-      <!-- IMAGE: City crosswalk aerial -->
-      <div class="masonry-item" data-tags="urban art">
-        <div class="img-card">
-          <svg viewBox="0 0 280 320" xmlns="http://www.w3.org/2000/svg">
-            <rect width="280" height="320" fill="#A0A8B8"/>
-            <!-- Crosswalk stripes -->
-            <rect x="0" y="120" width="280" height="18" fill="rgba(248,244,236,0.85)"/>
-            <rect x="0" y="148" width="280" height="18" fill="rgba(248,244,236,0.85)"/>
-            <rect x="0" y="176" width="280" height="18" fill="rgba(248,244,236,0.85)"/>
-            <rect x="0" y="204" width="280" height="18" fill="rgba(248,244,236,0.85)"/>
-            <!-- Road -->
-            <rect x="60" y="0" width="160" height="320" fill="#888">
-              <animate attributeName="opacity" values="1" dur="0"/>
-            </rect>
-            <rect x="60" y="0" width="160" height="320" fill="#909090"/>
-            <!-- Shadows / people silhouettes (aerial) -->
-            <ellipse cx="100" cy="185" rx="8" ry="14" fill="rgba(26,59,212,0.7)" transform="rotate(-15,100,185)"/>
-            <ellipse cx="140" cy="162" rx="7" ry="13" fill="rgba(26,59,212,0.65)" transform="rotate(10,140,162)"/>
-            <ellipse cx="170" cy="200" rx="7" ry="12" fill="rgba(26,59,212,0.6)" transform="rotate(-5,170,200)"/>
-            <!-- Shadow trails -->
-            <ellipse cx="115" cy="196" rx="4" ry="10" fill="rgba(26,59,212,0.3)" transform="rotate(-15,115,196)"/>
-            <ellipse cx="155" cy="172" rx="4" ry="9" fill="rgba(26,59,212,0.25)" transform="rotate(10,155,172)"/>
-          </svg>
-          <div class="img-card-overlay"><p class="img-card-label">Crosswalk, aerial view</p></div>
-        </div>
-      </div>
-
-      <!-- IMAGE: Parakeets on blue wire -->
-      <div class="masonry-item" data-tags="nature art">
-        <div class="img-card">
-          <svg viewBox="0 0 280 240" xmlns="http://www.w3.org/2000/svg">
-            <rect width="280" height="240" fill="#1A3BD4"/>
-            <!-- Wire -->
-            <line x1="0" y1="120" x2="280" y2="115" stroke="rgba(20,18,16,0.8)" stroke-width="2.5"/>
-            <!-- Birds (yellow-green parakeets) -->
-            <!-- Bird 1 -->
-            <ellipse cx="55" cy="108" rx="10" ry="7" fill="#C8D820"/>
-            <ellipse cx="47" cy="105" rx="6" ry="4" fill="#A8B815"/>
-            <polygon points="40,105 44,102 44,108" fill="#D95A18"/>
-            <circle cx="44" cy="103" r="1.5" fill="rgba(20,18,16,0.8)"/>
-            <!-- Bird 2 -->
-            <ellipse cx="105" cy="106" rx="10" ry="7" fill="#B8CC1A"/>
-            <ellipse cx="97" cy="103" rx="6" ry="4" fill="#98AA12"/>
-            <polygon points="90,103 94,100 94,106" fill="#D95A18"/>
-            <circle cx="94" cy="101" r="1.5" fill="rgba(20,18,16,0.8)"/>
-            <!-- Bird 3 (hanging/different angle) -->
-            <ellipse cx="160" cy="122" rx="9" ry="6" fill="#C8D820" transform="rotate(20,160,122)"/>
-            <ellipse cx="153" cy="118" rx="5" ry="3.5" fill="#A8B815" transform="rotate(20,153,118)"/>
-            <polygon points="147,116 150,113 151,119" fill="#D95A18"/>
-            <!-- Bird 4 -->
-            <ellipse cx="215" cy="107" rx="10" ry="7" fill="#B8CC1A"/>
-            <ellipse cx="207" cy="104" rx="6" ry="4" fill="#98AA12"/>
-            <polygon points="200,104 204,101 204,107" fill="#D95A18"/>
-            <circle cx="204" cy="102" r="1.5" fill="rgba(20,18,16,0.8)"/>
-          </svg>
-          <div class="img-card-overlay"><p class="img-card-label">Parakeets on a wire</p></div>
-        </div>
-      </div>
-
-      <!-- PAPER: Displacement and language -->
-      <div class="masonry-item" data-tags="paper">
-        <a class="paper-card" href="https://doi.org/10.1080/07352166.2015.1077659" target="_blank">
-          <div class="paper-card-color-bar" style="background:var(--red)"></div>
-          <p class="paper-journal">Journal of Urban Affairs · 2016</p>
-          <p class="paper-title">Gentrification and displacement: New urban colonialism and the economic eviction of low-income residents</p>
-          <p class="paper-authors">Marcuse, P.</p>
-          <div class="paper-note">Displacement as a political and cultural process, not just an economic one. Shapes how I think about what the listing language data is actually measuring.</div>
-          <span class="paper-link-label">Read paper →</span>
-        </a>
-      </div>
-
-      <!-- IMAGE: Bonsai illustration (Japanese art style) -->
-      <div class="masonry-item" data-tags="art">
-        <div class="img-card">
-          <svg viewBox="0 0 280 350" xmlns="http://www.w3.org/2000/svg">
-            <rect width="280" height="350" fill="#2A4A2A"/>
-            <!-- Night sky gradient -->
-            <rect width="280" height="200" fill="#1A2A5A"/>
-            <!-- Moon / sun (orange-red) -->
-            <circle cx="220" cy="60" r="32" fill="#C45020"/>
-            <!-- Waves/sea -->
-            <ellipse cx="140" cy="260" rx="200" ry="30" fill="#1A3A5A"/>
-            <ellipse cx="140" cy="280" rx="200" ry="28" fill="#152E4A"/>
-            <!-- Rocky cliff -->
-            <ellipse cx="80" cy="310" rx="90" ry="50" fill="#3A3020"/>
-            <!-- Tree trunk - twisted -->
-            <path d="M 100,350 C 95,310 88,280 95,250 C 102,220 110,200 105,170" fill="none" stroke="#2A1808" stroke-width="8"/>
-            <path d="M 105,170 C 108,155 115,140 120,120" fill="none" stroke="#2A1808" stroke-width="6"/>
-            <!-- Branches -->
-            <path d="M 105,170 C 90,155 70,148 55,140" fill="none" stroke="#2A1808" stroke-width="3"/>
-            <path d="M 108,145 C 125,135 145,128 155,120" fill="none" stroke="#2A1808" stroke-width="2.5"/>
-            <path d="M 120,120 C 110,105 100,95 92,85" fill="none" stroke="#2A1808" stroke-width="2"/>
-            <!-- Foliage clusters -->
-            <ellipse cx="55" cy="132" rx="22" ry="18" fill="#2A5018"/>
-            <ellipse cx="38" cy="125" rx="16" ry="14" fill="#345A22"/>
-            <ellipse cx="155" cy="112" rx="20" ry="16" fill="#2A5018"/>
-            <ellipse cx="92" cy="78" rx="18" ry="16" fill="#2A5018"/>
-            <ellipse cx="106" cy="68" rx="15" ry="14" fill="#345A22"/>
-            <!-- Coastal flowers yellow -->
-            <circle cx="78" cy="290" r="4" fill="#C8D820"/>
-            <circle cx="85" cy="283" r="3" fill="#D8E830"/>
-            <circle cx="65" cy="295" r="3" fill="#C8D820"/>
-          </svg>
-          <div class="img-card-overlay"><p class="img-card-label">Bonsai at the coast</p></div>
-        </div>
-      </div>
-
-      <!-- IMAGE: Person running in field (motion blur) -->
-      <div class="masonry-item" data-tags="art nature">
-        <div class="img-card">
-          <svg viewBox="0 0 280 300" xmlns="http://www.w3.org/2000/svg">
-            <rect width="280" height="300" fill="#1A1A1A"/>
-            <!-- Field texture -->
-            <rect x="0" y="160" width="280" height="140" fill="#4A5A2A"/>
-            <!-- Grass texture lines -->
-            <g stroke="rgba(80,100,30,0.4)" stroke-width="0.5">
-              <line x1="0" y1="170" x2="280" y2="168"/><line x1="0" y1="180" x2="280" y2="178"/>
-              <line x1="0" y1="190" x2="280" y2="188"/><line x1="0" y1="200" x2="280" y2="199"/>
-            </g>
-            <!-- Red/dark foliage patches -->
-            <ellipse cx="40" cy="210" rx="40" ry="25" fill="rgba(140,40,20,0.6)"/>
-            <ellipse cx="240" cy="220" rx="45" ry="28" fill="rgba(140,40,20,0.5)"/>
-            <ellipse cx="140" cy="270" rx="80" ry="35" fill="rgba(100,30,15,0.4)"/>
-            <!-- Figure in white (motion blur) -->
-            <ellipse cx="130" cy="175" rx="12" ry="28" fill="rgba(248,244,236,0.75)" transform="rotate(-8,130,175)"/>
-            <ellipse cx="118" cy="170" rx="8" ry="15" fill="rgba(248,244,236,0.4)" transform="rotate(-15,118,170)"/>
-            <ellipse cx="108" cy="166" rx="6" ry="10" fill="rgba(248,244,236,0.2)" transform="rotate(-20,108,166)"/>
-            <!-- Head -->
-            <circle cx="135" cy="153" r="8" fill="rgba(248,244,236,0.7)"/>
-          </svg>
-          <div class="img-card-overlay"><p class="img-card-label">Running in the field</p></div>
-        </div>
-      </div>
-
-      <!-- PAPER: NLP and cities -->
-      <div class="masonry-item" data-tags="paper">
-        <a class="paper-card" href="https://doi.org/10.1177/2399808319869457" target="_blank">
-          <div class="paper-card-color-bar" style="background:var(--cobalt)"></div>
-          <p class="paper-journal">Environment and Planning B · 2020</p>
-          <p class="paper-title">Urban analytics with social media data: The promises and limitations of computational text analysis</p>
-          <p class="paper-authors">Boeing, G. &amp; Waddell, P.</p>
-          <div class="paper-note">A grounding read on what NLP can and can't tell us about cities — helpful for thinking through what my methodology claims and what it doesn't.</div>
-          <span class="paper-link-label">Read paper →</span>
-        </a>
-      </div>
-
-      <!-- IMAGE: Lily pad aerial -->
-      <div class="masonry-item" data-tags="nature art">
-        <div class="img-card">
-          <svg viewBox="0 0 280 280" xmlns="http://www.w3.org/2000/svg">
-            <rect width="280" height="280" fill="#1A3A4A"/>
-            <!-- Water ripples -->
-            <ellipse cx="140" cy="140" rx="130" ry="80" fill="rgba(20,70,90,0.5)"/>
-            <!-- Lily pads -->
-            <ellipse cx="60" cy="80" rx="32" ry="24" fill="#2A6040"/>
-            <ellipse cx="85" cy="95" rx="28" ry="20" fill="#224A30"/>
-            <ellipse cx="190" cy="70" rx="30" ry="22" fill="#2A6040"/>
-            <ellipse cx="220" cy="150" rx="34" ry="26" fill="#224A30"/>
-            <ellipse cx="100" cy="190" rx="30" ry="22" fill="#2A6040"/>
-            <ellipse cx="155" cy="210" rx="28" ry="20" fill="#224A30"/>
-            <ellipse cx="50" cy="200" rx="22" ry="16" fill="#2A6040"/>
-            <!-- Red spots -->
-            <circle cx="60" cy="80" r="5" fill="rgba(184,28,28,0.8)"/>
-            <circle cx="190" cy="70" r="4" fill="rgba(184,28,28,0.7)"/>
-            <circle cx="220" cy="150" r="5" fill="rgba(184,28,28,0.8)"/>
-            <circle cx="100" cy="190" r="4" fill="rgba(184,28,28,0.7)"/>
-            <!-- Small koi flashes -->
-            <ellipse cx="140" cy="130" rx="18" ry="6" fill="#E85D1A" transform="rotate(30,140,130)"/>
-            <ellipse cx="160" cy="165" rx="15" ry="5" fill="rgba(248,244,236,0.6)" transform="rotate(-20,160,165)"/>
-          </svg>
-          <div class="img-card-overlay"><p class="img-card-label">Lily pads, red accents</p></div>
-        </div>
-      </div>
-
-      <!-- IMAGE: Interior warm modernist -->
+      <!-- antonio-mohd.jpg -->
       <div class="masonry-item" data-tags="design">
         <div class="img-card">
-          <svg viewBox="0 0 280 260" xmlns="http://www.w3.org/2000/svg">
-            <rect width="280" height="260" fill="#E8DDD0"/>
-            <!-- Wall -->
-            <rect x="0" y="0" width="280" height="180" fill="#F0EAE0"/>
-            <!-- Floor -->
-            <rect x="0" y="180" width="280" height="80" fill="#C8B898"/>
-            <!-- Window -->
-            <rect x="30" y="20" width="80" height="110" fill="#B8D0E8"/>
-            <line x1="70" y1="20" x2="70" y2="130" stroke="rgba(248,244,236,0.5)" stroke-width="1.5"/>
-            <line x1="30" y1="75" x2="110" y2="75" stroke="rgba(248,244,236,0.5)" stroke-width="1.5"/>
-            <!-- Yellow wall panel accent -->
-            <rect x="155" y="20" width="100" height="140" fill="rgba(200,192,40,0.35)"/>
-            <!-- Sofa -->
-            <rect x="20" y="162" width="140" height="38" rx="4" fill="#7A6848"/>
-            <rect x="20" y="158" width="140" height="12" rx="3" fill="#8A7858"/>
-            <!-- Plant -->
-            <line x1="238" y1="260" x2="238" y2="195" stroke="#3A2808" stroke-width="3"/>
-            <ellipse cx="238" cy="180" rx="22" ry="20" fill="#2A5018"/>
-            <ellipse cx="220" cy="190" rx="16" ry="14" fill="#224A14"/>
-            <!-- Teal pillow -->
-            <rect x="60" y="158" width="35" height="28" rx="3" fill="#3D7070"/>
-            <!-- Lamp -->
-            <line x1="210" y1="160" x2="210" y2="130" stroke="#5A4830" stroke-width="3"/>
-            <ellipse cx="210" cy="125" rx="18" ry="8" fill="#C8B880"/>
-          </svg>
-          <div class="img-card-overlay"><p class="img-card-label">Warm modernist interior</p></div>
+          <img src="images/antonio-mohd.jpg" alt="Antonio Mohd">
+          <div class="img-card-overlay"><div class="img-card-meta">
+            <p class="img-card-creator">Antonio Mohd</p>
+            <p class="img-card-label">Design</p>
+          </div></div>
+        </div>
+      </div>
+
+      <!-- PAPER: Adu & Delmelle 2022 -->
+      <div class="masonry-item" data-tags="paper">
+        <a class="paper-card" href="https://www.researchgate.net/publication/358662020_Spatial_Variations_in_Exclusionary_Criteria_from_Online_Rental_Advertisements" target="_blank">
+          <div class="paper-card-color-bar" style="background:var(--cobalt)"></div>
+          <p class="paper-type">Research Paper</p>
+          <p class="paper-journal">The Professional Geographer · 2022</p>
+          <p class="paper-title">Spatial Variations in Exclusionary Criteria from Online Rental Advertisements</p>
+          <p class="paper-authors">Adu, P., &amp; Delmelle, E. C.</p>
+          <div class="paper-note">How the language of rental listings encodes exclusion spatially — a direct methodological ancestor of my own work on MLS remarks and neighborhood change.</div>
+          <span class="paper-link-label">Read paper →</span>
+        </a>
+      </div>
+
+      <!-- Christopher-John-Rogers.jpg -->
+      <div class="masonry-item" data-tags="design">
+        <div class="img-card">
+          <img src="images/Christopher-John-Rogers.jpg" alt="Christopher John Rogers">
+          <div class="img-card-overlay"><div class="img-card-meta">
+            <p class="img-card-creator">Christopher John Rogers</p>
+            <p class="img-card-label">Fashion</p>
+          </div></div>
+        </div>
+      </div>
+
+      <!-- Gizem-Akdag.webp -->
+      <div class="masonry-item" data-tags="art nature">
+        <div class="img-card">
+          <img src="images/Gizem-Akdağ.webp" alt="Gizem Akdağ">
+          <div class="img-card-overlay"><div class="img-card-meta">
+            <p class="img-card-creator">Gizem Akdağ</p>
+            <p class="img-card-label">Art &amp; Illustration</p>
+          </div></div>
+        </div>
+      </div>
+
+      <!-- PAPER: Delmelle 2022 -->
+      <div class="masonry-item" data-tags="paper">
+        <a class="paper-card" href="https://www.researchgate.net/publication/356345529_GIScience_and_neighborhood_change_Toward_an_understanding_of_processes_of_change" target="_blank">
+          <div class="paper-card-color-bar" style="background:var(--green)"></div>
+          <p class="paper-type">Research Paper</p>
+          <p class="paper-journal">Transactions in GIS · 2022</p>
+          <p class="paper-title">GIScience and neighborhood change: Toward an understanding of processes of change</p>
+          <p class="paper-authors">Delmelle, E. C.</p>
+          <div class="paper-note">The broader GIScience framework my thesis sits inside — how spatial data science can track and theorize neighborhood change over time.</div>
+          <span class="paper-link-label">Read paper →</span>
+        </a>
+      </div>
+
+      <!-- lauren-mabry.jpg -->
+      <div class="masonry-item" data-tags="art design">
+        <div class="img-card">
+          <img src="images/lauren-mabry.jpg" alt="Lauren Mabry">
+          <div class="img-card-overlay"><div class="img-card-meta">
+            <p class="img-card-creator">Lauren Mabry</p>
+            <p class="img-card-label">Design</p>
+          </div></div>
+        </div>
+      </div>
+
+      <!-- lelan-yung.png -->
+      <div class="masonry-item" data-tags="art urban">
+        <div class="img-card">
+          <img src="images/lelan-yung.png" alt="Lelan Yung">
+          <div class="img-card-overlay"><div class="img-card-meta">
+            <p class="img-card-creator">Lelan Yung</p>
+            <p class="img-card-label">Urban / City</p>
+          </div></div>
+        </div>
+      </div>
+
+      <!-- TALK: Geoff Boeing -->
+      <div class="masonry-item" data-tags="talk urban">
+        <a class="link-card" href="https://www.design.upenn.edu/events/geoff-boeing" target="_blank">
+          <div class="link-card-color-bar" style="background:var(--orange)"></div>
+          <p class="link-type">Talk · Penn Weitzman</p>
+          <p class="link-title">"Universality in Urban Street Network Form"</p>
+          <p class="link-sub">Geoff Boeing. Ken Steif Lecture, Weitzman School of Design, University of Pennsylvania. February 19.</p>
+          <span class="link-cta">View event →</span>
+        </a>
+      </div>
+
+      <!-- mia-forrest.jpg -->
+      <div class="masonry-item" data-tags="nature art">
+        <div class="img-card">
+          <img src="images/mia-forrest.jpg" alt="Mia Forrest">
+          <div class="img-card-overlay"><div class="img-card-meta">
+            <p class="img-card-creator">Mia Forrest</p>
+            <p class="img-card-label">Art &amp; Illustration</p>
+          </div></div>
+        </div>
+      </div>
+
+      <!-- rabbil-alamiin.jpg -->
+      <div class="masonry-item" data-tags="art urban">
+        <div class="img-card">
+          <img src="images/rabbil-alamiin.jpg" alt="Rabbil Alamiin">
+          <div class="img-card-overlay"><div class="img-card-meta">
+            <p class="img-card-creator">Rabbil Alamiin</p>
+            <p class="img-card-label">Art &amp; Illustration</p>
+          </div></div>
+        </div>
+      </div>
+
+      <!-- WEBSITE: responsible.city -->
+      <div class="masonry-item" data-tags="talk urban">
+        <a class="link-card" href="https://responsible.city/" target="_blank">
+          <div class="link-card-color-bar" style="background:var(--cobalt)"></div>
+          <p class="link-type">Website · Research Initiative</p>
+          <p class="link-title">Responsible City Project</p>
+          <p class="link-sub">A research initiative at the University of Neuchâtel examining how cities can become more responsible — socially, environmentally, and politically. A comparative European lens on urban accountability.</p>
+          <span class="link-cta">Visit site →</span>
+        </a>
+      </div>
+
+      <!-- Ramin-Nasibov.jpg -->
+      <div class="masonry-item" data-tags="art nature">
+        <div class="img-card">
+          <img src="images/Ramin-Nasibov.jpg" alt="Ramin Nasibov">
+          <div class="img-card-overlay"><div class="img-card-meta">
+            <p class="img-card-creator">Ramin Nasibov</p>
+            <p class="img-card-label">Art &amp; Illustration</p>
+          </div></div>
+        </div>
+      </div>
+
+      <!-- Richard-Nadler.jpg -->
+      <div class="masonry-item" data-tags="art design">
+        <div class="img-card">
+          <img src="images/Richard-Nadler.jpg" alt="Richard Nadler">
+          <div class="img-card-overlay"><div class="img-card-meta">
+            <p class="img-card-creator">Richard Nadler</p>
+            <p class="img-card-label">Design</p>
+          </div></div>
+        </div>
+      </div>
+
+      <!-- stella-shin.png -->
+      <div class="masonry-item" data-tags="art urban design">
+        <div class="img-card">
+          <img src="images/stella-shin.png" alt="Stella Shin">
+          <div class="img-card-overlay"><div class="img-card-meta">
+            <p class="img-card-creator">Stella Shin</p>
+            <p class="img-card-label">Urban / City</p>
+          </div></div>
+        </div>
+      </div>
+
+      <!-- daniel-kim.png -->
+      <div class="masonry-item" data-tags="art design urban">
+        <div class="img-card">
+          <img src="images/daniel-kim.png" alt="Daniel Kim">
+          <div class="img-card-overlay"><div class="img-card-meta">
+            <p class="img-card-creator">Daniel Kim</p>
+            <p class="img-card-label">Design</p>
+          </div></div>
         </div>
       </div>
 
