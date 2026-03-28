@@ -2,97 +2,113 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Experience - Jun Luu</title>
+  <title>Experience — Jun Luu</title>
   <link rel="stylesheet" href="shared_v4.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css"/>
   <style>
-    .exp-body { padding: 4rem 4rem 7rem; }
+    body { overflow: auto; }
 
-    /* Map section */
-    .map-section {
+    .exp-layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      height: 65vh;
+      min-height: 480px;
+    }
+
+    /* LEFT — map */
+    .map-panel {
       background: #0D1B2A;
-      padding: 4rem;
-      margin-bottom: 5rem;
-      position: relative; overflow: hidden;
+      display: flex; flex-direction: column;
+      height: 100%; position: sticky; top: 0; overflow: hidden;
     }
-    .map-section::before {
-      content: '';
-      position: absolute; top: 0; left: 0; right: 0;
-      height: 3px;
-      background: linear-gradient(to right, var(--cobalt), var(--orange) 60%, var(--green));
+    #journey-map { flex: 1; width: 100%; min-height: 0; }
+    .map-legend {
+      padding: 0.75rem 2rem;
+      display: flex; flex-direction: row; flex-wrap: nowrap; gap: 1.5rem;
+      flex-shrink: 0;
+      border-top: 1px solid rgba(255,255,255,0.05);
     }
-    .map-intro { margin-bottom: 2rem; }
-    .map-intro .section-eyebrow { color: var(--orange); }
-    .map-intro .section-title { color: var(--cream); margin-bottom: 0.4rem; }
-    .map-intro .section-title em { color: rgba(196,164,100,0.9); }
-    .map-intro p { font-size: 0.85rem; font-weight: 300; color: rgba(230,215,185,0.4); margin-top: 0.4rem; }
+    .legend-item { display: flex; align-items: center; gap: 0.5rem; font-size: 0.65rem; font-weight: 400; letter-spacing: 0.08em; text-transform: uppercase; color: rgba(230,215,185,0.3); white-space: nowrap; }
+    .legend-dot-o { width: 9px; height: 9px; border-radius: 50%; background: #C4782A; flex-shrink: 0; }
+    .legend-dot-c { width: 9px; height: 9px; border-radius: 50%; background: #2E52E8; flex-shrink: 0; }
+    .legend-line  { width: 20px; height: 1.5px; background: #C4782A; opacity: 0.6; flex-shrink: 0; }
 
-    /* Leaflet map container */
-    #journey-map {
-      width: 100%;
-      height: 480px;
-      border: 1px solid rgba(255,255,255,0.06);
-    }
-
-    /* Override Leaflet tooltip styles */
-    .city-tooltip {
-      background: #FAF7F0 !important;
-      border: none !important;
-      border-top: 3px solid #1A3BD4 !important;
-      border-radius: 0 !important;
-      box-shadow: 0 8px 32px rgba(0,0,0,0.4) !important;
-      padding: 1.1rem 1.4rem !important;
-      min-width: 220px !important;
-      max-width: 280px !important;
-    }
-    .city-tooltip::before { display: none !important; }
-    .leaflet-tooltip-top.city-tooltip::before { display: none !important; }
-      background: #FAF7F0;
-      border-radius: 0;
-      border-top: 3px solid #1A3BD4;
-      box-shadow: 0 8px 32px rgba(0,0,0,0.4);
-      padding: 0;
-    }
-    .leaflet-popup-content {
-      margin: 0;
-      padding: 1.1rem 1.4rem;
-      min-width: 220px;
-    }
-    .leaflet-popup-tip { background: #FAF7F0; }
-    .leaflet-popup-close-button {
-      color: #7A7468 !important;
-      font-size: 16px !important;
-      top: 8px !important; right: 8px !important;
+    /* RIGHT — scrollable timeline */
+    .timeline-panel {
+      height: 100%; overflow-y: scroll;
+      background: var(--cream);
+      padding: 2.5rem 3rem 4rem;
+      border-left: 1px solid var(--cream-dark);
     }
 
-    .popup-city {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 1.1rem; font-weight: 400; color: #141210;
-      margin-bottom: 0.65rem;
-      padding-bottom: 0.65rem;
-      border-bottom: 1px solid #E0D9C8;
+    /* City group labels */
+    .city-group-label {
+      font-size: 0.62rem; font-weight: 500;
+      letter-spacing: 0.18em; text-transform: uppercase;
+      color: var(--orange);
+      display: flex; align-items: center; gap: 0.6rem;
+      margin-bottom: 1.5rem; margin-top: 3rem;
     }
-    .popup-role { margin-bottom: 0.5rem; padding-bottom: 0.5rem; border-bottom: 1px solid #E0D9C8; }
-    .popup-role:last-child { border-bottom: none; padding-bottom: 0; margin-bottom: 0; }
-    .popup-title { font-size: 0.8rem; font-weight: 500; color: #3A3630; font-family: 'DM Sans', sans-serif; }
-    .popup-org   { font-size: 0.72rem; font-weight: 300; color: #7A7468; font-family: 'DM Sans', sans-serif; }
-    .popup-dates { font-size: 0.68rem; font-weight: 400; color: #1A3BD4; font-family: 'DM Sans', sans-serif; margin-top: 0.1rem; letter-spacing: 0.04em; }
-
-    /* Legend */
-    .map-legend { display: flex; gap: 2rem; margin-top: 1.5rem; flex-wrap: wrap; }
-    .legend-item { display: flex; align-items: center; gap: 0.55rem; font-size: 0.7rem; font-weight: 400; letter-spacing: 0.08em; text-transform: uppercase; color: rgba(230,215,185,0.35); }
-    .legend-dot-o { width: 10px; height: 10px; border-radius: 50%; background: #C4782A; }
-    .legend-dot-c { width: 10px; height: 10px; border-radius: 50%; background: #2E52E8; }
-    .legend-line  { width: 22px; height: 2px; background: #C4782A; opacity: 0.7; }
+    .city-group-label.current { color: var(--cobalt); }
+    .city-group-label::after { content: ''; display: block; flex: 1; height: 1px; background: currentColor; opacity: 0.2; }
+    .city-group:first-child .city-group-label { margin-top: 0; }
 
     /* Timeline */
-    .timeline-section { margin-top: 1rem; }
-    .timeline-header { margin-bottom: 3rem; padding-bottom: 1.5rem; border-bottom: 1px solid var(--cream-dark); }
+    .timeline { position: relative; padding-left: 2rem; }
+    .timeline::before {
+      content: ''; position: absolute; left: 0; top: 0; bottom: 0;
+      width: 1.5px;
+      background: linear-gradient(to bottom, var(--orange), var(--orange) 80%, transparent);
+    }
+    .timeline-item {
+      position: relative; padding: 0 0.5rem 3rem 2.5rem;
+      border-radius: 4px; transition: background 0.5s;
+    }
+    .timeline-item::before {
+      content: ''; position: absolute; left: -5px; top: 6px;
+      width: 10px; height: 10px; border-radius: 50%;
+      background: var(--orange); border: 2px solid var(--cream);
+      box-shadow: 0 0 0 1px var(--orange);
+      transition: background 0.3s, box-shadow 0.3s;
+    }
+    .timeline-item.current-city::before { background: var(--cobalt); box-shadow: 0 0 0 1px var(--cobalt); }
+    .timeline-item.flash { background: var(--orange-pale); padding-top: 0.75rem; }
+    .timeline-item.current-city.flash { background: var(--cobalt-pale); }
+    .timeline-item.flash::before { box-shadow: 0 0 0 1px var(--orange), 0 0 10px rgba(217,90,24,0.4); }
+    .timeline-item.current-city.flash::before { box-shadow: 0 0 0 1px var(--cobalt), 0 0 10px rgba(26,59,212,0.4); }
+    .timeline-date { font-size: 0.68rem; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--orange); margin-bottom: 0.4rem; }
+    .timeline-item.current-city .timeline-date { color: var(--cobalt); }
+    .timeline-role { font-family: 'Cormorant Garamond', serif; font-size: 1.45rem; font-weight: 400; color: var(--ink); margin-bottom: 0.2rem; }
+    .timeline-org { font-size: 0.82rem; font-weight: 400; color: var(--ink-muted); margin-bottom: 0.8rem; }
+    .timeline-detail { font-size: 0.88rem; font-weight: 300; line-height: 1.75; color: var(--ink-soft); max-width: 480px; }
+
+    /* Skills — full width below layout */
+    .skills-full {
+      background: var(--white);
+      border-top: 1px solid var(--cream-dark);
+      padding: 2rem 4rem;
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr 1fr;
+      gap: 2rem;
+    }
+    .sg-label { font-size: 0.62rem; font-weight: 500; letter-spacing: 0.16em; text-transform: uppercase; color: var(--orange); margin-bottom: 0.75rem; }
+    .tags { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+    .tag { font-size: 0.75rem; color: #3A3630; background: #F8F4EC; padding: 0.25rem 0.7rem; border: 1px solid #E0D9C8; }
+
+    /* Leaflet */
+    .city-tooltip { background: #FAF7F0 !important; border: none !important; border-top: 3px solid #1A3BD4 !important; border-radius: 0 !important; box-shadow: 0 8px 32px rgba(0,0,0,0.4) !important; padding: 1rem 1.25rem !important; min-width: 180px !important; max-width: 240px !important; }
+    .city-tooltip::before { display: none !important; }
+    .popup-city { font-family: 'Cormorant Garamond', serif; font-size: 1rem; font-weight: 400; color: #141210; margin-bottom: 0.5rem; padding-bottom: 0.5rem; border-bottom: 1px solid #E0D9C8; }
+    .popup-role { margin-bottom: 0.4rem; }
+    .popup-title { font-size: 0.75rem; font-weight: 500; color: #3A3630; font-family: 'DM Sans', sans-serif; }
+    .popup-dates { font-size: 0.65rem; font-weight: 400; color: #1A3BD4; font-family: 'DM Sans', sans-serif; margin-top: 0.1rem; }
 
     @media (max-width: 900px) {
-      .exp-body { padding: 3rem 1.5rem 5rem; }
-      .map-section { padding: 2.5rem 1.5rem; }
-      #journey-map { height: 320px; }
+      <div style="grid-column:1/-1;font-size:0.65rem;font-weight:500;letter-spacing:0.2em;text-transform:uppercase;color:#D95A18;margin-bottom:0.5rem;">Skills &amp; Tools</div>
+      .exp-layout { grid-template-columns: 1fr; height: auto; }
+      .map-panel { height: 420px; position: relative; }
+      .timeline-panel { height: auto; overflow-y: visible; padding: 2.5rem 1.5rem 5rem; }
+      .skills-full { grid-template-columns: 1fr 1fr; padding: 2rem 1.5rem; }
     }
   </style>
 </head>
@@ -110,75 +126,141 @@
 
   <div class="page-banner">
     <p class="banner-eyebrow">Career &amp; Education</p>
-    <h1 class="banner-title">My <em>Journey</em></h1>
+    <h1 class="banner-title">Where I've <em>worked</em></h1>
   </div>
 
-  <div class="exp-body">
-    <div class="map-section">
-      <div class="map-intro">
-        <p class="section-eyebrow">Where I've been</p>
-        <h2 class="section-title">Across <em>America</em></h2>
-        <p>Click a city to see my experience there. The line traces the order of my moves.</p>
-      </div>
+  <div class="marquee-bar"><div class="marquee-track">
+    <span>Philadelphia</span><span class="hi">Penn Weitzman</span><span>New York</span><span class="hi">NYCHA</span><span>Los Angeles</span><span>Chicago</span><span class="hi">Virginia Tech</span><span>Blacksburg</span><span>Construction Engineering</span><span class="hi">Urban Research</span>
+    <span>Philadelphia</span><span class="hi">Penn Weitzman</span><span>New York</span><span class="hi">NYCHA</span><span>Los Angeles</span><span>Chicago</span><span class="hi">Virginia Tech</span><span>Blacksburg</span><span>Construction Engineering</span><span class="hi">Urban Research</span>
+  </div></div>
 
+  <div class="exp-layout">
+
+    <!-- LEFT: map -->
+    <div class="map-panel">
       <div id="journey-map"></div>
-
       <div class="map-legend">
         <div class="legend-item"><div class="legend-dot-o"></div>City</div>
-        <div class="legend-item"><div class="legend-line"></div>Journey order</div>
-        <div class="legend-item"><div class="legend-dot-c"></div>Current city</div>
+        <div class="legend-item"><div class="legend-line"></div>Journey</div>
+        <div class="legend-item"><div class="legend-dot-c"></div>Current</div>
       </div>
     </div>
 
-    <!-- TIMELINE -->
-    <div class="timeline-section">
-      <div class="timeline-header">
-        <p class="section-eyebrow">Full timeline</p>
-        <h2 class="section-title">Where I've <em>worked</em></h2>
-      </div>
+    <!-- RIGHT: timeline -->
+    <div class="timeline-panel" id="timeline-panel">
       <div class="timeline">
-        <div class="timeline-item">
-          <p class="timeline-date">2025 – Present · Philadelphia, PA</p>
-          <h3 class="timeline-role">Research Analyst</h3>
-          <p class="timeline-org">Penn Institute for Urban Research, University of Pennsylvania</p>
-          <p class="timeline-detail">Contributing to urban research initiatives including the Draw Down the Lightning grant under Dr. Eugenia Birch. Spatial and qualitative analysis in support of policy-facing research on anchor institutions and urban development.</p>
+
+        <div class="city-group" id="group-philly">
+          <p class="city-group-label current">Philadelphia, PA — Current</p>
+          <div class="timeline-item current-city" data-city="philly">
+            <p class="timeline-date">2025 – Present</p>
+            <h3 class="timeline-role">Research Analyst</h3>
+            <p class="timeline-org">Penn Institute for Urban Research, University of Pennsylvania</p>
+            <p class="timeline-detail">Contributing to urban research initiatives including the Draw Down the Lightning grant under Dr. Eugenia Birch. Spatial and qualitative analysis in support of policy-facing research on anchor institutions and urban development.</p>
+          </div>
+          <div class="timeline-item current-city" data-city="philly">
+            <p class="timeline-date">2025 – Present</p>
+            <h3 class="timeline-role">Geospatial Research Assistant</h3>
+            <p class="timeline-org">CAtRES, University of Pennsylvania (NASA-funded, Dr. Megan Ryerson)</p>
+            <p class="timeline-detail">The Center for Air Transportation Resilience (CAtRES), a NASA University Leadership Initiative. Geospatial researcher under principal investigators Dr. Megan Ryerson (UPenn) and Dr. Mark Hansen (UC Berkeley) to research flight diversion patterns.</p>
+          </div>
+          <div class="timeline-item current-city" data-city="philly">
+            <p class="timeline-date">2023 – Present</p>
+            <h3 class="timeline-role">Master of Urban Spatial Analytics (MUSA)</h3>
+            <p class="timeline-org">Weitzman School of Design, University of Pennsylvania — Expected May 2026</p>
+            <p class="timeline-detail">Coursework spanning geospatial analysis, remote sensing, and public policy. Thesis research on NLP-based neighborhood change detection using Self-Organizing Maps, advised by Prof. Elizabeth Delmelle (Penn) and Prof. Isabelle Nilsson (UNC Charlotte).</p>
+          </div>
         </div>
-        <div class="timeline-item">
-          <p class="timeline-date">2025 – Present · Philadelphia, PA</p>
-          <h3 class="timeline-role">Geospatial Research Assistant</h3>
-          <p class="timeline-org">CAtRES, University of Pennsylvania (NASA-funded, Dr. Megan Ryerson)</p>
-          <p class="timeline-detail">The Center for Air Transportation Resilience (CATRes), a NASA University Leadership Initiative (ULI). Geospatial researcher under principal investigators Dr. Megan Ryerson (UPenn) and Dr. Mark Hansen (UC Berkeley) to research flight diversion patterns. </p>
+
+        <div class="city-group" id="group-nyc">
+          <p class="city-group-label">New York, NY</p>
+          <div class="timeline-item" data-city="nyc">
+            <p class="timeline-date">2024 – 2025</p>
+            <h3 class="timeline-role">Assistant Project Manager</h3>
+            <p class="timeline-org">Fairstead — NYCHA Reid Apartments PACT Conversion</p>
+            <p class="timeline-detail">Managed occupied affordable housing renovation across a multi-building NYCHA portfolio. Coordinated subcontractors, tenant communications, phased construction, and compliance with federal and city regulatory frameworks under the PACT/RAD conversion program.</p>
+          </div>
         </div>
-        <div class="timeline-item">
-          <p class="timeline-date">2023 – Present · Philadelphia, PA</p>
-          <h3 class="timeline-role">Master of Urban Spatial Analytics (MUSA)</h3>
-          <p class="timeline-org">Weitzman School of Design, University of Pennsylvania — Expected May 2026</p>
-          <p class="timeline-detail">Coursework spanning geospatial analysis, remote sensing, and public policy. Thesis research on NLP-based neighborhood change detection using Self-Organizing Maps, advised by Prof. Elizabeth Delmelle (Penn) and Prof. Isabelle Nilsson (UNC Charlotte).</p>
+
+        <div class="city-group" id="group-la">
+          <p class="city-group-label">Los Angeles, CA</p>
+          <div class="timeline-item" data-city="la">
+            <p class="timeline-date">2023 – 2024</p>
+            <h3 class="timeline-role">Project Engineer</h3>
+            <p class="timeline-org">Hensel Phelps — Harbor-UCLA Medical Center</p>
+            <p class="timeline-detail">Engineering coordination and construction management on a major healthcare campus expansion serving majority low-income families, minorities, and the uninsured in Los Angeles County.</p>
+          </div>
         </div>
-        <div class="timeline-item">
-          <p class="timeline-date">2024 – 2025 · New York, NY</p>
-          <h3 class="timeline-role">Assistant Project Manager</h3>
-          <p class="timeline-org">Fairstead — NYCHA Reid Apartments PACT Conversion</p>
-          <p class="timeline-detail">Managed occupied affordable housing renovation across a multi-building NYCHA portfolio. Coordinated subcontractors, tenant communications, phased construction, and compliance with federal and city regulatory frameworks under the PACT/RAD conversion program.</p>
+
+        <div class="city-group" id="group-chicago">
+          <p class="city-group-label">Chicago, IL</p>
+          <div class="timeline-item" data-city="chicago">
+            <p class="timeline-date">2022 – 2023</p>
+            <h3 class="timeline-role">Project Engineer</h3>
+            <p class="timeline-org">Turner Construction — Advocate Illinois Masonic Medical Center</p>
+            <p class="timeline-detail">Construction management on major occupied hospital renovation. Coordinated complex phasing requirements to maintain full hospital operations throughout construction including structural overbuild.</p>
+          </div>
         </div>
-        <div class="timeline-item">
-          <p class="timeline-date">2023 – 2024 · Los Angeles, CA</p>
-          <h3 class="timeline-role">Project Engineer</h3>
-          <p class="timeline-org">Hensel Phelps — Harbor-UCLA Medical Center</p>
-          <p class="timeline-detail">Engineering coordination and construction management on a major healthcare campus expansion serving majority low-income families, minorities, and the uninsured in Los Angeles County</p>
+
+        <div class="city-group" id="group-blacksburg">
+          <p class="city-group-label">Blacksburg, VA</p>
+          <div class="timeline-item" data-city="blacksburg">
+            <p class="timeline-date">2018 – 2022</p>
+            <h3 class="timeline-role">B.S., Construction Engineering &amp; Management</h3>
+            <p class="timeline-org">Virginia Tech</p>
+            <p class="timeline-detail">Undergraduate degree in construction engineering and management. Foundation in civil engineering, structural systems, project controls, and construction finance.</p>
+          </div>
         </div>
-        <div class="timeline-item">
-          <p class="timeline-date">2022 – 2023 · Chicago, IL</p>
-          <h3 class="timeline-role">Project Engineer</h3>
-          <p class="timeline-org">Turner Construction — Advocate Illinois Masonic Medical Center</p>
-          <p class="timeline-detail">Construction management on major occupied hospital renovation. Coordinated complex phasing requirements to maintain full hospital operations throughout construction including structural overbuild.</p>
-        </div>
-        <div class="timeline-item">
-          <p class="timeline-date">2018 – 2022 · Blacksburg, VA</p>
-          <h3 class="timeline-role">B.S., Construction Engineering &amp; Management</h3>
-          <p class="timeline-org">Virginia Tech</p>
-          <p class="timeline-detail">Undergraduate degree in construction engineering and management. Foundation in civil engineering, structural systems, project controls, and construction finance.</p>
-        </div>
+
+      </div>
+    </div>
+  </div>
+
+<!-- Skills & Tools — full width below map + timeline -->
+  <div class="skills-full">
+    <div style="grid-column:1/-1;font-size:0.65rem;font-weight:500;letter-spacing:0.2em;text-transform:uppercase;color:#D95A18;margin-bottom:0.5rem;">Skills &amp; Tools</div>
+    <div>
+      <p class="sg-label">Spatial Analysis &amp; GIS</p>
+      <div class="tags">
+        <span class="tag">R / sf / tidyverse</span>
+        <span class="tag">Python / GeoPandas</span>
+        <span class="tag">ArcGIS Pro</span>
+        <span class="tag">QGIS</span>
+        <span class="tag">PostGIS</span>
+        <span class="tag">Google Earth Engine</span>
+      </div>
+    </div>
+    <div>
+      <p class="sg-label">Machine Learning &amp; NLP</p>
+      <div class="tags">
+        <span class="tag">Self-Organizing Maps</span>
+        <span class="tag">Sentence Embeddings</span>
+        <span class="tag">K-Means</span>
+        <span class="tag">scikit-learn</span>
+        <span class="tag">Anthropic API</span>
+      </div>
+    </div>
+    <div>
+      <p class="sg-label">Data &amp; Infrastructure</p>
+      <div class="tags">
+        <span class="tag">SQL / PostgreSQL</span>
+        <span class="tag">Docker</span>
+        <span class="tag">BigQuery</span>
+        <span class="tag">Git / GitHub</span>
+        <span class="tag">Census / ACS</span>
+      </div>
+    </div>
+    <div>
+      <p class="sg-label">Visualization &amp; Communication</p>
+      <div class="tags">
+        <span class="tag">JavaScript</span>
+        <span class="tag">ggplot2</span>
+        <span class="tag">Mapbox</span>
+        <span class="tag">Public Speaking</span>
+        <span class="tag">Policy Memos</span>
+        <span class="tag">CARTO</span>
+        <span class="tag">Plotly</span>
+        <span class="tag">HTML / CSS</span>
       </div>
     </div>
   </div>
@@ -187,192 +269,75 @@
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
   <script>
-    // City data in chronological order
     const cities = [
-      {
-        name: 'Blacksburg, VA',
-        lat: 37.2296, lng: -80.4139,
-        current: false,
-        roles: [
-          { title: 'B.S., Construction Engineering & Management', org: 'Virginia Tech', dates: '2018 – 2022' }
-        ]
-      },
-      {
-        name: 'Chicago, IL',
-        lat: 41.8781, lng: -87.6298,
-        current: false,
-        roles: [
-          { title: 'Project Engineer', org: 'Turner Construction — Advocate Illinois Masonic Medical Center', dates: '2022 – 2023' }
-        ]
-      },
-      {
-        name: 'Los Angeles, CA',
-        lat: 34.0522, lng: -118.2437,
-        current: false,
-        roles: [
-          { title: 'Project Engineer', org: 'Hensel Phelps — Harbor-UCLA Medical Center', dates: '2023 – 2024' }
-        ]
-      },
-      {
-        name: 'New York, NY',
-        lat: 40.7128, lng: -74.0060,
-        current: false,
-        roles: [
-          { title: 'Project Manager', org: 'Fairstead — NYCHA Reid Apartments PACT/RAD Conversion', dates: '2024 – 2025' }
-        ]
-      },
-      {
-        name: 'Philadelphia, PA',
-        lat: 39.9526, lng: -75.1652,
-        current: true,
-        roles: [
-          { title: 'Master of Urban Spatial Analytics (MUSA)', org: 'Penn Weitzman School of Design', dates: '2023 – Present' },
-          { title: 'Research Analyst', org: 'Penn Institute for Urban Research', dates: '2025 – Present' },
-          { title: 'Geospatial Research Assistant', org: 'CAtRES, Penn (NASA-funded)', dates: '2025 – Present' }
-        ]
-      }
+      { id:'blacksburg', name:'Blacksburg, VA', lat:37.2296, lng:-80.4139, current:false, roles:[{title:'B.S., Construction Engineering & Management',org:'Virginia Tech',dates:'2018 – 2022'}] },
+      { id:'chicago',    name:'Chicago, IL',    lat:41.8781, lng:-87.6298, current:false, roles:[{title:'Project Engineer',org:'Turner Construction — Advocate Illinois Masonic',dates:'2022 – 2023'}] },
+      { id:'la',         name:'Los Angeles, CA',lat:34.0522, lng:-118.2437,current:false, roles:[{title:'Project Engineer',org:'Hensel Phelps — Harbor-UCLA Medical Center',dates:'2023 – 2024'}] },
+      { id:'nyc',        name:'New York, NY',   lat:40.7128, lng:-74.0060, current:false, roles:[{title:'Assistant Project Manager',org:'Fairstead — NYCHA Reid Apartments PACT',dates:'2024 – 2025'}] },
+      { id:'philly',     name:'Philadelphia, PA',lat:39.9526,lng:-75.1652, current:true,  roles:[{title:'Master of Urban Spatial Analytics',org:'Penn Weitzman',dates:'2023–Present'},{title:'Research Analyst',org:'Penn IUR',dates:'2025–Present'},{title:'Geospatial Research Assistant',org:'CAtRES, Penn',dates:'2025–Present'}] }
     ];
 
-    // Initialize map centered on US
     const map = L.map('journey-map', {
-      center: [39.5, -96],
-      zoom: 4,
-      zoomControl: false,
-      scrollWheelZoom: false,
-      doubleClickZoom: false,
-      dragging: false,
-      touchZoom: false,
-      boxZoom: false,
-      keyboard: false,
-      attributionControl: false
+      center:[39.5,-96], zoom:4,
+      zoomControl:false, scrollWheelZoom:false, doubleClickZoom:false,
+      dragging:false, touchZoom:false, boxZoom:false, keyboard:false, attributionControl:false
     });
 
-    // Dark tile layer — CartoDB Dark Matter
     L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
-      maxZoom: 10,
-      minZoom: 3,
-      subdomains: 'abcd'
+      maxZoom:10, minZoom:3, subdomains:'abcd'
     }).addTo(map);
 
-    // Custom marker icons
     function makeIcon(current) {
       return L.divIcon({
         className: '',
-        html: `<div style="
-          width: ${current ? '16px' : '13px'};
-          height: ${current ? '16px' : '13px'};
-          border-radius: 50%;
-          background: ${current ? '#2E52E8' : '#C4782A'};
-          border: 2.5px solid ${current ? 'rgba(196,212,250,0.7)' : 'rgba(230,215,185,0.5)'};
-          box-shadow: 0 0 ${current ? '12px rgba(46,82,232,0.5)' : '8px rgba(196,120,42,0.4)'};
-          position: relative;
-        ">
-          ${current ? '' : `<div style="
-            position: absolute;
-            top: 50%; left: 50%;
-            transform: translate(-50%,-50%);
-            width: 30px; height: 30px;
-            border-radius: 50%;
-            background: rgba(196,120,42,0.15);
-            animation: pulse 2.5s ease-out infinite;
-          "></div>`}
+        html: `<div style="width:${current?'16px':'13px'};height:${current?'16px':'13px'};border-radius:50%;background:${current?'#2E52E8':'#C4782A'};border:2.5px solid ${current?'rgba(196,212,250,0.7)':'rgba(230,215,185,0.5)'};box-shadow:0 0 ${current?'12px rgba(46,82,232,0.5)':'8px rgba(196,120,42,0.4)'};position:relative;cursor:pointer;">
+          <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:30px;height:30px;border-radius:50%;background:${current?'rgba(46,82,232,0.15)':'rgba(196,120,42,0.15)'};animation:pulse 2.5s ease-out infinite;"></div>
         </div>`,
-        iconSize: [current ? 16 : 13, current ? 16 : 13],
-        iconAnchor: [current ? 8 : 6, current ? 8 : 6],
-        popupAnchor: [0, -12]
+        iconSize:[current?16:13,current?16:13],
+        iconAnchor:[current?8:6,current?8:6],
+        popupAnchor:[0,-12]
       });
     }
 
-    // Add markers with hover tooltips
     cities.forEach(city => {
-      const tooltipContent = `
-        <div class="popup-city">${city.name}${city.current ? ' ★' : ''}</div>
-        ${city.roles.map(r => `
-          <div class="popup-role">
-            <div class="popup-title">${r.title}</div>
-            <div class="popup-org">${r.org}</div>
-            <div class="popup-dates">${r.dates}</div>
-          </div>
-        `).join('')}
-      `;
-
-      const marker = L.marker([city.lat, city.lng], { icon: makeIcon(city.current) })
-        .addTo(map)
-        .bindTooltip(tooltipContent, {
-          permanent: false,
-          direction: 'top',
-          offset: [0, -10],
-          opacity: 1,
-          className: 'city-tooltip'
+      const tip = `<div class="popup-city">${city.name}${city.current?' ★':''}</div>${city.roles.map(r=>`<div class="popup-role"><div class="popup-title">${r.title}</div><div class="popup-dates">${r.dates}</div></div>`).join('')}`;
+      const marker = L.marker([city.lat,city.lng],{icon:makeIcon(city.current)}).addTo(map)
+        .bindTooltip(tip,{permanent:false,direction:'top',offset:[0,-10],opacity:1,className:'city-tooltip'});
+      marker.on('mouseover',function(){this.openTooltip();});
+      marker.on('mouseout',function(){this.closeTooltip();});
+      marker.on('click', function() {
+        const group = document.getElementById('group-'+city.id);
+        const panel = document.getElementById('timeline-panel');
+        if (!group || !panel) return;
+        panel.scrollTo({ top: group.offsetTop - 32, behavior: 'smooth' });
+        group.querySelectorAll('.timeline-item').forEach(item => {
+          item.classList.remove('flash');
+          void item.offsetWidth;
+          item.classList.add('flash');
+          setTimeout(() => item.classList.remove('flash'), 1800);
         });
-
-      marker.on('mouseover', function() { this.openTooltip(); });
-      marker.on('mouseout', function() { this.closeTooltip(); });
+      });
     });
 
-    // Animate journey line city by city
-    const latlngs = cities.map(c => [c.lat, c.lng]);
-    const fullLine = L.polyline(latlngs, {
-      color: '#C4782A',
-      weight: 2,
-      opacity: 0,
-      smoothFactor: 1
-    }).addTo(map);
-
-    // Draw line segment by segment with animation
-    let currentPoints = [latlngs[0]];
-    let segmentIndex = 0;
-    const totalSegments = latlngs.length - 1;
-
-    function animateNextSegment() {
-      if (segmentIndex >= totalSegments) return;
-
-      const start = latlngs[segmentIndex];
-      const end   = latlngs[segmentIndex + 1];
-      const steps = 40;
-      let step = 0;
-
-      const interval = setInterval(() => {
-        step++;
-        const t = step / steps;
-        const lat = start[0] + (end[0] - start[0]) * t;
-        const lng = start[1] + (end[1] - start[1]) * t;
-        currentPoints.push([lat, lng]);
-
-        // Redraw line
-        map.eachLayer(layer => {
-          if (layer instanceof L.Polyline && layer !== fullLine) map.removeLayer(layer);
-        });
-
-        L.polyline(currentPoints, {
-          color: '#C4782A',
-          weight: 2,
-          opacity: 0.7,
-          smoothFactor: 1
-        }).addTo(map);
-
-        if (step >= steps) {
-          clearInterval(interval);
-          currentPoints = [...currentPoints];
-          segmentIndex++;
-          setTimeout(animateNextSegment, 200);
-        }
-      }, 18);
+    const latlngs = cities.map(c=>[c.lat,c.lng]);
+    const ghost = L.polyline(latlngs,{color:'#C4782A',weight:2,opacity:0}).addTo(map);
+    let pts=[latlngs[0]], seg=0;
+    function animSeg() {
+      if (seg>=latlngs.length-1) return;
+      const s=latlngs[seg], e=latlngs[seg+1], steps=40; let i=0;
+      const iv=setInterval(()=>{
+        i++; const t=i/steps;
+        pts.push([s[0]+(e[0]-s[0])*t, s[1]+(e[1]-s[1])*t]);
+        map.eachLayer(l=>{if(l instanceof L.Polyline&&l!==ghost)map.removeLayer(l);});
+        L.polyline(pts,{color:'#C4782A',weight:2,opacity:0.7}).addTo(map);
+        if(i>=steps){clearInterval(iv);seg++;setTimeout(animSeg,200);}
+      },18);
     }
+    setTimeout(animSeg,800);
 
-    // Start animation after short delay
-    setTimeout(animateNextSegment, 800);
-
-    // Add pulse CSS for markers
-    const style = document.createElement('style');
-    style.textContent = `
-      @keyframes pulse {
-        0%   { opacity: 0.6; transform: translate(-50%,-50%) scale(1); }
-        70%  { opacity: 0;   transform: translate(-50%,-50%) scale(2.5); }
-        100% { opacity: 0;   transform: translate(-50%,-50%) scale(2.5); }
-      }
-    `;
-    document.head.appendChild(style);
+    const st=document.createElement('style');
+    st.textContent=`@keyframes pulse{0%{opacity:.6;transform:translate(-50%,-50%) scale(1);}70%{opacity:0;transform:translate(-50%,-50%) scale(2.5);}100%{opacity:0;transform:translate(-50%,-50%) scale(2.5);}}`;
+    document.head.appendChild(st);
   </script>
 </body>
 </html>
