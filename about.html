@@ -17,8 +17,6 @@
     }
 
     /* ─── Story column ─────────────────────────── */
-    .story-col { }
-
     .story-col p {
       font-size: 1.02rem; font-weight: 300; line-height: 1.88;
       color: var(--ink-soft); margin-bottom: 1.5rem;
@@ -31,19 +29,19 @@
       color: var(--cobalt, #1A3BD4);
       font-size: 1.4rem;
       font-weight: 300;
-      line-height: 1.88;
-      margin-top: 0.2rem;
+      line-height: 1.6;
+      margin: 1.6rem 0;
     }
 
     /* ─── Collage column ───────────────────────── */
-    .collage-col {
-      position: relative;
-      min-height: 920px;
-    }
+      .collage-col {
+        position: relative;
+        min-height: 780px;
+      }
 
     .photo-card {
       position: absolute;
-      width: 32%;
+      width: 30%;
       background: #fff;
       padding: 8px 8px 34px;
       box-shadow: 0 5px 20px rgba(0,0,0,0.11);
@@ -53,8 +51,7 @@
       border: 1px solid rgba(0,0,0,0.06);
     }
 
-    /* 3 loose columns ~0%, 34%, 67%
-       Each card nudged a bit off its row so they graze each other */
+    /* 3 loose columns, minimal haphazard overlap */
     .photo-card:nth-child(1)  { top:   0px; left:  0%;   transform: rotate(-2.1deg); z-index: 2; }
     .photo-card:nth-child(2)  { top:  18px; left: 34%;   transform: rotate(1.5deg);  }
     .photo-card:nth-child(3)  { top:   8px; left: 67%;   transform: rotate(2.8deg);  z-index: 2; }
@@ -67,8 +64,9 @@
     .photo-card:nth-child(8)  { top: 408px; left: 34%;   transform: rotate(2.4deg);  }
     .photo-card:nth-child(9)  { top: 430px; left: 67%;   transform: rotate(-3deg);   z-index: 2; }
 
-    .photo-card:nth-child(10) { top: 630px; left: 17%;   transform: rotate(1.6deg);  z-index: 2; }
-
+    .photo-card:nth-child(10) { top: 630px; left: 17%;  transform: rotate(1.6deg);  z-index: 2; }
+    .photo-card:nth-child(11) { top: 648px; left: 51%;  transform: rotate(-2.2deg); }
+    
     .photo-card:hover {
       z-index: 10 !important;
       box-shadow: 0 16px 48px rgba(0,0,0,0.20);
@@ -84,7 +82,7 @@
     .photo-card .card-stub {
       position: absolute;
       bottom: 0; left: 0; right: 0;
-      height: 38px;
+      height: 34px;
       display: flex; align-items: center;
       padding: 0 10px;
     }
@@ -101,8 +99,8 @@
 
     .photo-caption {
       position: absolute;
-      top: 9px; left: 9px; right: 9px;
-      bottom: 38px;
+      top: 8px; left: 8px; right: 8px;
+      bottom: 34px;
       background: rgba(20,18,16,0.80);
       display: flex; align-items: flex-end;
       padding: 14px;
@@ -186,7 +184,6 @@
       .stat-cell:nth-child(2) { border-right: none; }
       .stat-cell:nth-child(3) { border-right: 1px solid var(--cream-dark); }
       .values-grid { grid-template-columns: 1fr; }
-
       .collage-col { min-height: 0; position: static; display: flex; flex-direction: column; gap: 1.5rem; }
       .photo-card { position: static !important; transform: none !important; width: 100%; }
       .photo-card:hover { transform: scale(1.02) !important; }
@@ -231,7 +228,7 @@
         <p><em class="pull-line">I could only build what had already been decided.</em></p>
         <p>That pushed me to start doing my own research to understand how construction projects transform neighborhoods and who gets pushed out in the process.</p>
         <p>That's what brought me to Penn. At Weitzman I've been learning how to ask better questions about cities using data. I've had the opportunity to work with amazing researchers and present my own work at the Association of American Geographers conference in San Francisco. The methods are different than they used to be but the goal is the same one I've been working toward since those weekends in DC.</p>
-        <p>I am committed to working in spaces where research reaches the people who need it most.
+        <p>I am committed to working in spaces where research reaches the people who need it most.</p>
       </div>
 
       <!-- RIGHT: collage -->
@@ -250,21 +247,9 @@
         </div>
 
         <div class="photo-card">
-          <img src="images/about/chicago_clouds.jpeg" alt="Chicago clouds">
-          <div class="photo-caption"><p>These mammatus formations are rare and a little ominous.</p></div>
-          <div class="card-stub"><span>Chicago, IL</span></div>
-        </div>
-
-        <div class="photo-card">
           <img src="images/about/hp_bootcamp.jpeg" alt="Field engineer at Hensel Phelps">
           <div class="photo-caption"><p>Using my highly developed engineering skills to stand on a concrete block with a level.</p></div>
-          <div class="card-stub"><span>Hensel Phelps</span></div>
-        </div>
-
-        <div class="photo-card">
-          <img src="images/about/hendrix_construction.jpeg" alt="Hendrix in construction gear">
-          <div class="photo-caption"><p>Hendrix dressed as a construction engineer! Like mother, like son.</p></div>
-          <div class="card-stub"><span>Hendrix, on the job</span></div>
+          <div class="card-stub"><span>Hensel Phelps Bootcamp</span></div>
         </div>
 
         <div class="photo-card">
@@ -277,6 +262,18 @@
           <img src="images/about/penn_football.jpeg" alt="Penn football game">
           <div class="photo-caption"><p>The day I learned the toasting tradition!</p></div>
           <div class="card-stub"><span>Franklin Field</span></div>
+        </div>
+
+        <div class="photo-card">
+          <img src="images/about/hp_hucla.jpeg" alt="Hensel Phelps on Site">
+          <div class="photo-caption"><p>Structural engineering in action!</p></div>
+          <div class="card-stub"><span>Hensel Phelps</span></div>
+        </div>
+
+        <div class="photo-card">
+          <img src="images/about/hendrix_construction.jpeg" alt="Hendrix in construction gear">
+          <div class="photo-caption"><p>Hendrix dressed as a construction engineer! Like mother, like son.</p></div>
+          <div class="card-stub"><span>Hendrix, on the job</span></div>
         </div>
 
         <div class="photo-card">
@@ -295,6 +292,12 @@
           <img src="images/about/fairstead_walk.jpeg" alt="Exterior walkthrough at Fairstead">
           <div class="photo-caption"><p>The vestibule went in first for security, then we started on the facade. This was us on our way to an interior walkthrough here.</p></div>
           <div class="card-stub"><span>Fairstead, Brooklyn</span></div>
+        </div>
+
+        <div class="photo-card">
+          <img src="images/about/chicago_clouds.jpeg" alt="Chicago clouds">
+          <div class="photo-caption"><p>These mammatus formations are rare and a little ominous.</p></div>
+          <div class="card-stub"><span>Chicago, IL</span></div>
         </div>
 
       </div><!-- /collage-col -->
