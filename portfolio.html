@@ -596,7 +596,7 @@
         const linkEl = document.getElementById('modal-link');
         if (p.link) {
           linkEl.href = p.link;
-          linkEl.target = p.link.startsWith('http') ? '_blank' : '_self';
+          linkEl.target = p.link.startsWith('http') ? '_blank' : '_blank';
           linkEl.style.display = 'inline-block';
         } else {
           linkEl.style.display = 'none';
