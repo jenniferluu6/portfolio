@@ -1,71 +1,349 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Inspiration — Jun Luu</title>
-  <link rel="stylesheet" href="shared_v4.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
   <style>
-    .inspo-body { padding: 3.5rem 4rem 7rem; }
+    :root {
+      --forest:     #1A2E1E;
+      --orange:     #D95A18;
+      --cream:      #F8F4EC;
+      --cream-dark: #E0D9C8;
+      --ink:        #141210;
+      --ink-soft:   #3A3630;
+      --ink-muted:  #7A7468;
+    }
 
-    .filter-bar { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 3rem; padding-bottom: 2rem; border-bottom: 1px solid var(--cream-dark); }
-    .filter-btn { padding: 0.4rem 1rem; font-size: 0.7rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; background: transparent; border: 1px solid var(--cream-dark); color: var(--ink-muted); cursor: pointer; transition: all 0.2s; font-family: 'DM Sans', sans-serif; }
-    .filter-btn:hover { border-color: var(--cobalt); color: var(--cobalt); }
-    .filter-btn.active { background: var(--ink); border-color: var(--ink); color: white; }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-    .masonry { columns: 4; column-gap: 12px; }
-    .masonry-item { break-inside: avoid; margin-bottom: 12px; cursor: pointer; position: relative; }
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: white;
+      color: var(--ink);
+      overflow-x: hidden;
+    }
+
+    /* NAV */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 28px 52px;
+      background: rgba(255,255,255,0.88);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+    }
+
+    .nav-logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 14px; font-weight: 400;
+      letter-spacing: 0.24em; text-transform: uppercase;
+      color: var(--forest); text-decoration: none;
+    }
+
+    .nav-links { display: flex; gap: 36px; list-style: none; }
+
+    .nav-links a {
+      font-size: 10px; font-weight: 500;
+      letter-spacing: 0.15em; text-transform: uppercase;
+      color: var(--ink-muted); text-decoration: none;
+      transition: color 0.2s; position: relative;
+    }
+    .nav-links a::after {
+      content: '';
+      position: absolute; bottom: -3px; left: 0; right: 0;
+      height: 1px; background: var(--orange);
+      transform: scaleX(0); transform-origin: left;
+      transition: transform 0.25s ease;
+    }
+    .nav-links a:hover { color: var(--ink); }
+    .nav-links a:hover::after { transform: scaleX(1); }
+    .nav-links a.active { color: var(--ink); }
+    .nav-links a.active::after { transform: scaleX(1); }
+
+    /* PAGE HEADER */
+    .page-header {
+      padding: 148px 52px 40px;
+    }
+
+    .page-eyebrow {
+      font-size: 10px; font-weight: 500;
+      letter-spacing: 0.28em; text-transform: uppercase;
+      color: var(--orange); margin-bottom: 16px;
+    }
+
+    .page-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(56px, 7vw, 90px);
+      font-weight: 300; line-height: 0.9;
+      color: var(--forest);
+    }
+
+    /* FILTER BAR */
+    .filter-bar {
+      display: flex; gap: 8px; flex-wrap: wrap;
+      padding: 32px 52px 40px;
+    }
+
+    .filter-btn {
+      padding: 6px 16px;
+      font-size: 9px; font-weight: 500;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      background: white;
+      border: 1px solid var(--cream-dark);
+      color: var(--ink-muted);
+      cursor: pointer;
+      transition: all 0.2s;
+      font-family: 'DM Sans', sans-serif;
+      border-radius: 999px;
+    }
+    .filter-btn:hover {
+      border-color: var(--ink);
+      color: var(--ink);
+    }
+    .filter-btn.active {
+      background: var(--ink);
+      border-color: var(--ink);
+      color: white;
+    }
+
+    /* MASONRY */
+    .masonry-wrap { padding: 0 52px 80px; }
+
+    .masonry {
+      columns: 4;
+      column-gap: 14px;
+    }
+
+    .masonry-item {
+      break-inside: avoid;
+      margin-bottom: 14px;
+      cursor: pointer;
+      position: relative;
+    }
     .masonry-item.hidden { display: none; }
 
-    /* Image card */
-    .img-card { position: relative; overflow: hidden; background: var(--cream-mid); }
-    .img-card img { display: block; width: 100%; height: auto; object-fit: cover; }
+    /* IMAGE CARDS */
+    .img-card {
+      position: relative;
+      overflow: hidden;
+      border-radius: 16px;
+      background: var(--cream);
+    }
+    .img-card img {
+      display: block; width: 100%; height: auto;
+      object-fit: cover;
+      transition: transform 0.4s ease;
+    }
+    .masonry-item:hover .img-card img { transform: scale(1.04); }
+
     .img-card-overlay {
       position: absolute; inset: 0;
       background: rgba(20,18,16,0);
       display: flex; flex-direction: column;
       justify-content: flex-end;
-      padding: 1rem;
+      padding: 14px;
       transition: background 0.28s;
+      border-radius: 16px;
     }
-    .masonry-item:hover .img-card-overlay { background: rgba(20,18,16,0.7); }
-    .img-card-meta { opacity: 0; transform: translateY(6px); transition: opacity 0.28s, transform 0.28s; }
+    .masonry-item:hover .img-card-overlay { background: rgba(20,18,16,0.55); }
+
+    .img-card-meta {
+      opacity: 0; transform: translateY(5px);
+      transition: opacity 0.28s, transform 0.28s;
+    }
     .masonry-item:hover .img-card-meta { opacity: 1; transform: translateY(0); }
+
     .img-card-creator {
       font-family: 'Cormorant Garamond', serif;
-      font-size: 1rem; font-weight: 400; font-style: italic;
-      color: white; line-height: 1.3; margin-bottom: 0.15rem;
+      font-size: 0.95rem; font-weight: 400;
+      color: white; line-height: 1.3; margin-bottom: 2px;
     }
     .img-card-label {
-      font-size: 0.58rem; font-weight: 500; letter-spacing: 0.14em;
-      text-transform: uppercase; color: rgba(255,255,255,0.5);
+      font-size: 9px; font-weight: 500;
+      letter-spacing: 0.14em; text-transform: uppercase;
+      color: rgba(255,255,255,0.55);
     }
 
-    /* Paper card */
-    .paper-card { background: var(--white); border: 1px solid var(--cream-dark); padding: 1.5rem; transition: border-color 0.2s, box-shadow 0.2s; text-decoration: none; display: block; }
-    .paper-card:hover { border-color: var(--cobalt); box-shadow: 0 4px 16px rgba(26,59,212,0.08); }
-    .paper-card-color-bar { height: 3px; margin: -1.5rem -1.5rem 1.25rem; }
-    .paper-type { font-size: 0.58rem; font-weight: 500; letter-spacing: 0.16em; text-transform: uppercase; color: var(--ink-muted); margin-bottom: 0.3rem; }
-    .paper-journal { font-size: 0.62rem; font-weight: 400; letter-spacing: 0.08em; color: var(--ink-muted); margin-bottom: 0.5rem; }
-    .paper-title { font-family: 'Cormorant Garamond', serif; font-size: 1.05rem; font-weight: 400; color: var(--ink); line-height: 1.35; margin-bottom: 0.5rem; }
-    .paper-authors { font-size: 0.75rem; font-weight: 300; color: var(--ink-muted); margin-bottom: 0.6rem; }
-    .paper-note { font-size: 0.8rem; font-weight: 300; line-height: 1.65; color: var(--ink-soft); border-top: 1px solid var(--cream-dark); padding-top: 0.75rem; margin-top: 0.6rem; }
-    .paper-note::before { content: '\201C\00A0'; color: var(--cobalt); font-family: 'Cormorant Garamond', serif; font-size: 1.2rem; font-style: italic; }
-    .paper-link-label { display: inline-block; margin-top: 0.75rem; font-size: 0.65rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--cobalt); }
+    /* PAPER CARDS */
+    .paper-card {
+      background: white;
+      border: 1px solid var(--cream-dark);
+      padding: 1.25rem;
+      border-radius: 16px;
+      text-decoration: none; display: block;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .paper-card:hover {
+      border-color: var(--forest);
+      box-shadow: 0 4px 20px rgba(26,46,30,0.08);
+    }
+    .paper-accent {
+      width: 28px; height: 3px;
+      border-radius: 2px;
+      margin-bottom: 12px;
+    }
+    .paper-type {
+      font-size: 9px; font-weight: 500;
+      letter-spacing: 0.16em; text-transform: uppercase;
+      color: var(--ink-muted); margin-bottom: 4px;
+    }
+    .paper-journal {
+      font-size: 9px; font-weight: 400;
+      color: var(--ink-muted); margin-bottom: 6px;
+    }
+    .paper-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1rem; font-weight: 400;
+      color: var(--ink); line-height: 1.35; margin-bottom: 5px;
+    }
+    .paper-authors {
+      font-size: 0.72rem; font-weight: 300;
+      color: var(--ink-muted); margin-bottom: 8px;
+    }
+    .paper-note {
+      font-size: 0.78rem; font-weight: 300;
+      line-height: 1.65; color: var(--ink-soft);
+      border-top: 1px solid var(--cream-dark);
+      padding-top: 8px; margin-top: 6px;
+    }
+    .paper-link-label {
+      display: inline-block; margin-top: 8px;
+      font-size: 9px; font-weight: 500;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--forest);
+    }
 
-    /* Link / talk / website card */
-    .link-card { background: var(--white); border: 1px solid var(--cream-dark); padding: 1.5rem; transition: border-color 0.2s; text-decoration: none; display: block; }
-    .link-card:hover { border-color: var(--green); }
-    .link-card-color-bar { height: 3px; margin: -1.5rem -1.5rem 1.25rem; }
-    .link-type { font-size: 0.58rem; font-weight: 500; letter-spacing: 0.16em; text-transform: uppercase; color: var(--ink-muted); margin-bottom: 0.5rem; }
-    .link-title { font-family: 'Cormorant Garamond', serif; font-size: 1.05rem; font-weight: 400; color: var(--ink); line-height: 1.35; margin-bottom: 0.5rem; }
-    .link-sub { font-size: 0.8rem; font-weight: 300; color: var(--ink-soft); line-height: 1.65; }
-    .link-cta { display: inline-block; margin-top: 0.75rem; font-size: 0.65rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--green); }
+    /* LINK CARDS */
+    .link-card {
+      background: white;
+      border: 1px solid var(--cream-dark);
+      padding: 1.25rem;
+      border-radius: 16px;
+      text-decoration: none; display: block;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .link-card:hover {
+      border-color: var(--orange);
+      box-shadow: 0 4px 20px rgba(217,90,24,0.08);
+    }
+    .link-accent {
+      width: 28px; height: 3px;
+      border-radius: 2px;
+      margin-bottom: 12px;
+    }
+    .link-type {
+      font-size: 9px; font-weight: 500;
+      letter-spacing: 0.16em; text-transform: uppercase;
+      color: var(--ink-muted); margin-bottom: 6px;
+    }
+    .link-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1rem; font-weight: 400;
+      color: var(--ink); line-height: 1.35; margin-bottom: 6px;
+    }
+    .link-sub {
+      font-size: 0.78rem; font-weight: 300;
+      color: var(--ink-soft); line-height: 1.65;
+    }
+    .link-cta {
+      display: inline-block; margin-top: 8px;
+      font-size: 9px; font-weight: 500;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--orange);
+    }
 
+    /* LIGHTBOX */
+    .lightbox {
+      position: fixed; inset: 0;
+      background: rgba(20,18,16,0.92);
+      z-index: 500;
+      display: flex; align-items: center; justify-content: center;
+      padding: 32px;
+      opacity: 0; pointer-events: none;
+      transition: opacity 0.3s;
+    }
+    .lightbox.open { opacity: 1; pointer-events: all; }
+
+    .lightbox-inner {
+      position: relative;
+      max-width: 880px; width: 100%;
+      transform: scale(0.95);
+      transition: transform 0.3s;
+    }
+    .lightbox.open .lightbox-inner { transform: scale(1); }
+
+    .lightbox-img {
+      width: 100%; height: auto;
+      display: block;
+      border-radius: 16px;
+      max-height: 82vh;
+      object-fit: contain;
+    }
+
+    .lightbox-caption {
+      margin-top: 14px;
+      display: flex; justify-content: space-between; align-items: flex-end;
+    }
+    .lightbox-creator {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.1rem; font-weight: 300;
+      color: rgba(248,244,236,0.85);
+    }
+    .lightbox-tag {
+      font-size: 9px; font-weight: 500;
+      letter-spacing: 0.14em; text-transform: uppercase;
+      color: rgba(248,244,236,0.35);
+    }
+
+    .lightbox-close {
+      position: absolute; top: -14px; right: -14px;
+      width: 36px; height: 36px; border-radius: 50%;
+      background: white; border: none; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 14px; color: var(--ink);
+      transition: background 0.2s;
+    }
+    .lightbox-close:hover { background: var(--orange); color: white; }
+
+    /* FOOTER */
+    footer {
+      background: var(--forest);
+      padding: 14px 52px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    footer p, footer a {
+      font-size: 9px; font-weight: 400;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      color: rgba(214,228,216,0.3);
+      text-decoration: none; transition: color 0.2s;
+    }
+    footer a:hover { color: rgba(214,228,216,0.7); }
+
+    /* RESPONSIVE */
     @media (max-width: 1100px) { .masonry { columns: 3; } }
-    @media (max-width: 700px) { .masonry { columns: 2; } .inspo-body { padding: 2.5rem 1.5rem 5rem; } }
+    @media (max-width: 700px) {
+      nav { padding: 20px 24px; }
+      .nav-links { gap: 18px; }
+      .page-header { padding: 120px 24px 32px; }
+      .filter-bar { padding: 24px 24px 32px; }
+      .masonry-wrap { padding: 0 24px 64px; }
+      .masonry { columns: 2; }
+      footer { padding: 14px 24px; flex-direction: column; gap: 6px; text-align: center; }
+    }
   </style>
 </head>
 <body>
+
   <nav>
     <a href="index.html" class="nav-logo">JL</a>
     <ul class="nav-links">
@@ -73,30 +351,29 @@
       <li><a href="portfolio.html">Portfolio</a></li>
       <li><a href="experience.html">Experience</a></li>
       <li><a href="inspiration.html" class="active">Inspiration</a></li>
-      <li><a href="contact.html">Contact</a></li>
+      <li><a href="cv_jluu.html">CV</a></li>
     </ul>
   </nav>
 
-  <div class="page-banner">
-    <p class="banner-eyebrow">What's been making me think lately</p>
-    <h1 class="banner-title">Inspiration</em></h1>
+  <div class="page-header">
+    <p class="page-eyebrow">What's been making me think lately</p>
+    <h1 class="page-title">Inspiration</h1>
   </div>
 
-  <div class="inspo-body">
-    <div class="filter-bar">
-      <button class="filter-btn active" data-filter="all">All</button>
-      <button class="filter-btn" data-filter="art">Art &amp; Illustration</button>
-      <button class="filter-btn" data-filter="urban">Urban / City</button>
-      <button class="filter-btn" data-filter="nature">Nature</button>
-      <button class="filter-btn" data-filter="paper">Papers</button>
-      <button class="filter-btn" data-filter="design">Design</button>
-      <button class="filter-btn" data-filter="talk">Talks &amp; Websites</button>
-    </div>
+  <div class="filter-bar">
+    <button class="filter-btn active" data-filter="all">All</button>
+    <button class="filter-btn" data-filter="art">Art &amp; Illustration</button>
+    <button class="filter-btn" data-filter="urban">Urban / City</button>
+    <button class="filter-btn" data-filter="nature">Nature</button>
+    <button class="filter-btn" data-filter="paper">Papers</button>
+    <button class="filter-btn" data-filter="design">Design</button>
+    <button class="filter-btn" data-filter="talk">Talks &amp; Websites</button>
+  </div>
 
+  <div class="masonry-wrap">
     <div class="masonry" id="masonry">
 
-      <!-- antonio-mohd.jpg -->
-      <div class="masonry-item" data-tags="design">
+      <div class="masonry-item" data-tags="design" data-img="images/antonio-mohd.jpg" data-creator="Antonio Mohd" data-label="Design">
         <div class="img-card">
           <img src="images/antonio-mohd.jpg" alt="Antonio Mohd">
           <div class="img-card-overlay"><div class="img-card-meta">
@@ -106,10 +383,9 @@
         </div>
       </div>
 
-      <!-- PAPER: Adu & Delmelle 2022 -->
       <div class="masonry-item" data-tags="paper">
         <a class="paper-card" href="https://www.researchgate.net/publication/358662020_Spatial_Variations_in_Exclusionary_Criteria_from_Online_Rental_Advertisements" target="_blank">
-          <div class="paper-card-color-bar" style="background:var(--cobalt)"></div>
+          <div class="paper-accent" style="background:#1A2E1E"></div>
           <p class="paper-type">Research Paper</p>
           <p class="paper-journal">The Professional Geographer · 2022</p>
           <p class="paper-title">Spatial Variations in Exclusionary Criteria from Online Rental Advertisements</p>
@@ -119,8 +395,7 @@
         </a>
       </div>
 
-      <!-- Christopher-John-Rogers.jpg -->
-      <div class="masonry-item" data-tags="design">
+      <div class="masonry-item" data-tags="design" data-img="images/Christopher-John-Rogers.jpg" data-creator="Christopher John Rogers" data-label="Fashion">
         <div class="img-card">
           <img src="images/Christopher-John-Rogers.jpg" alt="Christopher John Rogers">
           <div class="img-card-overlay"><div class="img-card-meta">
@@ -130,8 +405,7 @@
         </div>
       </div>
 
-      <!-- Gizem-Akdag.webp -->
-      <div class="masonry-item" data-tags="art nature">
+      <div class="masonry-item" data-tags="art nature" data-img="images/Gizem-Akdağ.webp" data-creator="Gizem Akdağ" data-label="Art &amp; Illustration">
         <div class="img-card">
           <img src="images/Gizem-Akdağ.webp" alt="Gizem Akdağ">
           <div class="img-card-overlay"><div class="img-card-meta">
@@ -141,8 +415,7 @@
         </div>
       </div>
 
-      <!-- andrew-kudless.jpg -->
-      <div class="masonry-item" data-tags=" design urban">
+      <div class="masonry-item" data-tags="design urban" data-img="images/andrew-kudless.jpg" data-creator="Andrew Kudless" data-label="Design">
         <div class="img-card">
           <img src="images/andrew-kudless.jpg" alt="Andrew Kudless">
           <div class="img-card-overlay"><div class="img-card-meta">
@@ -152,10 +425,9 @@
         </div>
       </div>
 
-      <!-- PAPER: Delmelle 2022 -->
       <div class="masonry-item" data-tags="paper">
         <a class="paper-card" href="https://www.researchgate.net/publication/356345529_GIScience_and_neighborhood_change_Toward_an_understanding_of_processes_of_change" target="_blank">
-          <div class="paper-card-color-bar" style="background:var(--green)"></div>
+          <div class="paper-accent" style="background:#D95A18"></div>
           <p class="paper-type">Research Paper</p>
           <p class="paper-journal">Transactions in GIS · 2022</p>
           <p class="paper-title">GIScience and neighborhood change: Toward an understanding of processes of change</p>
@@ -165,8 +437,7 @@
         </a>
       </div>
 
-      <!-- lauren-mabry.jpg -->
-      <div class="masonry-item" data-tags="art design">
+      <div class="masonry-item" data-tags="art design" data-img="images/lauren-mabry.jpg" data-creator="Lauren Mabry" data-label="Design">
         <div class="img-card">
           <img src="images/lauren-mabry.jpg" alt="Lauren Mabry">
           <div class="img-card-overlay"><div class="img-card-meta">
@@ -175,9 +446,8 @@
           </div></div>
         </div>
       </div>
-      
-      <!-- johnathan-tan.jpeg -->
-      <div class="masonry-item" data-tags="art urban">
+
+      <div class="masonry-item" data-tags="art urban" data-img="images/johnathan-tan.jpeg" data-creator="Johnathan Tan" data-label="Art &amp; Illustration">
         <div class="img-card">
           <img src="images/johnathan-tan.jpeg" alt="Johnathan Tan">
           <div class="img-card-overlay"><div class="img-card-meta">
@@ -187,8 +457,7 @@
         </div>
       </div>
 
-      <!-- lelan-yung.png -->
-      <div class="masonry-item" data-tags="art urban">
+      <div class="masonry-item" data-tags="art urban" data-img="images/lelan-yung.png" data-creator="Lelan Yung" data-label="Urban / City">
         <div class="img-card">
           <img src="images/lelan-yung.png" alt="Lelan Yung">
           <div class="img-card-overlay"><div class="img-card-meta">
@@ -198,10 +467,9 @@
         </div>
       </div>
 
-      <!-- TALK: Geoff Boeing -->
       <div class="masonry-item" data-tags="talk urban">
         <a class="link-card" href="https://www.design.upenn.edu/events/geoff-boeing" target="_blank">
-          <div class="link-card-color-bar" style="background:var(--orange)"></div>
+          <div class="link-accent" style="background:#D95A18"></div>
           <p class="link-type">Talk · Penn Weitzman</p>
           <p class="link-title">"Universality in Urban Street Network Form"</p>
           <p class="link-sub">Geoff Boeing. Ken Steif Lecture, Weitzman School of Design, University of Pennsylvania. February 19.</p>
@@ -209,8 +477,7 @@
         </a>
       </div>
 
-      <!-- mia-forrest.jpg -->
-      <div class="masonry-item" data-tags="nature art">
+      <div class="masonry-item" data-tags="nature art" data-img="images/mia-forrest.jpg" data-creator="Mia Forrest" data-label="Art &amp; Illustration">
         <div class="img-card">
           <img src="images/mia-forrest.jpg" alt="Mia Forrest">
           <div class="img-card-overlay"><div class="img-card-meta">
@@ -220,8 +487,7 @@
         </div>
       </div>
 
-      <!-- rabbil-alamiin.jpg -->
-      <div class="masonry-item" data-tags="art urban">
+      <div class="masonry-item" data-tags="art urban" data-img="images/rabbil-alamiin.jpg" data-creator="Rabbil Alamiin" data-label="Art &amp; Illustration">
         <div class="img-card">
           <img src="images/rabbil-alamiin.jpg" alt="Rabbil Alamiin">
           <div class="img-card-overlay"><div class="img-card-meta">
@@ -231,19 +497,17 @@
         </div>
       </div>
 
-      <!-- WEBSITE: responsible.city -->
       <div class="masonry-item" data-tags="talk urban">
         <a class="link-card" href="https://responsible.city/" target="_blank">
-          <div class="link-card-color-bar" style="background:var(--cobalt)"></div>
+          <div class="link-accent" style="background:#1A2E1E"></div>
           <p class="link-type">Website · Research Initiative</p>
           <p class="link-title">Responsible City Project</p>
-          <p class="link-sub">A research initiative at the University of Neuchâtel examining how cities can become more responsible — socially, environmentally, and politically. A comparative European lens on urban accountability.</p>
+          <p class="link-sub">A research initiative at the University of Neuchâtel examining how cities can become more responsible — socially, environmentally, and politically.</p>
           <span class="link-cta">Visit site →</span>
         </a>
       </div>
 
-      <!-- Ramin-Nasibov.jpg -->
-      <div class="masonry-item" data-tags="art nature">
+      <div class="masonry-item" data-tags="art nature" data-img="images/Ramin-Nasibov.jpg" data-creator="Ramin Nasibov" data-label="Art &amp; Illustration">
         <div class="img-card">
           <img src="images/Ramin-Nasibov.jpg" alt="Ramin Nasibov">
           <div class="img-card-overlay"><div class="img-card-meta">
@@ -253,8 +517,7 @@
         </div>
       </div>
 
-      <!-- Richard-Nadler.jpg -->
-      <div class="masonry-item" data-tags="art design">
+      <div class="masonry-item" data-tags="art design" data-img="images/Richard-Nadler.jpg" data-creator="Richard Nadler" data-label="Design">
         <div class="img-card">
           <img src="images/Richard-Nadler.jpg" alt="Richard Nadler">
           <div class="img-card-overlay"><div class="img-card-meta">
@@ -264,8 +527,7 @@
         </div>
       </div>
 
-      <!-- stella-shin.png -->
-      <div class="masonry-item" data-tags="art urban design">
+      <div class="masonry-item" data-tags="art urban design" data-img="images/stella-shin.png" data-creator="Stella Shin" data-label="Urban / City">
         <div class="img-card">
           <img src="images/stella-shin.png" alt="Stella Shin">
           <div class="img-card-overlay"><div class="img-card-meta">
@@ -275,8 +537,7 @@
         </div>
       </div>
 
-      <!-- daniel-kim.png -->
-      <div class="masonry-item" data-tags="art design urban">
+      <div class="masonry-item" data-tags="art design urban" data-img="images/daniel-kim.png" data-creator="Daniel Kim" data-label="Design">
         <div class="img-card">
           <img src="images/daniel-kim.png" alt="Daniel Kim">
           <div class="img-card-overlay"><div class="img-card-meta">
@@ -289,9 +550,25 @@
     </div>
   </div>
 
-  <footer><p>© 2026 Jun Luu</p><p>MUSA, University of Pennsylvania</p></footer>
+  <!-- LIGHTBOX -->
+  <div class="lightbox" id="lightbox">
+    <div class="lightbox-inner">
+      <button class="lightbox-close" id="lightbox-close">✕</button>
+      <img class="lightbox-img" id="lightbox-img" src="" alt="">
+      <div class="lightbox-caption">
+        <span class="lightbox-creator" id="lightbox-creator"></span>
+        <span class="lightbox-tag" id="lightbox-tag"></span>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <p>© 2026 Jun Luu</p>
+    <p>MUSA &nbsp;·&nbsp; University of Pennsylvania</p>
+  </footer>
 
   <script>
+    // Filter
     document.querySelectorAll('.filter-btn').forEach(btn => {
       btn.addEventListener('click', () => {
         document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
@@ -302,6 +579,33 @@
         });
       });
     });
+
+    // Lightbox
+    const lightbox = document.getElementById('lightbox');
+    const lbImg    = document.getElementById('lightbox-img');
+    const lbName   = document.getElementById('lightbox-creator');
+    const lbTag    = document.getElementById('lightbox-tag');
+
+    document.querySelectorAll('.masonry-item[data-img]').forEach(item => {
+      item.addEventListener('click', () => {
+        lbImg.src    = item.dataset.img;
+        lbName.textContent = item.dataset.creator || '';
+        lbTag.textContent  = item.dataset.label   || '';
+        lightbox.classList.add('open');
+        document.body.style.overflow = 'hidden';
+      });
+    });
+
+    function closeLightbox() {
+      lightbox.classList.remove('open');
+      document.body.style.overflow = '';
+      lbImg.src = '';
+    }
+
+    document.getElementById('lightbox-close').addEventListener('click', closeLightbox);
+    lightbox.addEventListener('click', e => { if (e.target === lightbox) closeLightbox(); });
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
   </script>
+
 </body>
 </html>

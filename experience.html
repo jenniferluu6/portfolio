@@ -1,196 +1,376 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Experience — Jun Luu</title>
-  <link rel="stylesheet" href="shared_v4.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css"/>
   <style>
-    body { overflow: auto; }
+    :root {
+      --forest:     #1A2E1E;
+      --forest-mid: #243528;
+      --orange:     #D95A18;
+      --cream:      #F8F4EC;
+      --cream-dark: #E0D9C8;
+      --ink:        #141210;
+      --ink-soft:   #3A3630;
+      --ink-muted:  #7A7468;
+    }
 
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      min-height: 100vh;
+      overflow-x: hidden;
+      background-image: url('images/portfolio/experience-photo.jpg');
+      background-size: cover;
+      background-position: center center;
+      background-attachment: fixed;
+    }
+
+    /* Very subtle dark tint so text stays readable */
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      background: rgba(10,30,40,0.22);
+      z-index: 0; pointer-events: none;
+    }
+
+    /* NAV */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 28px 52px;
+      background: rgba(10,30,40,0.45);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+
+    .nav-logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 14px; font-weight: 400;
+      letter-spacing: 0.24em; text-transform: uppercase;
+      color: var(--cream); text-decoration: none;
+    }
+
+    .nav-links { display: flex; gap: 36px; list-style: none; }
+
+    .nav-links a {
+      font-size: 10px; font-weight: 500;
+      letter-spacing: 0.15em; text-transform: uppercase;
+      color: rgba(248,244,236,0.7); text-decoration: none;
+      transition: color 0.2s; position: relative;
+    }
+    .nav-links a::after {
+      content: '';
+      position: absolute; bottom: -3px; left: 0; right: 0;
+      height: 1px; background: var(--orange);
+      transform: scaleX(0); transform-origin: left;
+      transition: transform 0.25s ease;
+    }
+    .nav-links a:hover { color: var(--cream); }
+    .nav-links a:hover::after { transform: scaleX(1); }
+    .nav-links a.active { color: var(--cream); }
+    .nav-links a.active::after { transform: scaleX(1); }
+
+    /* PAGE WRAPPER */
+    .page {
+      position: relative; z-index: 1;
+      min-height: 100vh;
+      display: flex; flex-direction: column;
+    }
+
+    /* PAGE HEADER */
+    .page-header {
+      padding: 148px 52px 52px;
+    }
+
+    .page-eyebrow {
+      font-size: 10px; font-weight: 500;
+      letter-spacing: 0.28em; text-transform: uppercase;
+      color: var(--orange); margin-bottom: 16px;
+    }
+
+    .page-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(60px, 8vw, 100px);
+      font-weight: 300; line-height: 0.9;
+      color: var(--cream);
+    }
+
+    /* MAIN LAYOUT: map left, timeline right, both floating */
     .exp-layout {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      height: 65vh;
+      gap: 24px;
+      padding: 0 52px 52px;
+      align-items: start;
+    }
+
+    /* MAP CARD — floating, contained */
+    .map-card {
+      position: sticky;
+      top: 108px;
+      border-radius: 4px;
+      overflow: hidden;
+      box-shadow: 0 24px 64px rgba(0,0,0,0.35);
+    }
+
+    .map-inner {
+      height: 60vh;
       min-height: 480px;
-    }
-
-    /* LEFT — map */
-    .map-panel {
       background: #0D1B2A;
-      display: flex; flex-direction: column;
-      height: 100%; position: sticky; top: 0; overflow: hidden;
+      display: flex;
+      flex-direction: column;
     }
-    #journey-map { flex: 1; width: 100%; min-height: 0; }
-    .map-legend {
-      padding: 0.75rem 2rem;
-      display: flex; flex-direction: row; flex-wrap: nowrap; gap: 1.5rem;
-      flex-shrink: 0;
-      border-top: 1px solid rgba(255,255,255,0.05);
-    }
-    .legend-item { display: flex; align-items: center; gap: 0.5rem; font-size: 0.65rem; font-weight: 400; letter-spacing: 0.08em; text-transform: uppercase; color: rgba(230,215,185,0.3); white-space: nowrap; }
-    .legend-dot-o { width: 9px; height: 9px; border-radius: 50%; background: #C4782A; flex-shrink: 0; }
-    .legend-dot-c { width: 9px; height: 9px; border-radius: 50%; background: #2E52E8; flex-shrink: 0; }
-    .legend-line  { width: 20px; height: 1.5px; background: #C4782A; opacity: 0.6; flex-shrink: 0; }
 
-    /* RIGHT — scrollable timeline */
-    .timeline-panel {
-      height: 100%; overflow-y: scroll;
-      background: var(--cream);
-      padding: 2.5rem 3rem 4rem;
-      border-left: 1px solid var(--cream-dark);
+    #journey-map { flex: 1; width: 100%; min-height: 0; }
+
+    .map-footer {
+      background: #0D1B2A;
+      padding: 12px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
     }
+
+    .map-legend {
+      display: flex; gap: 20px; flex-wrap: nowrap;
+    }
+    .legend-item {
+      display: flex; align-items: center; gap: 6px;
+      font-size: 9px; font-weight: 400;
+      letter-spacing: 0.08em; text-transform: uppercase;
+      color: rgba(230,215,185,0.35); white-space: nowrap;
+    }
+    .legend-dot-o { width: 8px; height: 8px; border-radius: 50%; background: #C4782A; flex-shrink: 0; }
+    .legend-dot-c { width: 8px; height: 8px; border-radius: 50%; background: var(--orange); flex-shrink: 0; }
+    .legend-line   { width: 18px; height: 1.5px; background: #C4782A; opacity: 0.6; flex-shrink: 0; }
+
+    .map-hint {
+      font-size: 9px; font-weight: 400;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      color: rgba(230,215,185,0.25);
+      font-style: italic;
+    }
+
+    /* TIMELINE CARD — frosted cream, fixed height scrollable */
+    .timeline-card {
+      background: rgba(248,244,236,0.18);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      padding: 32px 36px 40px;
+      border-radius: 4px;
+      height: 60vh;
+      min-height: 480px;
+      overflow-y: scroll;
+      position: sticky;
+      top: 108px;
+    }
+
+    /* CV strip */
+    .cv-download-strip {
+      display: flex; align-items: center;
+      justify-content: space-between; gap: 1rem;
+      padding: 0.85rem 1rem; margin-bottom: 2rem;
+      background: rgba(248,244,236,0.25);
+      border-radius: 2px;
+    }
+    .cv-strip-left { display: flex; align-items: center; gap: 0.75rem; }
+    .cv-strip-icon {
+      width: 26px; height: 32px;
+      background: rgba(248,244,236,0.5);
+      position: relative;
+      display: flex; align-items: flex-end;
+      justify-content: center; padding-bottom: 5px; flex-shrink: 0;
+    }
+    .cv-strip-icon::after {
+      content: '';
+      position: absolute; top: 0; right: 0;
+      width: 8px; height: 8px;
+      background: rgba(248,244,236,0.3);
+    }
+    .cv-strip-lines { display: flex; flex-direction: column; gap: 2.5px; width: 12px; }
+    .cv-strip-line { height: 1.5px; background: rgba(248,244,236,0.5); }
+    .cv-strip-label { font-size: 0.75rem; font-weight: 500; color: var(--cream); margin-bottom: 1px; }
+    .cv-strip-sub { font-size: 0.65rem; font-weight: 300; color: rgba(248,244,236,0.55); }
+    .cv-strip-btn {
+      font-size: 0.65rem; font-weight: 500;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--orange); border: 1px solid var(--orange);
+      padding: 0.4rem 0.9rem; text-decoration: none;
+      white-space: nowrap; transition: background 0.2s, color 0.2s;
+    }
+    .cv-strip-btn:hover { background: var(--orange); color: var(--cream); }
 
     /* City group labels */
     .city-group-label {
-      font-size: 0.62rem; font-weight: 500;
+      font-size: 9px; font-weight: 500;
       letter-spacing: 0.18em; text-transform: uppercase;
       color: var(--orange);
       display: flex; align-items: center; gap: 0.6rem;
-      margin-bottom: 1.5rem; margin-top: 3rem;
+      margin-bottom: 1.4rem; margin-top: 2.8rem;
     }
-    .city-group-label.current { color: var(--cobalt); }
-    .city-group-label::after { content: ''; display: block; flex: 1; height: 1px; background: currentColor; opacity: 0.2; }
+    .city-group-label.current { color: var(--cream); }
+    .city-group-label::after {
+      content: ''; display: block; flex: 1;
+      height: 1px; background: currentColor; opacity: 0.2;
+    }
     .city-group:first-child .city-group-label { margin-top: 0; }
-
-    /* CV download strip */
-.cv-download-strip {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1rem;
-  padding: 0.85rem 1rem;
-  margin-bottom: 2rem;
-  border: 0.5px solid var(--cream-dark);
-  background: var(--cream-dark);
-  opacity: 0.85;
-}
-.cv-strip-left {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-}
-.cv-strip-icon {
-  width: 26px;
-  height: 32px;
-  background: var(--cream);
-  border: 0.5px solid var(--cream-dark);
-  position: relative;
-  display: flex;
-  align-items: flex-end;
-  justify-content: center;
-  padding-bottom: 5px;
-  flex-shrink: 0;
-}
-.cv-strip-icon::after {
-  content: '';
-  position: absolute;
-  top: 0; right: 0;
-  width: 8px; height: 8px;
-  background: var(--cream-dark);
-  border-left: 0.5px solid var(--cream-dark);
-  border-bottom: 0.5px solid var(--cream-dark);
-}
-.cv-strip-lines {
-  display: flex;
-  flex-direction: column;
-  gap: 2.5px;
-  width: 12px;
-}
-.cv-strip-line {
-  height: 1.5px;
-  background: var(--cream-dark);
-  border-radius: 1px;
-}
-.cv-strip-label {
-  font-size: 0.75rem;
-  font-weight: 500;
-  color: var(--ink);
-  margin-bottom: 1px;
-}
-.cv-strip-sub {
-  font-size: 0.65rem;
-  font-weight: 300;
-  color: var(--ink-muted);
-  letter-spacing: 0.02em;
-}
-.cv-strip-btn {
-  font-size: 0.65rem;
-  font-weight: 500;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--orange);
-  border: 0.5px solid var(--orange);
-  padding: 0.4rem 0.9rem;
-  text-decoration: none;
-  white-space: nowrap;
-  transition: background 0.2s, color 0.2s;
-}
-.cv-strip-btn:hover {
-  background: var(--orange);
-  color: var(--cream);
-}
 
     /* Timeline */
     .timeline { position: relative; padding-left: 2rem; }
     .timeline::before {
       content: ''; position: absolute; left: 0; top: 0; bottom: 0;
       width: 1.5px;
-      background: linear-gradient(to bottom, var(--orange), var(--orange) 80%, transparent);
+      background: linear-gradient(to bottom, var(--orange), rgba(217,90,24,0.2));
     }
     .timeline-item {
-      position: relative; padding: 0 0.5rem 3rem 2.5rem;
+      position: relative; padding: 0 0.5rem 2.5rem 2.5rem;
       border-radius: 4px; transition: background 0.5s;
     }
     .timeline-item::before {
       content: ''; position: absolute; left: -5px; top: 6px;
       width: 10px; height: 10px; border-radius: 50%;
-      background: var(--orange); border: 2px solid var(--cream);
+      background: var(--orange); border: 2px solid rgba(248,244,236,0.3);
       box-shadow: 0 0 0 1px var(--orange);
       transition: background 0.3s, box-shadow 0.3s;
     }
-    .timeline-item.current-city::before { background: var(--cobalt); box-shadow: 0 0 0 1px var(--cobalt); }
-    .timeline-item.flash { background: var(--orange-pale); padding-top: 0.75rem; }
-    .timeline-item.current-city.flash { background: var(--cobalt-pale); }
-    .timeline-item.flash::before { box-shadow: 0 0 0 1px var(--orange), 0 0 10px rgba(217,90,24,0.4); }
-    .timeline-item.current-city.flash::before { box-shadow: 0 0 0 1px var(--cobalt), 0 0 10px rgba(26,59,212,0.4); }
-    .timeline-date { font-size: 0.68rem; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--orange); margin-bottom: 0.4rem; }
-    .timeline-item.current-city .timeline-date { color: var(--cobalt); }
-    .timeline-role { font-family: 'Cormorant Garamond', serif; font-size: 1.45rem; font-weight: 400; color: var(--ink); margin-bottom: 0.2rem; }
-    .timeline-org { font-size: 0.82rem; font-weight: 400; color: var(--ink-muted); margin-bottom: 0.8rem; }
-    .timeline-detail { font-size: 0.88rem; font-weight: 300; line-height: 1.75; color: var(--ink-soft); max-width: 480px; }
-
-    /* Skills — full width below layout */
-    .skills-full {
-      background: var(--white);
-      border-top: 1px solid var(--cream-dark);
-      padding: 2rem 4rem;
-      display: grid;
-      grid-template-columns: 1fr 1fr 1fr 1fr;
-      gap: 1rem;
+    .timeline-item.current-city::before {
+      background: var(--cream);
+      box-shadow: 0 0 0 1px rgba(248,244,236,0.6);
     }
-    .sg-label { font-size: 0.62rem; font-weight: 500; letter-spacing: 0.16em; text-transform: uppercase; color: var(--orange); margin-bottom: 0.75rem; }
-    .tags { display: flex; flex-wrap: wrap; gap: 0.4rem; }
-    .tag { font-size: 0.75rem; color: #3A3630; background: #F8F4EC; padding: 0.25rem 0.7rem; border: 1px solid #E0D9C8; }
+    .timeline-item.flash { background: rgba(217,90,24,0.12); padding-top: 0.75rem; }
+    .timeline-item.current-city.flash { background: rgba(248,244,236,0.1); }
+    .timeline-item.flash::before { box-shadow: 0 0 0 1px var(--orange), 0 0 10px rgba(217,90,24,0.5); }
+
+    .timeline-date {
+      font-size: 9px; font-weight: 500;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--orange); margin-bottom: 0.4rem;
+    }
+    .timeline-item.current-city .timeline-date { color: rgba(248,244,236,0.6); }
+    .timeline-role {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.35rem; font-weight: 400;
+      color: var(--cream); margin-bottom: 0.2rem;
+    }
+    .timeline-org {
+      font-size: 0.8rem; font-weight: 400;
+      color: rgba(248,244,236,0.5); margin-bottom: 0.75rem;
+    }
+    .timeline-detail {
+      font-size: 0.86rem; font-weight: 300;
+      line-height: 1.75; color: rgba(248,244,236,0.7);
+      max-width: 480px;
+    }
+
+    /* SKILLS — frosted, same as timeline */
+    .skills-wrap {
+      padding: 0 52px 80px;
+    }
+
+    .skills-card {
+      background: rgba(248,244,236,0.18);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      padding: 32px 36px 36px;
+      border-radius: 4px;
+    }
+
+    .skills-heading {
+      font-size: 9px; font-weight: 500;
+      letter-spacing: 0.2em; text-transform: uppercase;
+      color: var(--orange);
+      display: flex; align-items: center; gap: 0.6rem;
+      margin-bottom: 1.75rem;
+    }
+    .skills-heading::after {
+      content: ''; display: block; flex: 1;
+      height: 1px; background: var(--orange); opacity: 0.2;
+    }
+
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1.5rem;
+    }
+
+    .sg-label {
+      font-size: 9px; font-weight: 500;
+      letter-spacing: 0.14em; text-transform: uppercase;
+      color: rgba(248,244,236,0.45); margin-bottom: 0.75rem;
+    }
+    .tags { display: flex; flex-wrap: wrap; gap: 6px; }
+    .tag {
+      font-size: 0.72rem; color: rgba(248,244,236,0.75);
+      background: rgba(248,244,236,0.1);
+      padding: 4px 10px;
+      border: 1px solid rgba(248,244,236,0.15);
+    }
 
     /* Leaflet */
-    .city-tooltip { background: #FAF7F0 !important; border: none !important; border-top: 3px solid #1A3BD4 !important; border-radius: 0 !important; box-shadow: 0 8px 32px rgba(0,0,0,0.4) !important; padding: 1rem 1.25rem !important; min-width: 180px !important; max-width: 240px !important; }
+    .city-tooltip {
+      background: #0D1B2A !important; border: none !important;
+      border-top: 2px solid var(--orange) !important;
+      border-radius: 0 !important;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.5) !important;
+      padding: 12px 16px !important;
+      min-width: 170px !important; max-width: 230px !important;
+    }
     .city-tooltip::before { display: none !important; }
-    .popup-city { font-family: 'Cormorant Garamond', serif; font-size: 1rem; font-weight: 400; color: #141210; margin-bottom: 0.5rem; padding-bottom: 0.5rem; border-bottom: 1px solid #E0D9C8; }
-    .popup-role { margin-bottom: 0.4rem; }
-    .popup-title { font-size: 0.75rem; font-weight: 500; color: #3A3630; font-family: 'DM Sans', sans-serif; }
-    .popup-dates { font-size: 0.65rem; font-weight: 400; color: #1A3BD4; font-family: 'DM Sans', sans-serif; margin-top: 0.1rem; }
+    .popup-city {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1rem; font-weight: 400; color: var(--cream);
+      margin-bottom: 8px; padding-bottom: 8px;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+    .popup-role { margin-bottom: 5px; }
+    .popup-title { font-size: 0.72rem; font-weight: 400; color: rgba(248,244,236,0.7); font-family: 'DM Sans', sans-serif; }
+    .popup-dates { font-size: 0.62rem; color: var(--orange); font-family: 'DM Sans', sans-serif; margin-top: 2px; }
 
+    /* FOOTER */
+    footer {
+      position: relative; z-index: 1;
+      background: rgba(10,30,40,0.7);
+      backdrop-filter: blur(12px);
+      padding: 14px 52px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    footer p, footer a {
+      font-size: 9px; font-weight: 400;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      color: rgba(248,244,236,0.3);
+      text-decoration: none; transition: color 0.2s;
+    }
+    footer a:hover { color: rgba(248,244,236,0.7); }
+
+    /* RESPONSIVE */
     @media (max-width: 900px) {
-      <div style="grid-column:1/-1;font-size:0.65rem;font-weight:500;letter-spacing:0.2em;text-transform:uppercase;color:#D95A18;margin-bottom:0.5rem;">Skills &amp; Tools</div>
-      .exp-layout { grid-template-columns: 1fr; height: auto; }
-      .map-panel { height: 420px; position: relative; }
-      .timeline-panel { height: auto; overflow-y: visible; padding: 2.5rem 1.5rem 5rem; }
-      .skills-full { grid-template-columns: 1fr 1fr; padding: 2rem 1.5rem; }
+      nav { padding: 20px 24px; }
+      .nav-links { gap: 18px; }
+      .page-header { padding: 120px 24px 40px; }
+      .exp-layout { grid-template-columns: 1fr; padding: 0 24px 40px; }
+      .map-card { position: relative; top: auto; }
+      .map-inner { height: 380px; min-height: 0; }
+      .skills-wrap { padding: 0 24px 64px; }
+      .skills-grid { grid-template-columns: 1fr 1fr; }
+      footer { padding: 14px 24px; flex-direction: column; gap: 6px; text-align: center; }
     }
   </style>
 </head>
 <body>
+
   <nav>
     <a href="index.html" class="nav-logo">JL</a>
     <ul class="nav-links">
@@ -198,174 +378,191 @@
       <li><a href="portfolio.html">Portfolio</a></li>
       <li><a href="experience.html" class="active">Experience</a></li>
       <li><a href="inspiration.html">Inspiration</a></li>
-      <li><a href="contact.html">Contact</a></li>
+      <li><a href="cv_jluu.html">CV</a></li>
     </ul>
   </nav>
 
-  <div class="page-banner">
-    <p class="banner-eyebrow">Career &amp; Education</p>
-    <h1 class="banner-title">Where I've <em>studied &amp; worked</em></h1>
+  <div class="page">
+
+    <div class="page-header">
+      <p class="page-eyebrow">Career &amp; Education</p>
+      <h1 class="page-title">Experience</h1>
+    </div>
+
+    <div class="exp-layout">
+
+      <!-- MAP CARD -->
+      <div class="map-card">
+        <div class="map-inner">
+          <div id="journey-map"></div>
+          <div class="map-footer">
+            <div class="map-legend">
+              <div class="legend-item"><div class="legend-dot-o"></div>City</div>
+              <div class="legend-item"><div class="legend-line"></div>Journey</div>
+              <div class="legend-item"><div class="legend-dot-c"></div>Current</div>
+            </div>
+            <div class="map-hint">Click a city to explore</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- TIMELINE CARD -->
+      <div class="timeline-card">
+
+        <div class="cv-download-strip">
+          <div class="cv-strip-left">
+            <div class="cv-strip-icon">
+              <div class="cv-strip-lines">
+                <div class="cv-strip-line"></div>
+                <div class="cv-strip-line"></div>
+                <div class="cv-strip-line"></div>
+                <div class="cv-strip-line" style="width:8px"></div>
+              </div>
+            </div>
+            <div>
+              <div class="cv-strip-label">Curriculum Vitae</div>
+              <div class="cv-strip-sub">Updated March 2026</div>
+            </div>
+          </div>
+          <a class="cv-strip-btn" href="cv_jluu.html" target="_blank">View CV &nbsp;↗</a>
+        </div>
+
+        <div class="timeline" id="timeline-panel">
+
+          <div class="city-group" id="group-philly">
+            <p class="city-group-label current">Philadelphia, PA — Current</p>
+            <div class="timeline-item current-city" data-city="philly">
+              <p class="timeline-date">2025 – Present</p>
+              <h3 class="timeline-role">Research Analyst</h3>
+              <p class="timeline-org">Penn Institute for Urban Research, University of Pennsylvania</p>
+              <p class="timeline-detail">Contributing to urban research initiatives including the Draw Down the Lightning grant under Dr. Eugenia Birch. Spatial and qualitative analysis in support of policy-facing research on anchor institutions and urban development.</p>
+            </div>
+            <div class="timeline-item current-city" data-city="philly">
+              <p class="timeline-date">2025 – Present</p>
+              <h3 class="timeline-role">Geospatial Research Assistant</h3>
+              <p class="timeline-org">CAtRES, University of Pennsylvania (NASA-funded, Dr. Megan Ryerson)</p>
+              <p class="timeline-detail">The Center for Air Transportation Resilience (CAtRES), a NASA University Leadership Initiative. Geospatial researcher under principal investigators Dr. Megan Ryerson (UPenn) and Dr. Mark Hansen (UC Berkeley) to research flight diversion patterns.</p>
+            </div>
+            <div class="timeline-item current-city" data-city="philly">
+              <p class="timeline-date">2023 – Present</p>
+              <h3 class="timeline-role">Master of Urban Spatial Analytics (MUSA)</h3>
+              <p class="timeline-org">Weitzman School of Design, University of Pennsylvania — Expected May 2026</p>
+              <p class="timeline-detail">Coursework spanning geospatial analysis, remote sensing, and public policy. Thesis research on NLP-based neighborhood change detection using Self-Organizing Maps, advised by Prof. Elizabeth Delmelle (Penn) and Prof. Isabelle Nilsson (UNC Charlotte).</p>
+            </div>
+          </div>
+
+          <div class="city-group" id="group-nyc">
+            <p class="city-group-label">New York, NY</p>
+            <div class="timeline-item" data-city="nyc">
+              <p class="timeline-date">2024 – 2025</p>
+              <h3 class="timeline-role">Assistant Project Manager</h3>
+              <p class="timeline-org">Fairstead — NYCHA Reid Apartments PACT Conversion</p>
+              <p class="timeline-detail">Managed occupied affordable housing renovation across a multi-building NYCHA portfolio. Coordinated subcontractors, tenant communications, phased construction, and compliance with federal and city regulatory frameworks under the PACT/RAD conversion program.</p>
+            </div>
+          </div>
+
+          <div class="city-group" id="group-la">
+            <p class="city-group-label">Los Angeles, CA</p>
+            <div class="timeline-item" data-city="la">
+              <p class="timeline-date">2023 – 2024</p>
+              <h3 class="timeline-role">Field Engineer</h3>
+              <p class="timeline-org">Hensel Phelps — Harbor-UCLA Medical Center</p>
+              <p class="timeline-detail">Engineering coordination and construction management on a major healthcare campus expansion serving majority low-income families, minorities, and the uninsured in Los Angeles County.</p>
+            </div>
+          </div>
+
+          <div class="city-group" id="group-chicago">
+            <p class="city-group-label">Chicago, IL</p>
+            <div class="timeline-item" data-city="chicago">
+              <p class="timeline-date">2022 – 2023</p>
+              <h3 class="timeline-role">Assistant Engineer</h3>
+              <p class="timeline-org">Turner Construction — Advocate Illinois Masonic Medical Center</p>
+              <p class="timeline-detail">Construction management on major occupied hospital renovation. Coordinated complex phasing requirements to maintain full hospital operations throughout construction including structural overbuild.</p>
+            </div>
+          </div>
+
+          <div class="city-group" id="group-blacksburg">
+            <p class="city-group-label">Blacksburg, VA</p>
+            <div class="timeline-item" data-city="blacksburg">
+              <p class="timeline-date">2018 – 2022</p>
+              <h3 class="timeline-role">B.S., Construction Engineering &amp; Management</h3>
+              <p class="timeline-org">Virginia Tech</p>
+              <p class="timeline-detail">Undergraduate degree in construction engineering and management. Foundation in civil engineering, structural systems, project controls, and construction finance.</p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- SKILLS -->
+    <div class="skills-wrap">
+      <div class="skills-card">
+        <p class="skills-heading">Skills &amp; Tools</p>
+        <div class="skills-grid">
+          <div>
+            <p class="sg-label">Spatial Analysis &amp; GIS</p>
+            <div class="tags">
+              <span class="tag">R / sf / tidyverse</span>
+              <span class="tag">Python / GeoPandas</span>
+              <span class="tag">ArcGIS Pro</span>
+              <span class="tag">QGIS</span>
+              <span class="tag">PostGIS</span>
+              <span class="tag">Google Earth Engine</span>
+            </div>
+          </div>
+          <div>
+            <p class="sg-label">Machine Learning &amp; NLP</p>
+            <div class="tags">
+              <span class="tag">Self-Organizing Maps</span>
+              <span class="tag">Sentence Embeddings</span>
+              <span class="tag">K-Means</span>
+              <span class="tag">scikit-learn</span>
+              <span class="tag">Anthropic API</span>
+            </div>
+          </div>
+          <div>
+            <p class="sg-label">Data &amp; Infrastructure</p>
+            <div class="tags">
+              <span class="tag">SQL / PostgreSQL</span>
+              <span class="tag">Docker</span>
+              <span class="tag">BigQuery</span>
+              <span class="tag">Git / GitHub</span>
+              <span class="tag">Census / ACS</span>
+            </div>
+          </div>
+          <div>
+            <p class="sg-label">Visualization &amp; Communication</p>
+            <div class="tags">
+              <span class="tag">JavaScript</span>
+              <span class="tag">ggplot2</span>
+              <span class="tag">Mapbox</span>
+              <span class="tag">Public Speaking</span>
+              <span class="tag">Policy Memos</span>
+              <span class="tag">CARTO</span>
+              <span class="tag">Plotly</span>
+              <span class="tag">HTML / CSS</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <footer>
+      <p>© 2026 Jun Luu</p>
+      <p>MUSA &nbsp;·&nbsp; University of Pennsylvania</p>
+    </footer>
+
   </div>
-
-  <div class="exp-layout">
-
-    <!-- LEFT: map -->
-    <div class="map-panel">
-      <div id="journey-map"></div>
-      <div class="map-legend">
-        <div class="legend-item"><div class="legend-dot-o"></div>City</div>
-        <div class="legend-item"><div class="legend-line"></div>Journey</div>
-        <div class="legend-item"><div class="legend-dot-c"></div>Current</div>
-      </div>
-    </div>
-
-    <!-- RIGHT: timeline -->
-    <div class="timeline-panel" id="timeline-panel">
-  <!-- CV DOWNLOAD STRIP -->
-  <div class="cv-download-strip">
-    <div class="cv-strip-left">
-      <div class="cv-strip-icon">
-        <div class="cv-strip-lines">
-          <div class="cv-strip-line"></div>
-          <div class="cv-strip-line"></div>
-          <div class="cv-strip-line"></div>
-          <div class="cv-strip-line" style="width:8px"></div>
-        </div>
-      </div>
-      <div class="cv-strip-text">
-        <div class="cv-strip-label">Curriculum Vitae</div>
-        <div class="cv-strip-sub">Updated March 2026</div>
-      </div>
-    </div>
-    <a class="cv-strip-btn" href="cv_jluu.html" target="_blank">View CV &nbsp;↗</a>
-  </div>
-
-      <div class="timeline">
-
-        <div class="city-group" id="group-philly">
-          <p class="city-group-label current">Philadelphia, PA — Current</p>
-          <div class="timeline-item current-city" data-city="philly">
-            <p class="timeline-date">2025 – Present</p>
-            <h3 class="timeline-role">Research Analyst</h3>
-            <p class="timeline-org">Penn Institute for Urban Research, University of Pennsylvania</p>
-            <p class="timeline-detail">Contributing to urban research initiatives including the Draw Down the Lightning grant under Dr. Eugenia Birch. Spatial and qualitative analysis in support of policy-facing research on anchor institutions and urban development.</p>
-          </div>
-          <div class="timeline-item current-city" data-city="philly">
-            <p class="timeline-date">2025 – Present</p>
-            <h3 class="timeline-role">Geospatial Research Assistant</h3>
-            <p class="timeline-org">CAtRES, University of Pennsylvania (NASA-funded, Dr. Megan Ryerson)</p>
-            <p class="timeline-detail">The Center for Air Transportation Resilience (CAtRES), a NASA University Leadership Initiative. Geospatial researcher under principal investigators Dr. Megan Ryerson (UPenn) and Dr. Mark Hansen (UC Berkeley) to research flight diversion patterns.</p>
-          </div>
-          <div class="timeline-item current-city" data-city="philly">
-            <p class="timeline-date">2025 – Present</p>
-            <h3 class="timeline-role">Master of Urban Spatial Analytics (MUSA)</h3>
-            <p class="timeline-org">Weitzman School of Design, University of Pennsylvania — Expected May 2026</p>
-            <p class="timeline-detail">Coursework spanning geospatial analysis, remote sensing, and public policy. Thesis research on NLP-based neighborhood change detection using Self-Organizing Maps, advised by Prof. Elizabeth Delmelle (Penn) and Prof. Isabelle Nilsson (UNC Charlotte).</p>
-          </div>
-        </div>
-
-        <div class="city-group" id="group-nyc">
-          <p class="city-group-label">New York, NY</p>
-          <div class="timeline-item" data-city="nyc">
-            <p class="timeline-date">2024 – 2025</p>
-            <h3 class="timeline-role">Assistant Project Manager</h3>
-            <p class="timeline-org">Fairstead — NYCHA Reid Apartments PACT Conversion</p>
-            <p class="timeline-detail">Managed occupied affordable housing renovation across a multi-building NYCHA portfolio. Coordinated subcontractors, tenant communications, phased construction, and compliance with federal and city regulatory frameworks under the PACT/RAD conversion program.</p>
-          </div>
-        </div>
-
-        <div class="city-group" id="group-la">
-          <p class="city-group-label">Los Angeles, CA</p>
-          <div class="timeline-item" data-city="la">
-            <p class="timeline-date">2023 – 2024</p>
-            <h3 class="timeline-role">Field Engineer</h3>
-            <p class="timeline-org">Hensel Phelps — Harbor-UCLA Medical Center</p>
-            <p class="timeline-detail">Engineering coordination and construction management on a major healthcare campus expansion serving majority low-income families, minorities, and the uninsured in Los Angeles County.</p>
-          </div>
-        </div>
-
-        <div class="city-group" id="group-chicago">
-          <p class="city-group-label">Chicago, IL</p>
-          <div class="timeline-item" data-city="chicago">
-            <p class="timeline-date">2022 – 2023</p>
-            <h3 class="timeline-role">Assistant Engineer</h3>
-            <p class="timeline-org">Turner Construction — Advocate Illinois Masonic Medical Center</p>
-            <p class="timeline-detail">Construction management on major occupied hospital renovation. Coordinated complex phasing requirements to maintain full hospital operations throughout construction including structural overbuild.</p>
-          </div>
-        </div>
-
-        <div class="city-group" id="group-blacksburg">
-          <p class="city-group-label">Blacksburg, VA</p>
-          <div class="timeline-item" data-city="blacksburg">
-            <p class="timeline-date">2018 – 2022</p>
-            <h3 class="timeline-role">B.S., Construction Engineering &amp; Management</h3>
-            <p class="timeline-org">Virginia Tech</p>
-            <p class="timeline-detail">Undergraduate degree in construction engineering and management. Foundation in civil engineering, structural systems, project controls, and construction finance.</p>
-          </div>
-        </div>
-
-      </div>
-    </div>
-  </div>
-
-<!-- Skills & Tools — full width below map + timeline -->
-  <div class="skills-full">
-    <p style="grid-column:1/-1;font-size:0.62rem;font-weight:500;letter-spacing:0.18em;text-transform:uppercase;color:var(--cobalt);display:flex;align-items:center;gap:0.6rem;margin-bottom:1.5rem;">Skills &amp; Tools<span style="display:block;flex:1;height:1px;background:currentColor;opacity:0.2;"></span></p>  <div>
-      <p class="sg-label">Spatial Analysis &amp; GIS</p>
-      <div class="tags">
-        <span class="tag">R / sf / tidyverse</span>
-        <span class="tag">Python / GeoPandas</span>
-        <span class="tag">ArcGIS Pro</span>
-        <span class="tag">QGIS</span>
-        <span class="tag">PostGIS</span>
-        <span class="tag">Google Earth Engine</span>
-      </div>
-    </div>
-    <div>
-      <p class="sg-label">Machine Learning &amp; NLP</p>
-      <div class="tags">
-        <span class="tag">Self-Organizing Maps</span>
-        <span class="tag">Sentence Embeddings</span>
-        <span class="tag">K-Means</span>
-        <span class="tag">scikit-learn</span>
-        <span class="tag">Anthropic API</span>
-      </div>
-    </div>
-    <div>
-      <p class="sg-label">Data &amp; Infrastructure</p>
-      <div class="tags">
-        <span class="tag">SQL / PostgreSQL</span>
-        <span class="tag">Docker</span>
-        <span class="tag">BigQuery</span>
-        <span class="tag">Git / GitHub</span>
-        <span class="tag">Census / ACS</span>
-      </div>
-    </div>
-    <div>
-      <p class="sg-label">Visualization &amp; Communication</p>
-      <div class="tags">
-        <span class="tag">JavaScript</span>
-        <span class="tag">ggplot2</span>
-        <span class="tag">Mapbox</span>
-        <span class="tag">Public Speaking</span>
-        <span class="tag">Policy Memos</span>
-        <span class="tag">CARTO</span>
-        <span class="tag">Plotly</span>
-        <span class="tag">HTML / CSS</span>
-      </div>
-    </div>
-  </div>
-
-  <footer><p>© 2026 Jun Luu</p><p>MUSA, University of Pennsylvania</p></footer>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
   <script>
     const cities = [
       { id:'blacksburg', name:'Blacksburg, VA', lat:37.2296, lng:-80.4139, current:false, roles:[{title:'B.S., Construction Engineering & Management',org:'Virginia Tech',dates:'2018 – 2022'}] },
-      { id:'chicago',    name:'Chicago, IL',    lat:41.8781, lng:-87.6298, current:false, roles:[{title:'Project Engineer',org:'Turner Construction — Advocate Illinois Masonic',dates:'2022 – 2023'}] },
-      { id:'la',         name:'Los Angeles, CA',lat:34.0522, lng:-118.2437,current:false, roles:[{title:'Project Engineer',org:'Hensel Phelps — Harbor-UCLA Medical Center',dates:'2023 – 2024'}] },
+      { id:'chicago',    name:'Chicago, IL',    lat:41.8781, lng:-87.6298, current:false, roles:[{title:'Assistant Engineer',org:'Turner Construction — Advocate Illinois Masonic',dates:'2022 – 2023'}] },
+      { id:'la',         name:'Los Angeles, CA',lat:34.0522, lng:-118.2437,current:false, roles:[{title:'Field Engineer',org:'Hensel Phelps — Harbor-UCLA Medical Center',dates:'2023 – 2024'}] },
       { id:'nyc',        name:'New York, NY',   lat:40.7128, lng:-74.0060, current:false, roles:[{title:'Assistant Project Manager',org:'Fairstead — NYCHA Reid Apartments PACT',dates:'2024 – 2025'}] },
-      { id:'philly',     name:'Philadelphia, PA',lat:39.9526,lng:-75.1652, current:true,  roles:[{title:'Master of Urban Spatial Analytics',org:'Penn Weitzman',dates:'2023–Present'},{title:'Research Analyst',org:'Penn IUR',dates:'2025–Present'},{title:'Geospatial Research Assistant',org:'CAtRES, Penn',dates:'2025–Present'}] }
+      { id:'philly',     name:'Philadelphia, PA',lat:39.9526,lng:-75.1652, current:true,  roles:[{title:'Master of Urban Spatial Analytics',org:'Penn Weitzman',dates:'2023 – Present'},{title:'Research Analyst',org:'Penn IUR',dates:'2025 – Present'},{title:'Geospatial Research Assistant',org:'CAtRES, Penn',dates:'2025 – Present'}] }
     ];
 
     const map = L.map('journey-map', {
@@ -382,7 +579,7 @@
       return L.divIcon({
         className: '',
         html: `<div style="width:${current?'16px':'13px'};height:${current?'16px':'13px'};border-radius:50%;background:${current?'#2E52E8':'#C4782A'};border:2.5px solid ${current?'rgba(196,212,250,0.7)':'rgba(230,215,185,0.5)'};box-shadow:0 0 ${current?'12px rgba(46,82,232,0.5)':'8px rgba(196,120,42,0.4)'};position:relative;cursor:pointer;">
-          <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:30px;height:30px;border-radius:50%;background:${current?'rgba(46,82,232,0.15)':'rgba(196,120,42,0.15)'};animation:pulse 2.5s ease-out infinite;"></div>
+          <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:28px;height:28px;border-radius:50%;background:${current?'rgba(46,82,232,0.15)':'rgba(196,120,42,0.15)'};animation:pulse 2.5s ease-out infinite;"></div>
         </div>`,
         iconSize:[current?16:13,current?16:13],
         iconAnchor:[current?8:6,current?8:6],
@@ -398,9 +595,9 @@
       marker.on('mouseout',function(){this.closeTooltip();});
       marker.on('click', function() {
         const group = document.getElementById('group-'+city.id);
-        const panel = document.getElementById('timeline-panel');
-        if (!group || !panel) return;
-        panel.scrollTo({ top: group.offsetTop - 32, behavior: 'smooth' });
+        const card = document.querySelector('.timeline-card');
+        if (!group || !card) return;
+        card.scrollTo({ top: group.offsetTop - 32, behavior: 'smooth' });
         group.querySelectorAll('.timeline-item').forEach(item => {
           item.classList.remove('flash');
           void item.offsetWidth;
@@ -430,5 +627,6 @@
     st.textContent=`@keyframes pulse{0%{opacity:.6;transform:translate(-50%,-50%) scale(1);}70%{opacity:0;transform:translate(-50%,-50%) scale(2.5);}100%{opacity:0;transform:translate(-50%,-50%) scale(2.5);}}`;
     document.head.appendChild(st);
   </script>
+
 </body>
 </html>

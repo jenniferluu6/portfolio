@@ -8,24 +8,86 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300;1,9..40,400&display=swap" rel="stylesheet">
 <style>
+  /* NAV */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 200;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 28px 52px;
+    background: rgba(26,46,30,0.55);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+  }
+  .nav-logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 14px; font-weight: 400;
+    letter-spacing: 0.24em; text-transform: uppercase;
+    color: #F8F4EC; text-decoration: none;
+  }
+  .nav-links { display: flex; gap: 36px; list-style: none; }
+  .nav-links a {
+    font-size: 10px; font-weight: 500;
+    letter-spacing: 0.15em; text-transform: uppercase;
+    color: rgba(248,244,236,0.7); text-decoration: none;
+    transition: color 0.2s; position: relative;
+  }
+  .nav-links a::after {
+    content: '';
+    position: absolute; bottom: -3px; left: 0; right: 0;
+    height: 1px; background: #D95A18;
+    transform: scaleX(0); transform-origin: left;
+    transition: transform 0.25s ease;
+  }
+  .nav-links a:hover { color: #F8F4EC; }
+  .nav-links a:hover::after { transform: scaleX(1); }
+  .nav-links a.active { color: #F8F4EC; }
+  .nav-links a.active::after { transform: scaleX(1); }
+
+  /* SITE FOOTER */
+  .site-footer {
+    background: #1A2E1E;
+    padding: 14px 52px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .site-footer p, .site-footer a {
+    font-size: 9px; font-weight: 400;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    color: rgba(214,228,216,0.3);
+    text-decoration: none; transition: color 0.2s;
+    font-family: 'DM Sans', sans-serif;
+  }
+  .site-footer a:hover { color: rgba(214,228,216,0.7); }
+
   :root {
-    --cream:      #F5F0E8;
-    --cream-mid:  #EDE5D8;
-    --cream-rule: #CEC0AB;
-    --terra:      #A8522E;
-    --terra-lt:   #C46E4A;
-    --terra-pale: #EDD9CE;
-    --terra-faint:#F7EDE7;
-    --umber-lt:   #9B7060;
-    --ink:        #251A12;
-    --ink-mid:    #473425;
-    --ink-lt:     #7A6152;
-    --warm-gray:  #9A8575;
+    --cream:      #F8F4EC;
+    --cream-mid:  #EDE8DC;
+    --cream-rule: #D0C8B8;
+    --orange:     #D95A18;
+    --orange-lt:  #E07040;
+    --orange-pale:#FAE8DC;
+    --orange-faint:#FDF3EE;
+    --forest:     #1A2E1E;
+    --forest-mid: #2D4A32;
+    --forest-lt:  #4A7055;
+    --ink:        #141210;
+    --ink-mid:    #3A3630;
+    --ink-lt:     #7A7468;
+    --warm-gray:  #9A9490;
   }
 
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-  html { background: #AFA090; }
+  html {
+  background-image: url('images/portfolio/cv-photo.jpg');
+  background-size: cover;
+  background-position: center center;
+  background-attachment: fixed;
+}
 
   body {
     font-family: 'DM Sans', system-ui, sans-serif;
@@ -36,15 +98,15 @@
 
   .page {
     max-width: 800px;
-    margin: 48px auto 64px;
+    margin: 108px auto 64px;
     background: var(--cream);
     box-shadow:
-      0 2px 6px rgba(37,26,18,0.10),
-      0 16px 56px rgba(37,26,18,0.16);
+      0 2px 6px rgba(20,18,16,0.10),
+      0 16px 56px rgba(20,18,16,0.20);
     padding: 64px 72px 80px;
   }
 
-  /* ── HEAD ── */
+  /* HEAD */
   .cv-name {
     font-family: 'Cormorant Garamond', serif;
     font-size: 58px;
@@ -54,7 +116,7 @@
     color: var(--ink);
     margin-bottom: 16px;
   }
-  .cv-name em { font-style: italic; color: var(--terra); }
+  .cv-name em { font-style: italic; color: var(--orange); }
 
   .cv-meta {
     display: flex;
@@ -81,33 +143,35 @@
     color: var(--ink-lt);
     line-height: 1.95;
   }
-  .cv-contact a { color: var(--terra); text-decoration: none; }
+  .cv-contact a { color: var(--orange); text-decoration: none; }
   .cv-contact a:hover { text-decoration: underline; }
 
-  .cv-print-btn {
-  position: fixed;
-  bottom: 32px;
-  right: 32px;
-  font-family: 'DM Sans', sans-serif;
-  font-size: 10px;
-  font-weight: 500;
-  letter-spacing: 1.5px;
-  text-transform: uppercase;
-  color: var(--terra);
-  border: 0.5px solid var(--terra);
-  background: var(--cream);
-  padding: 10px 18px;
-  cursor: pointer;
-  text-decoration: none;
-  transition: background 0.2s, color 0.2s;
-  box-shadow: 0 2px 12px rgba(37,26,18,0.12);
-  z-index: 100;
-}
-.cv-print-btn:hover {
-  background: var(--terra);
-  color: var(--cream);
-}
-  /* ── SECTIONS ── */
+  /* DOWNLOAD BUTTON */
+  .cv-download-btn {
+    position: fixed;
+    bottom: 32px;
+    right: 32px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--cream);
+    background: var(--forest);
+    border: none;
+    padding: 12px 20px;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background 0.2s;
+    box-shadow: 0 4px 16px rgba(20,18,16,0.2);
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .cv-download-btn:hover { background: var(--orange); }
+
+  /* SECTIONS */
   .sec { margin-bottom: 40px; }
   .sec:last-child { margin-bottom: 0; }
 
@@ -117,17 +181,17 @@
     font-weight: 500;
     letter-spacing: 3px;
     text-transform: uppercase;
-    color: var(--terra);
+    color: var(--forest);
     margin-bottom: 18px;
     padding-bottom: 8px;
-    border-bottom: 1px solid var(--terra-pale);
+    border-bottom: 1px solid var(--orange-pale);
   }
 
-  /* ── RESEARCH ENTRIES ── */
+  /* RESEARCH ENTRIES */
   .r-entry {
     margin-bottom: 28px;
     padding-left: 16px;
-    border-left: 2px solid var(--terra);
+    border-left: 2px solid var(--orange);
   }
   .r-entry:last-child { margin-bottom: 0; }
 
@@ -156,12 +220,12 @@
   .r-sub {
     font-size: 10px;
     font-style: italic;
-    color: var(--umber-lt);
+    color: var(--forest-lt);
     margin-bottom: 10px;
     line-height: 1.5;
   }
 
-  /* ── WORK ENTRIES ── */
+  /* WORK ENTRIES */
   .w-entry { margin-bottom: 26px; }
   .w-entry:last-child { margin-bottom: 0; }
 
@@ -192,18 +256,18 @@
     font-weight: 500;
     letter-spacing: 0.8px;
     text-transform: uppercase;
-    color: var(--terra);
+    color: var(--orange);
     margin-bottom: 9px;
   }
   .w-org span {
-    color: var(--umber-lt);
+    color: var(--ink-lt);
     font-weight: 300;
     text-transform: none;
     letter-spacing: 0;
     font-size: 10.5px;
   }
 
-  /* ── BULLETS (shared) ── */
+  /* BULLETS */
   .bullets { list-style: none; padding: 0; }
   .bullets li {
     font-size: 11.5px;
@@ -221,17 +285,16 @@
     top: 9px;
     width: 5px;
     height: 1px;
-    background: var(--terra-lt);
+    background: var(--orange-lt);
   }
   .bullets li strong { font-weight: 500; color: var(--ink); }
 
-  /* ── EDUCATION ROW ── */
+  /* EDUCATION */
   .edu-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 20px;
   }
-  .edu-entry {}
   .edu-school {
     font-family: 'Cormorant Garamond', serif;
     font-size: 15px;
@@ -251,7 +314,7 @@
     margin-top: 3px;
   }
 
-  /* ── SKILLS ── */
+  /* SKILLS */
   .skills-block {
     display: grid;
     grid-template-columns: 100px 1fr;
@@ -263,7 +326,7 @@
     font-weight: 500;
     text-transform: uppercase;
     letter-spacing: 1px;
-    color: var(--warm-gray);
+    color: var(--forest-lt);
     padding-top: 1px;
   }
   .sk-val {
@@ -273,7 +336,7 @@
     line-height: 1.6;
   }
 
-  /* ── PRESENTATIONS ── */
+  /* PRESENTATIONS */
   .pres {
     display: flex;
     gap: 18px;
@@ -285,7 +348,7 @@
     font-family: 'Cormorant Garamond', serif;
     font-size: 15px;
     font-weight: 500;
-    color: var(--terra);
+    color: var(--orange);
     min-width: 34px;
     padding-top: 1px;
   }
@@ -303,7 +366,7 @@
     margin-top: 2px;
   }
 
-  /* ── LEADERSHIP ── */
+  /* LEADERSHIP */
   .lead-entry { margin-bottom: 16px; }
   .lead-entry:last-child { margin-bottom: 0; }
   .lead-head {
@@ -324,18 +387,15 @@
     font-weight: 500;
     letter-spacing: 0.8px;
     text-transform: uppercase;
-    color: var(--terra);
+    color: var(--orange);
     margin-bottom: 5px;
   }
   .lead-desc { font-size: 11.5px; font-weight: 300; color: var(--ink-mid); line-height: 1.7; }
 
-  /* ── SECTION DIVIDER ── */
-  .rule { height: 1px; background: var(--cream-rule); margin: 40px 0; opacity: 0.5; }
-
   @media print {
     html { background: white; }
     .page { margin: 0; max-width: 100%; box-shadow: none; padding: 48px 56px 60px; }
-    .cv-print-btn { display: none; }
+    .cv-download-btn, .cv-back-btn { display: none; }
   }
 
   @media (max-width: 640px) {
@@ -349,10 +409,29 @@
 </style>
 </head>
 <body>
+
+<nav>
+  <a href="index.html" class="nav-logo">JL</a>
+  <ul class="nav-links">
+    <li><a href="about.html">About</a></li>
+    <li><a href="portfolio.html">Portfolio</a></li>
+    <li><a href="experience.html">Experience</a></li>
+    <li><a href="inspiration.html">Inspiration</a></li>
+    <li><a href="cv_jluu.html" class="active">CV</a></li>
+  </ul>
+</nav>
+
 <div class="page">
 
-  <!-- NAME -->
   <h1 class="cv-name">Jun (Jennifer) <em>Luu</em></h1>
+
+  <div class="cv-meta">
+    <div class="cv-tagline">Urban Spatial Analytics &nbsp;·&nbsp; Penn Weitzman &nbsp;·&nbsp; 2026</div>
+    <div class="cv-contact">
+      jennifer.luu6@gmail.com &nbsp;·&nbsp; Philadelphia, PA<br>
+      <a href="https://jenniferluu6.github.io/portfolio">jenniferluu6.github.io/portfolio</a>
+    </div>
+  </div>
 
   <!-- EDUCATION -->
   <section class="sec">
@@ -396,7 +475,6 @@
   <section class="sec">
     <div class="sec-title">Research</div>
 
-    <!-- THESIS -->
     <div class="r-entry">
       <div class="r-head">
         <div class="r-title">Mapping New Vocabularies of Neighborhood Change: An Inductive Text Analysis of Real Estate Listings</div>
@@ -410,7 +488,6 @@
       </ul>
     </div>
 
-    <!-- SYNTHETIC PIPELINE -->
     <div class="r-entry">
       <div class="r-head">
         <div class="r-title">Synthetic MLS Remark Generation via Batch API</div>
@@ -424,7 +501,6 @@
       </ul>
     </div>
 
-    <!-- EVICTION -->
     <div class="r-entry">
       <div class="r-head">
         <div class="r-title">Predicting Eviction Risk in Philadelphia: A Spatiotemporal Modeling Approach</div>
@@ -556,7 +632,12 @@
 
 </div>
 
-<!-- <button class="cv-print-btn" onclick="window.print()">Download PDF &nbsp;↓</button> -->
+<footer class="site-footer">
+  <p>© 2026 Jun Luu</p>
+  <p>MUSA &nbsp;·&nbsp; University of Pennsylvania</p>
+</footer>
+
+<button class="cv-download-btn" onclick="window.print()">Download PDF &nbsp;↓</button>
 
 </body>
 </html>
