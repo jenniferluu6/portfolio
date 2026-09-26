@@ -188,12 +188,6 @@
     }
     .gallery-card:hover .card-meta { transform: translateY(0); opacity: 1; }
 
-    .card-tag-hover {
-      font-size: 9px; font-weight: 500;
-      letter-spacing: 0.14em; text-transform: uppercase;
-      color: var(--orange); margin-bottom: 8px;
-      display: block;
-    }
     .card-title-hover {
       font-family: 'Cormorant Garamond', serif;
       font-size: 1.35rem; font-weight: 400;
@@ -250,13 +244,6 @@
     }
     .modal-close:hover { background: var(--orange); }
 
-    .modal-tag {
-      display: inline-block;
-      font-size: 9px; font-weight: 500;
-      letter-spacing: 0.14em; text-transform: uppercase;
-      color: var(--orange);
-      margin-bottom: 12px;
-    }
     .modal-title {
       font-family: 'Cormorant Garamond', serif;
       font-size: 2rem; font-weight: 300;
@@ -265,17 +252,6 @@
     .modal-desc p {
       font-size: 0.95rem; font-weight: 300;
       line-height: 1.82; color: rgba(26,46,30,0.8); margin-bottom: 1rem;
-    }
-    .modal-methods {
-      display: flex; flex-wrap: wrap; gap: 6px;
-      margin: 1.5rem 0;
-    }
-    .method-chip {
-      font-size: 9px; font-weight: 500;
-      letter-spacing: 0.08em; text-transform: uppercase;
-      color: var(--forest);
-      border: 1px solid rgba(26,46,30,0.3);
-      padding: 4px 10px;
     }
     .modal-meta {
       font-size: 0.78rem; color: rgba(26,46,30,0.5);
@@ -338,7 +314,6 @@
     <div class="filter-bar">
       <button class="filter-btn active" data-filter="all">All</button>
       <button class="filter-btn" data-filter="research">Research</button>
-      <button class="filter-btn" data-filter="nlp">NLP</button>
       <button class="filter-btn" data-filter="cartography">Cartography</button>
       <button class="filter-btn" data-filter="ml">Machine Learning</button>
       <button class="filter-btn" data-filter="policy">Policy Writing</button>
@@ -349,10 +324,9 @@
     <div class="gallery-wrap">
       <div class="gallery">
 
-        <div class="gallery-card featured" data-tags="research nlp ml housing dataanalysis" data-id="som">
+        <div class="gallery-card featured" data-tags="research ml housing dataanalysis" data-id="som">
           <div class="card-visual"><img src="images/portfolio/som_k20.webp" alt="Neighborhood Change SOM"></div>
           <div class="card-overlay"><div class="card-meta">
-            <span class="card-tag-hover">Research · NLP · ML · Housing</span>
             <h3 class="card-title-hover">Mapping New Vocabularies of Neighborhood Change</h3>
             <p class="card-snippet">SOM + sentence embeddings on MLS listing language. Mecklenburg County, NC. AAG 2026.</p>
             <span class="card-cta">View project →</span>
@@ -362,7 +336,6 @@
         <div class="gallery-card" data-tags="housing dataanalysis research policywriting" data-id="nycha">
           <div class="card-visual"><img src="images/portfolio/nycha-housing.webp" alt="NYCHA Through the Decades"></div>
           <div class="card-overlay"><div class="card-meta">
-            <span class="card-tag-hover">Housing · Data Analysis · Research · Policy Writing</span>
             <h3 class="card-title-hover">NYCHA Through the Decades</h3>
             <p class="card-snippet">Mapping when and where New York City's public housing was built, from the New Deal to today.</p>
             <span class="card-cta">View project →</span>
@@ -372,7 +345,6 @@
         <div class="gallery-card" data-tags="dataanalysis housing" data-id="eviction">
           <div class="card-visual"><img src="images/portfolio/eviction-prediction.png" alt="Eviction Prediction"></div>
           <div class="card-overlay"><div class="card-meta">
-            <span class="card-tag-hover">Data Analysis · Housing</span>
             <h3 class="card-title-hover">Predicting Eviction Risk in Philadelphia</h3>
             <p class="card-snippet">Poisson model with temporal and spatial lags to forecast eviction filings by census tract.</p>
             <span class="card-cta">View project →</span>
@@ -382,7 +354,6 @@
         <div class="gallery-card" data-tags="research dataanalysis" data-id="flight">
           <div class="card-visual"><img src="images/portfolio/flight-diversions.jpeg" alt="Flight Diversions Dashboard"></div>
           <div class="card-overlay"><div class="card-meta">
-            <span class="card-tag-hover">Research · Data Analysis</span>
             <h3 class="card-title-hover">Flight Diversion Pattern Analysis</h3>
             <p class="card-snippet">Dashboard analyzing flight diversion patterns using BTS On-Time Performance data.</p>
             <span class="card-cta">View project →</span>
@@ -392,17 +363,15 @@
         <div class="gallery-card" data-tags="research" data-id="anchor">
           <div class="card-visual"><img src="images/portfolio/anchorMap.png" alt="Penn Anchor Institution Map"></div>
           <div class="card-overlay"><div class="card-meta">
-            <span class="card-tag-hover">Research</span>
             <h3 class="card-title-hover">Penn as an Anchor Institution</h3>
             <p class="card-snippet">Mapping the physical footprint of Penn across the greater Philadelphia region.</p>
-            <span class="card-cta">View project →</span>
+            <span class="card-cta">Open website →</span>
           </div></div>
         </div>
 
-        <div class="gallery-card" data-tags="research nlp ml housing" data-id="synthetic">
+        <div class="gallery-card" data-tags="research ml housing" data-id="synthetic">
           <div class="card-visual"><img src="images/portfolio/synthetic-data.jpeg" alt="Synthetic MLS Pipeline"></div>
           <div class="card-overlay"><div class="card-meta">
-            <span class="card-tag-hover">NLP · ML · Housing · Research</span>
             <h3 class="card-title-hover">Synthetic MLS Remark Generation</h3>
             <p class="card-snippet">Batch API pipeline for augmenting sparse tract-period real estate data.</p>
             <span class="card-cta">View project →</span>
@@ -412,17 +381,15 @@
         <div class="gallery-card" data-tags="dataanalysis" data-id="crash">
           <div class="card-visual"><img src="images/portfolio/crash-predictor.png" alt="Crash Predictor"></div>
           <div class="card-overlay"><div class="card-meta">
-            <span class="card-tag-hover">Data Analysis · Public Health</span>
             <h3 class="card-title-hover">Predicting Drunk Driving Crashes</h3>
             <p class="card-snippet">Logistic regression identifying predictors of alcohol-involved crashes in Philadelphia.</p>
-            <span class="card-cta">View project →</span>
+            <span class="card-cta">Open paper →</span>
           </div></div>
         </div>
 
         <div class="gallery-card" data-tags="cartography dataanalysis" data-id="dc-metro">
           <div class="card-visual"><img src="images/portfolio/dc_metro_coverage_map.png" alt="DC Metro Coverage Map"></div>
           <div class="card-overlay"><div class="card-meta">
-            <span class="card-tag-hover">Cartography · Data Analysis</span>
             <h3 class="card-title-hover">Washington DC Metro Station Coverage</h3>
             <p class="card-snippet">Mapping transit accessibility by walking distance across Washington DC.</p>
             <span class="card-cta">View project →</span>
@@ -432,10 +399,9 @@
         <div class="gallery-card" data-tags="policy" data-id="south-africa">
           <div class="card-visual"><img src="images/portfolio/south-africa.jpg" alt="South Africa Policy Paper"></div>
           <div class="card-overlay"><div class="card-meta">
-            <span class="card-tag-hover">Policy Writing</span>
             <h3 class="card-title-hover">Financing Climate Resilient Infrastructure in South Africa</h3>
             <p class="card-snippet">Analyzing climate finance mechanisms for urban resilience in post-apartheid South Africa.</p>
-            <span class="card-cta">View project →</span>
+            <span class="card-cta">Open paper →</span>
           </div></div>
         </div>
 
@@ -455,10 +421,8 @@
       <div class="modal-visual" id="modal-visual"></div>
       <a id="modal-link" href="#" style="display:none; margin: 1.5rem 0 0 3rem; padding: 10px 24px; background: var(--forest); color: var(--cream); font-size: 9px; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; text-decoration: none; transition: background 0.2s;" onmouseover="this.style.background='#D95A18'" onmouseout="this.style.background='#1A2E1E'">Open project →</a>
       <div class="modal-body">
-        <span class="modal-tag" id="modal-tag"></span>
         <h2 class="modal-title" id="modal-title"></h2>
         <div class="modal-desc" id="modal-desc"></div>
-        <div class="modal-methods" id="modal-methods"></div>
         <div class="modal-meta" id="modal-meta"></div>
       </div>
     </div>
@@ -488,6 +452,7 @@
         tag: 'Research',
         title: 'Penn as an Anchor Institution',
         link: 'https://penniur.upenn.edu/about/current-themes/anchor-institutions',
+        cta: 'Open website',
         img: 'images/portfolio/anchorMap.png',
         desc: `<p>This map was made as part of my work at the Penn Institute for Urban Research. It visualizes the full physical footprint of Penn across the greater Philadelphia region, including ambulatory care sites, hospitals, administrative buildings, residential facilities, and support centers.</p><p>The regional view makes visible how much Penn operates as a regional institution, not just a single campus. That scope matters when thinking about the relationship between an anchor institution and the communities around it.</p>`,
         methods: ['GIS','ArcGIS Pro','Spatial Analysis','Penn IUR'],
@@ -524,6 +489,7 @@
         tag: 'Public Health · Data Analysis',
         title: 'Predicting Drunk Driving Crashes in Philadelphia',
         link: 'portfolio-links/crash-prediction.pdf',
+        cta: 'Open paper',
         img: 'images/portfolio/crash-predictor.png',
         desc: `<p>This project uses logistic regression to identify which crash characteristics are most predictive of alcohol involvement in Philadelphia traffic crashes from 2008 to 2012. Speeding came out as the strongest predictor: crashes involving speeding were 4.66 times more likely to involve a drunk driver.</p><p>Cell phone use and socioeconomic indicators showed no significant association, which points toward individual driver behavior as a stronger signal than neighborhood context for this particular outcome.</p>`,
         methods: ['Logistic Regression','ROC Analysis','R','Philadelphia Crash Data','ACS Data'],
@@ -542,6 +508,7 @@
         tag: 'Policy Writing',
         title: 'Financing Climate Resilient Infrastructure in South Africa',
         link: 'portfolio-links/WritingSample_JLuu.pdf',
+        cta: 'Open paper',
         img: 'images/portfolio/south-africa.jpg',
         desc: `<p>A policy paper examining how South African cities can finance climate resilient infrastructure. The paper looks at the constraints municipal governments face — weak fiscal capacity, high debt, political instability — and what financing mechanisms exist at the national and international level to bridge that gap.</p><p>South Africa is an interesting case because it has a relatively sophisticated urban policy framework but major implementation failures. Understanding why the money doesn't reach the projects that need it is the central question.</p>`,
         methods: ['Policy Analysis','International Development','Climate Finance','Academic Writing'],
@@ -564,14 +531,13 @@
     document.querySelectorAll('.gallery-card').forEach(card => {
       card.addEventListener('click', () => {
         const p = projects[card.dataset.id]; if (!p) return;
-        document.getElementById('modal-tag').textContent = p.tag;
         document.getElementById('modal-title').textContent = p.title;
         document.getElementById('modal-desc').innerHTML = p.desc;
-        document.getElementById('modal-methods').innerHTML = p.methods.map(m => `<span class="method-chip">${m}</span>`).join('');
         document.getElementById('modal-meta').innerHTML = p.meta.map(([k,v]) => `<span><strong>${k}:</strong> ${v}</span>`).join('');
         document.getElementById('modal-visual').innerHTML = `<img src="${p.img}" alt="${p.title}">`;
         const linkEl = document.getElementById('modal-link');
         if (p.link) {
+          linkEl.textContent = (p.cta || 'Open project') + ' →';
           linkEl.href = p.link;
           linkEl.target = p.link.startsWith('http') ? '_blank' : '_blank';
           linkEl.style.display = 'inline-block';
