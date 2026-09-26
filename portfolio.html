@@ -6,7 +6,7 @@
   <title>Portfolio — Jun Luu</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,700&display=swap" rel="stylesheet">
   <style>
     :root {
       --forest:     #1A2E1E;
@@ -21,7 +21,7 @@
       font-family: 'DM Sans', sans-serif;
       min-height: 100vh;
       overflow-x: hidden;
-      background-image: url('images/inspo-photo.jpg');
+      background-image: url('images/portfolio/portfolio-photo.jpg');
       background-size: cover;
       background-position: center top;
       background-attachment: fixed;
@@ -94,10 +94,11 @@
     }
 
     .page-eyebrow {
-      font-size: 10px; font-weight: 500;
+      font-size: 10px; font-weight: 700;
       letter-spacing: 0.28em; text-transform: uppercase;
       color: var(--orange);
       margin-bottom: 16px;
+      text-shadow: 0 1px 14px rgba(0,0,0,0.5);
     }
 
     .page-title {
@@ -167,20 +168,6 @@
       transition: transform 0.5s ease;
     }
     .gallery-card:hover .card-visual img { transform: scale(1.04); }
-
-    /* Fixed label top-left */
-    .card-label-fixed {
-      position: absolute; top: 12px; left: 12px;
-      font-size: 9px; font-weight: 500;
-      letter-spacing: 0.14em; text-transform: uppercase;
-      padding: 4px 10px;
-      transition: opacity 0.3s;
-      z-index: 2;
-    }
-    .gallery-card:hover .card-label-fixed { opacity: 0; }
-    .lbl-cream  { background: rgba(248,244,236,0.85); color: var(--forest); }
-    .lbl-orange { background: rgba(217,90,24,0.85);  color: white; }
-    .lbl-forest { background: rgba(26,46,30,0.85);   color: var(--cream); }
 
     /* Hover overlay */
     .card-overlay {
@@ -364,7 +351,6 @@
 
         <div class="gallery-card featured" data-tags="research nlp ml housing dataanalysis" data-id="som">
           <div class="card-visual"><img src="images/portfolio/som_k20.jpeg" alt="Neighborhood Change SOM"></div>
-          <div class="card-label-fixed lbl-cream">Thesis</div>
           <div class="card-overlay"><div class="card-meta">
             <span class="card-tag-hover">Research · NLP · ML · Housing</span>
             <h3 class="card-title-hover">Mapping New Vocabularies of Neighborhood Change</h3>
@@ -375,7 +361,6 @@
 
         <div class="gallery-card" data-tags="housing dataanalysis research policywriting" data-id="nycha">
           <div class="card-visual"><img src="images/portfolio/nycha-housing.jpeg" alt="NYCHA Through the Decades"></div>
-          <div class="card-label-fixed lbl-orange">NYCHA</div>
           <div class="card-overlay"><div class="card-meta">
             <span class="card-tag-hover">Housing · Data Analysis · Research · Policy Writing</span>
             <h3 class="card-title-hover">NYCHA Through the Decades</h3>
@@ -386,7 +371,6 @@
 
         <div class="gallery-card" data-tags="dataanalysis housing" data-id="eviction">
           <div class="card-visual"><img src="images/portfolio/eviction-prediction.jpeg" alt="Eviction Prediction"></div>
-          <div class="card-label-fixed lbl-cream">Predictive Model</div>
           <div class="card-overlay"><div class="card-meta">
             <span class="card-tag-hover">Data Analysis · Housing</span>
             <h3 class="card-title-hover">Predicting Eviction Risk in Philadelphia</h3>
@@ -397,7 +381,6 @@
 
         <div class="gallery-card" data-tags="research" data-id="anchor">
           <div class="card-visual"><img src="images/portfolio/anchorMap.png" alt="Penn Anchor Institution Map"></div>
-          <div class="card-label-fixed lbl-forest">Penn IUR</div>
           <div class="card-overlay"><div class="card-meta">
             <span class="card-tag-hover">Research</span>
             <h3 class="card-title-hover">Penn as an Anchor Institution</h3>
@@ -408,7 +391,6 @@
 
         <div class="gallery-card" data-tags="research dataanalysis" data-id="flight">
           <div class="card-visual"><img src="images/portfolio/flight-diversions.jpeg" alt="Flight Diversions Dashboard"></div>
-          <div class="card-label-fixed lbl-cream">CAtRES</div>
           <div class="card-overlay"><div class="card-meta">
             <span class="card-tag-hover">Research · Data Analysis</span>
             <h3 class="card-title-hover">Flight Diversion Pattern Analysis</h3>
@@ -419,7 +401,6 @@
 
         <div class="gallery-card" data-tags="research nlp ml housing" data-id="synthetic">
           <div class="card-visual"><img src="images/portfolio/synthetic-data.jpeg" alt="Synthetic MLS Pipeline"></div>
-          <div class="card-label-fixed lbl-orange">Synthetic Data</div>
           <div class="card-overlay"><div class="card-meta">
             <span class="card-tag-hover">NLP · ML · Housing · Research</span>
             <h3 class="card-title-hover">Synthetic MLS Remark Generation</h3>
@@ -430,7 +411,6 @@
 
         <div class="gallery-card" data-tags="dataanalysis" data-id="crash">
           <div class="card-visual"><img src="images/portfolio/crash-predictor.jpeg" alt="Crash Predictor"></div>
-          <div class="card-label-fixed lbl-cream">Predictive Model</div>
           <div class="card-overlay"><div class="card-meta">
             <span class="card-tag-hover">Data Analysis · Public Health</span>
             <h3 class="card-title-hover">Predicting Drunk Driving Crashes</h3>
@@ -441,7 +421,6 @@
 
         <div class="gallery-card" data-tags="cartography dataanalysis" data-id="dc-metro">
           <div class="card-visual"><img src="images/portfolio/dc_metro_coverage_map.png" alt="DC Metro Coverage Map"></div>
-          <div class="card-label-fixed lbl-forest">Cartography</div>
           <div class="card-overlay"><div class="card-meta">
             <span class="card-tag-hover">Cartography · Data Analysis</span>
             <h3 class="card-title-hover">Washington DC Metro Station Coverage</h3>
@@ -452,7 +431,6 @@
 
         <div class="gallery-card" data-tags="policy" data-id="south-africa">
           <div class="card-visual"><img src="images/portfolio/south-africa.jpg" alt="South Africa Policy Paper"></div>
-          <div class="card-label-fixed lbl-orange">Policy Writing</div>
           <div class="card-overlay"><div class="card-meta">
             <span class="card-tag-hover">Policy Writing</span>
             <h3 class="card-title-hover">Financing Climate Resilient Infrastructure in South Africa</h3>
