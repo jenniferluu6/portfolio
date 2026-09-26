@@ -10,16 +10,14 @@
 <style>
   /* NAV */
   nav {
-    position: fixed;
+    position: absolute;
     top: 0; left: 0; right: 0;
     z-index: 200;
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 28px 52px;
-    background: rgba(26,46,30,0.55);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
+    background: transparent;
   }
   .nav-logo {
     font-family: 'Cormorant Garamond', serif;
@@ -27,6 +25,7 @@
     letter-spacing: 0.24em; text-transform: uppercase;
     color: #F8F4EC; text-decoration: none;
   }
+  .nav-logo, .nav-links a { text-shadow: 0 1px 14px rgba(0,0,0,0.5); }
   .nav-links { display: flex; gap: 36px; list-style: none; }
   .nav-links a {
     font-size: 10px; font-weight: 500;
@@ -423,10 +422,9 @@
 
 <div class="page">
 
-  <h1 class="cv-name">Jun (Jennifer) <em>Luu</em></h1>
+  <h1 class="cv-name">Jun (Jennifer) Luu</h1>
 
   <div class="cv-meta">
-    <div class="cv-tagline">Urban Spatial Analytics &nbsp;·&nbsp; Penn Weitzman &nbsp;·&nbsp; 2026</div>
     <div class="cv-contact">
       jennifer.luu6@gmail.com &nbsp;·&nbsp; Philadelphia, PA<br>
       <a href="https://jenniferluu6.github.io/portfolio">jenniferluu6.github.io/portfolio</a>
@@ -440,12 +438,12 @@
       <div class="edu-entry">
         <div class="edu-school">University of Pennsylvania</div>
         <div class="edu-deg">Master of Urban Spatial Analytics<br>Weitzman School of Design</div>
-        <div class="edu-meta">Expected May 2026 &nbsp;·&nbsp; GPA 3.88 / 4.0</div>
+        <div class="edu-meta">May 2026</div>
       </div>
       <div class="edu-entry">
         <div class="edu-school">Virginia Tech</div>
-        <div class="edu-deg">B.S. in Construction Engineering and Management</div>
-        <div class="edu-meta">May 2022 &nbsp;·&nbsp; Dean's List ×4</div>
+        <div class="edu-deg">B.S. in Construction Engineering and Management<br>College of Engineering</div>
+        <div class="edu-meta">May 2022</div>
       </div>
     </div>
   </section>
@@ -478,9 +476,10 @@
     <div class="r-entry">
       <div class="r-head">
         <div class="r-title">Mapping New Vocabularies of Neighborhood Change: An Inductive Text Analysis of Real Estate Listings</div>
-        <div class="r-date">Nov 2025 – Present</div>
+        <div class="r-date">2025 – Present</div>
       </div>
-      <div class="r-sub">PIs: Prof. Elizabeth Delmelle (University of Pennsylvania) &amp; Prof. Isabelle Nilsson (UNC Charlotte) &nbsp;·&nbsp; Presented at AAG Annual Meeting, San Francisco, March 2026</div>
+      <div class="r-sub">PIs: Prof. Elizabeth Delmelle (University of Pennsylvania) &amp; Prof. Isabelle Nilsson (UNC Charlotte)</div>
+      <div class="r-sub">Presented at AAG Annual Meeting, San Francisco, March 2026</div>
       <ul class="bullets">
         <li>Developed a generalizable inductive text analysis pipeline applying <strong>TF-IDF vectorization</strong> to MLS listing remarks across Mecklenburg County, NC to identify latent vocabulary patterns signaling neighborhood change across census tract-periods.</li>
         <li>Implemented a <strong>Self-Organizing Map (SOM)</strong> trained on listing language to cluster neighborhoods by linguistic profile, enabling unsupervised detection of gentrification stages without imposing predetermined typologies.</li>
@@ -522,8 +521,28 @@
 
     <div class="w-entry">
       <div class="w-head">
+        <div class="w-title">Research Specialist II</div>
+        <div class="w-date">2026 – Present</div>
+      </div>
+      <div class="w-org">Eviction Lab <span>— Princeton University, Princeton, NJ</span></div>
+    </div>
+
+    <div class="w-entry">
+      <div class="w-head">
+        <div class="w-title">Data and Spatial Analytics Fellow</div>
+        <div class="w-date">2026</div>
+      </div>
+      <div class="w-org">One Architecture &amp; Urbanism (ONE) <span>— New York, NY</span></div>
+      <ul class="bullets">
+        <li>Built a <strong>relational database</strong> cataloging the firm's mixed-format project archive — .jpg, .png, .ai, .pdf, and other file types — turning a previously unsearchable store of work into a queryable resource.</li>
+        <li>Wrote a <strong>crawler</strong> that indexed the firm's full file holdings and populated the database automatically, so the catalog stayed current without manual entry.</li>
+      </ul>
+    </div>
+
+    <div class="w-entry">
+      <div class="w-head">
         <div class="w-title">Research Analyst</div>
-        <div class="w-date">Feb 2026 – Present</div>
+        <div class="w-date">2026</div>
       </div>
       <div class="w-org">Penn Institute for Urban Research <span>— University of Pennsylvania, Dr. Eugenia Birch</span></div>
       <ul class="bullets">
@@ -536,7 +555,7 @@
     <div class="w-entry">
       <div class="w-head">
         <div class="w-title">Geospatial Research Assistant</div>
-        <div class="w-date">Sept 2025 – Present</div>
+        <div class="w-date">2025 – 2026</div>
       </div>
       <div class="w-org">Center for Air Transportation Resilience (CAtRES) <span>— NASA University Leadership Initiative, Dr. Megan Ryerson (Penn) &amp; Dr. Mark Hansen (UC Berkeley)</span></div>
       <ul class="bullets">
@@ -556,7 +575,7 @@
     <div class="w-entry">
       <div class="w-head">
         <div class="w-title">Assistant Project Manager</div>
-        <div class="w-date">Aug 2024 – Jul 2025</div>
+        <div class="w-date">2024 – 2025</div>
       </div>
       <div class="w-org">Fairstead <span>— NYCHA Reid Apartments PACT/RAD Conversion, Brooklyn, NY</span></div>
       <ul class="bullets">
@@ -569,7 +588,7 @@
     <div class="w-entry">
       <div class="w-head">
         <div class="w-title">Field Engineer</div>
-        <div class="w-date">Oct 2023 – Jul 2024</div>
+        <div class="w-date">2023 – 2024</div>
       </div>
       <div class="w-org">Hensel Phelps <span>— Harbor-UCLA Medical Center, Los Angeles, CA</span></div>
       <ul class="bullets">
@@ -582,7 +601,7 @@
     <div class="w-entry">
       <div class="w-head">
         <div class="w-title">Assistant Engineer</div>
-        <div class="w-date">May 2021 – Sept 2023</div>
+        <div class="w-date">2021 – 2023</div>
       </div>
       <div class="w-org">Turner Construction Company <span>— Advocate Illinois Masonic Medical Center, Chicago, IL</span></div>
       <ul class="bullets">
@@ -634,7 +653,6 @@
 
 <footer class="site-footer">
   <p>© 2026 Jun Luu</p>
-  <p>MUSA &nbsp;·&nbsp; University of Pennsylvania</p>
 </footer>
 
 <a href="CV_JLuu.pdf" download="CV_JLuu.pdf">

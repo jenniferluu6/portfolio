@@ -38,16 +38,14 @@
 
     /* NAV */
     nav {
-      position: fixed;
+      position: absolute;
       top: 0; left: 0; right: 0;
       z-index: 100;
       display: flex;
       justify-content: space-between;
       align-items: center;
       padding: 28px 52px;
-      background: rgba(20,46,24,0.45);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
+      background: transparent;
     }
 
     .nav-logo {
@@ -56,6 +54,8 @@
       letter-spacing: 0.24em; text-transform: uppercase;
       color: var(--cream); text-decoration: none;
     }
+
+    .nav-logo, .nav-links a { text-shadow: 0 1px 14px rgba(0,0,0,0.5); }
 
     .nav-links {
       display: flex; gap: 36px; list-style: none;
@@ -466,7 +466,6 @@
 
     <footer>
       <p>© 2026 Jun Luu</p>
-      <p>MUSA &nbsp;·&nbsp; University of Pennsylvania</p>
     </footer>
 
   </div>

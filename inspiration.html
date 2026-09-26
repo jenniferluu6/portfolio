@@ -32,31 +32,31 @@
 
     /* NAV */
     nav {
-      position: fixed;
+      position: absolute;
       top: 0; left: 0; right: 0;
       z-index: 100;
       display: flex;
       justify-content: space-between;
       align-items: center;
       padding: 28px 52px;
-      background: rgba(255,255,255,0.88);
-      backdrop-filter: blur(14px);
-      -webkit-backdrop-filter: blur(14px);
+      background: transparent;
     }
 
     .nav-logo {
       font-family: 'Cormorant Garamond', serif;
       font-size: 14px; font-weight: 400;
       letter-spacing: 0.24em; text-transform: uppercase;
-      color: var(--forest); text-decoration: none;
+      color: var(--cream); text-decoration: none;
     }
+
+    .nav-logo, .nav-links a { text-shadow: 0 1px 14px rgba(0,0,0,0.5); }
 
     .nav-links { display: flex; gap: 36px; list-style: none; }
 
     .nav-links a {
       font-size: 10px; font-weight: 500;
       letter-spacing: 0.15em; text-transform: uppercase;
-      color: var(--ink-muted); text-decoration: none;
+      color: rgba(248,244,236,0.75); text-decoration: none;
       transition: color 0.2s; position: relative;
     }
     .nav-links a::after {
@@ -66,9 +66,9 @@
       transform: scaleX(0); transform-origin: left;
       transition: transform 0.25s ease;
     }
-    .nav-links a:hover { color: var(--ink); }
+    .nav-links a:hover { color: var(--cream); }
     .nav-links a:hover::after { transform: scaleX(1); }
-    .nav-links a.active { color: var(--ink); }
+    .nav-links a.active { color: var(--cream); }
     .nav-links a.active::after { transform: scaleX(1); }
 
     /* PAGE HEADER */
@@ -398,12 +398,34 @@
         </a>
       </div>
 
+      <div class="masonry-item" data-tags="paper">
+        <a class="paper-card" href="https://academic.oup.com/sf/article-abstract/102/3/880/7287101" target="_blank">
+          <div class="paper-accent" style="background:#D95A18"></div>
+          <p class="paper-type">Research Paper</p>
+          <p class="paper-journal">Social Forces · 2024 · 102(3), 880–901</p>
+          <p class="paper-title">Beyond Gentrification: Housing Loss, Poverty, and the Geography of Displacement</p>
+          <p class="paper-authors">Hepburn, P., Louis, R., &amp; Desmond, M.</p>
+          <div class="paper-note">Six million eviction cases across 72 metros, and most of them fall outside gentrifying tracts entirely. A useful corrective to treating gentrification as the main site of displacement.</div>
+          <span class="paper-link-label">Read paper →</span>
+        </a>
+      </div>
+
       <div class="masonry-item" data-tags="design" data-img="images/Christopher-John-Rogers.jpg" data-creator="Christopher John Rogers" data-label="Fashion">
         <div class="img-card">
           <img src="images/Christopher-John-Rogers.jpg" alt="Christopher John Rogers">
           <div class="img-card-overlay"><div class="img-card-meta">
             <p class="img-card-creator">Christopher John Rogers</p>
             <p class="img-card-label">Fashion</p>
+          </div></div>
+        </div>
+      </div>
+
+      <div class="masonry-item" data-tags="design" data-img="images/asma.jpeg" data-creator="Asma" data-label="Design">
+        <div class="img-card">
+          <img src="images/asma.jpeg" alt="Asma">
+          <div class="img-card-overlay"><div class="img-card-meta">
+            <p class="img-card-creator">Asma</p>
+            <p class="img-card-label">Design</p>
           </div></div>
         </div>
       </div>
@@ -510,6 +532,16 @@
         </a>
       </div>
 
+      <div class="masonry-item" data-tags="design nature" data-img="images/sculpted-alchemy.jpg" data-creator="Sculpted Alchemy" data-label="Design">
+        <div class="img-card">
+          <img src="images/sculpted-alchemy.jpg" alt="Sculpted Alchemy">
+          <div class="img-card-overlay"><div class="img-card-meta">
+            <p class="img-card-creator">Sculpted Alchemy</p>
+            <p class="img-card-label">Design</p>
+          </div></div>
+        </div>
+      </div>
+
       <div class="masonry-item" data-tags="art nature" data-img="images/Ramin-Nasibov.jpg" data-creator="Ramin Nasibov" data-label="Art &amp; Illustration">
         <div class="img-card">
           <img src="images/Ramin-Nasibov.jpg" alt="Ramin Nasibov">
@@ -567,7 +599,6 @@
 
   <footer>
     <p>© 2026 Jun Luu</p>
-    <p>MUSA &nbsp;·&nbsp; University of Pennsylvania</p>
   </footer>
 
   <script>

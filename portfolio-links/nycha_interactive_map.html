@@ -803,7 +803,9 @@ const map = L.map('map', {
   attributionControl: false,
 });
 
-L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+// CARTO basemaps require a key since Sept 2026 (free for non-commercial use). Manage it at carto.com/basemaps/apikey.
+const CARTO_KEY = 'cb1_3h7w_1_c69bb6cc5fcbd3d3cbb6dbcf';
+L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png?key=' + CARTO_KEY, {
   subdomains: 'abcd',
   maxZoom: 19
 }).addTo(map);

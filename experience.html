@@ -42,16 +42,14 @@
 
     /* NAV */
     nav {
-      position: fixed;
+      position: absolute;
       top: 0; left: 0; right: 0;
       z-index: 100;
       display: flex;
       justify-content: space-between;
       align-items: center;
       padding: 28px 52px;
-      background: rgba(10,30,40,0.45);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
+      background: transparent;
     }
 
     .nav-logo {
@@ -60,6 +58,8 @@
       letter-spacing: 0.24em; text-transform: uppercase;
       color: var(--cream); text-decoration: none;
     }
+
+    .nav-logo, .nav-links a { text-shadow: 0 1px 14px rgba(0,0,0,0.5); }
 
     .nav-links { display: flex; gap: 36px; list-style: none; }
 
@@ -151,9 +151,69 @@
       letter-spacing: 0.08em; text-transform: uppercase;
       color: rgba(230,215,185,0.35); white-space: nowrap;
     }
-    .legend-dot-o { width: 8px; height: 8px; border-radius: 50%; background: #C4782A; flex-shrink: 0; }
-    .legend-dot-c { width: 8px; height: 8px; border-radius: 50%; background: var(--orange); flex-shrink: 0; }
-    .legend-line   { width: 18px; height: 1.5px; background: #C4782A; opacity: 0.6; flex-shrink: 0; }
+    /* Legend swatches mirror the timeline dots exactly: orange = past, cream = current */
+    .legend-dot-o { width: 8px; height: 8px; border-radius: 50%; background: var(--orange); flex-shrink: 0; }
+    .legend-dot-c { width: 8px; height: 8px; border-radius: 50%; background: var(--cream); flex-shrink: 0; }
+    .legend-line   { width: 18px; height: 1.5px; background: var(--orange); opacity: 0.6; flex-shrink: 0; }
+
+    /* MAP PINS — same palette as the timeline dots in the panel alongside */
+    .pin-wrap { background: transparent; border: none; }
+    .pin {
+      position: relative;
+      width: 26px; height: 26px;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .pin-dot {
+      width: 11px; height: 11px; border-radius: 50%;
+      background: var(--orange);
+      border: 2px solid rgba(248,244,236,0.35);
+      box-shadow: 0 0 0 1px var(--orange);
+      transition: transform 0.18s ease, box-shadow 0.18s ease;
+    }
+    .pin-current .pin-dot {
+      width: 13px; height: 13px;
+      background: var(--cream);
+      border-color: rgba(248,244,236,0.5);
+      box-shadow: 0 0 0 1px rgba(248,244,236,0.6);
+    }
+    .pin-pulse {
+      position: absolute; top: 50%; left: 50%;
+      width: 26px; height: 26px; border-radius: 50%;
+      background: rgba(217,90,24,0.18);
+      animation: pulse 2.5s ease-out infinite;
+      pointer-events: none;
+    }
+    .pin-current .pin-pulse { background: rgba(248,244,236,0.2); }
+
+    /* Hover: swell the dot so tightly-spaced cities are separable */
+    .pin:hover .pin-dot {
+      transform: scale(1.9);
+      box-shadow: 0 0 0 1px var(--orange), 0 0 16px rgba(217,90,24,0.75);
+    }
+    .pin-current:hover .pin-dot {
+      box-shadow: 0 0 0 1px rgba(248,244,236,0.85), 0 0 16px rgba(248,244,236,0.65);
+    }
+
+    @keyframes pulse {
+      0%   { opacity: 0.6; transform: translate(-50%,-50%) scale(1); }
+      70%  { opacity: 0;   transform: translate(-50%,-50%) scale(2.5); }
+      100% { opacity: 0;   transform: translate(-50%,-50%) scale(2.5); }
+    }
+
+    /* Zoom control, restyled to the map card */
+    .leaflet-control-zoom { border: none !important; box-shadow: none !important; margin: 12px !important; }
+    .leaflet-control-zoom a {
+      background: rgba(13,27,42,0.85) !important;
+      color: rgba(248,244,236,0.55) !important;
+      border: 1px solid rgba(248,244,236,0.12) !important;
+      width: 24px !important; height: 24px !important;
+      line-height: 22px !important; font-size: 14px !important;
+      transition: color 0.2s, background 0.2s;
+    }
+    .leaflet-control-zoom a:hover {
+      background: rgba(13,27,42,0.95) !important;
+      color: var(--orange) !important;
+    }
 
     .map-hint {
       font-size: 9px; font-weight: 400;
@@ -340,8 +400,7 @@
     /* FOOTER */
     footer {
       position: relative; z-index: 1;
-      background: rgba(10,30,40,0.7);
-      backdrop-filter: blur(12px);
+      background: var(--forest);
       padding: 14px 52px;
       display: flex;
       justify-content: space-between;
@@ -401,7 +460,7 @@
               <div class="legend-item"><div class="legend-line"></div>Journey</div>
               <div class="legend-item"><div class="legend-dot-c"></div>Current</div>
             </div>
-            <div class="map-hint">Click a city to explore</div>
+            <div class="map-hint">Hover a city · click to jump</div>
           </div>
         </div>
       </div>
@@ -421,7 +480,7 @@
             </div>
             <div>
               <div class="cv-strip-label">Curriculum Vitae</div>
-              <div class="cv-strip-sub">Updated March 2026</div>
+              <div class="cv-strip-sub">Updated September 2026</div>
             </div>
           </div>
           <a class="cv-strip-btn" href="cv_jluu.html" target="_blank">View CV &nbsp;↗</a>
@@ -429,35 +488,50 @@
 
         <div class="timeline" id="timeline-panel">
 
-          <div class="city-group" id="group-philly">
-            <p class="city-group-label current">Philadelphia, PA — Current</p>
-            <div class="timeline-item current-city" data-city="philly">
+          <div class="city-group" id="group-princeton">
+            <p class="city-group-label current">Princeton, NJ — Current</p>
+            <div class="timeline-item current-city" data-city="princeton">
               <p class="timeline-date">2026 – Present</p>
-              <h3 class="timeline-role">Research Analyst</h3>
-              <p class="timeline-org">Penn Institute for Urban Research, University of Pennsylvania</p>
-              <p class="timeline-detail">Contributing to urban research initiatives including the Draw Down the Lightning grant under Dr. Eugenia Birch. Spatial and qualitative analysis in support of policy-facing research on anchor institutions and urban development.</p>
-            </div>
-            <div class="timeline-item current-city" data-city="philly">
-              <p class="timeline-date">2025 – Present</p>
-              <h3 class="timeline-role">Geospatial Research Assistant</h3>
-              <p class="timeline-org">CAtRES, University of Pennsylvania (NASA-funded, Dr. Megan Ryerson)</p>
-              <p class="timeline-detail">The Center for Air Transportation Resilience (CAtRES), a NASA University Leadership Initiative. Geospatial researcher under principal investigators Dr. Megan Ryerson (UPenn) and Dr. Mark Hansen (UC Berkeley) to research flight diversion patterns.</p>
-            </div>
-            <div class="timeline-item current-city" data-city="philly">
-              <p class="timeline-date">2025 – Present</p>
-              <h3 class="timeline-role">Master of Urban Spatial Analytics (MUSA)</h3>
-              <p class="timeline-org">Weitzman School of Design, University of Pennsylvania — Expected May 2026</p>
-              <p class="timeline-detail">Coursework spanning geospatial analysis, remote sensing, and public policy. Thesis research on NLP-based neighborhood change detection using Self-Organizing Maps, advised by Prof. Elizabeth Delmelle (Penn) and Prof. Isabelle Nilsson (UNC Charlotte).</p>
+              <h3 class="timeline-role">Research Specialist II</h3>
+              <p class="timeline-org">Eviction Lab, Princeton University</p>
             </div>
           </div>
 
           <div class="city-group" id="group-nyc">
             <p class="city-group-label">New York, NY</p>
             <div class="timeline-item" data-city="nyc">
+              <p class="timeline-date">2026</p>
+              <h3 class="timeline-role">Data and Spatial Analytics Fellow</h3>
+              <p class="timeline-org">One Architecture &amp; Urbanism (ONE)</p>
+              <p class="timeline-detail">Built a relational database cataloging the firm's mixed-format project archive — .jpg, .png, .ai, .pdf and other file types — and wrote a crawler that indexed its full file holdings to populate it automatically.</p>
+            </div>
+            <div class="timeline-item" data-city="nyc">
               <p class="timeline-date">2024 – 2025</p>
               <h3 class="timeline-role">Assistant Project Manager</h3>
               <p class="timeline-org">Fairstead — NYCHA Reid Apartments PACT Conversion</p>
               <p class="timeline-detail">Managed occupied affordable housing renovation across a multi-building NYCHA portfolio. Coordinated subcontractors, tenant communications, phased construction, and compliance with federal and city regulatory frameworks under the PACT/RAD conversion program.</p>
+            </div>
+          </div>
+
+          <div class="city-group" id="group-philly">
+            <p class="city-group-label">Philadelphia, PA</p>
+            <div class="timeline-item" data-city="philly">
+              <p class="timeline-date">2026</p>
+              <h3 class="timeline-role">Research Analyst</h3>
+              <p class="timeline-org">Penn Institute for Urban Research, University of Pennsylvania</p>
+              <p class="timeline-detail">Contributed to urban research initiatives including the Draw Down the Lightning grant under Dr. Eugenia Birch. Spatial and qualitative analysis in support of policy-facing research on anchor institutions and urban development.</p>
+            </div>
+            <div class="timeline-item" data-city="philly">
+              <p class="timeline-date">2025 – 2026</p>
+              <h3 class="timeline-role">Geospatial Research Assistant</h3>
+              <p class="timeline-org">CAtRES, University of Pennsylvania (NASA-funded, Dr. Megan Ryerson)</p>
+              <p class="timeline-detail">The Center for Air Transportation Resilience (CAtRES), a NASA University Leadership Initiative. Geospatial researcher under principal investigators Dr. Megan Ryerson (UPenn) and Dr. Mark Hansen (UC Berkeley) to research flight diversion patterns.</p>
+            </div>
+            <div class="timeline-item" data-city="philly">
+              <p class="timeline-date">2025 – 2026</p>
+              <h3 class="timeline-role">Master of Urban Spatial Analytics (MUSA)</h3>
+              <p class="timeline-org">Weitzman School of Design, University of Pennsylvania</p>
+              <p class="timeline-detail">Coursework spanning geospatial analysis, remote sensing, and public policy. Thesis research on NLP-based neighborhood change detection using Self-Organizing Maps, advised by Prof. Elizabeth Delmelle (Penn) and Prof. Isabelle Nilsson (UNC Charlotte).</p>
             </div>
           </div>
 
@@ -550,7 +624,6 @@
 
     <footer>
       <p>© 2026 Jun Luu</p>
-      <p>MUSA &nbsp;·&nbsp; University of Pennsylvania</p>
     </footer>
 
   </div>
@@ -561,36 +634,42 @@
       { id:'blacksburg', name:'Blacksburg, VA', lat:37.2296, lng:-80.4139, current:false, roles:[{title:'B.S., Construction Engineering & Management',org:'Virginia Tech',dates:'2018 – 2022'}] },
       { id:'chicago',    name:'Chicago, IL',    lat:41.8781, lng:-87.6298, current:false, roles:[{title:'Assistant Engineer',org:'Turner Construction — Advocate Illinois Masonic',dates:'2022 – 2023'}] },
       { id:'la',         name:'Los Angeles, CA',lat:34.0522, lng:-118.2437,current:false, roles:[{title:'Field Engineer',org:'Hensel Phelps — Harbor-UCLA Medical Center',dates:'2023 – 2024'}] },
-      { id:'nyc',        name:'New York, NY',   lat:40.7128, lng:-74.0060, current:false, roles:[{title:'Assistant Project Manager',org:'Fairstead — NYCHA Reid Apartments PACT',dates:'2024 – 2025'}] },
-      { id:'philly',     name:'Philadelphia, PA',lat:39.9526,lng:-75.1652, current:true,  roles:[{title:'Master of Urban Spatial Analytics',org:'Penn Weitzman',dates:'2023 – Present'},{title:'Research Analyst',org:'Penn IUR',dates:'2025 – Present'},{title:'Geospatial Research Assistant',org:'CAtRES, Penn',dates:'2025 – Present'}] }
+      { id:'nyc',        name:'New York, NY',   lat:40.7128, lng:-74.0060, current:false, roles:[{title:'Data and Spatial Analytics Fellow',org:'One Architecture & Urbanism (ONE)',dates:'2026'},{title:'Assistant Project Manager',org:'Fairstead — NYCHA Reid Apartments PACT',dates:'2024 – 2025'}] },
+      { id:'philly',     name:'Philadelphia, PA',lat:39.9526,lng:-75.1652, current:false, roles:[{title:'Master of Urban Spatial Analytics',org:'Penn Weitzman',dates:'2025 – 2026'},{title:'Research Analyst',org:'Penn IUR',dates:'2026'},{title:'Geospatial Research Assistant',org:'CAtRES, Penn',dates:'2025 – 2026'}] },
+      { id:'princeton',  name:'Princeton, NJ',  lat:40.3573, lng:-74.6672, current:true,  roles:[{title:'Research Specialist II',org:'Eviction Lab, Princeton University',dates:'2026 – Present'}] }
     ];
 
+    // Princeton, Philadelphia and New York sit ~8px apart at the national zoom, so the map
+    // stays pannable/zoomable (minus scroll-wheel, which would hijack page scrolling).
     const map = L.map('journey-map', {
       center:[39.5,-96], zoom:4,
-      zoomControl:false, scrollWheelZoom:false, doubleClickZoom:false,
-      dragging:false, touchZoom:false, boxZoom:false, keyboard:false, attributionControl:false
+      zoomControl:true, scrollWheelZoom:false, doubleClickZoom:true,
+      dragging:true, touchZoom:true, boxZoom:false, keyboard:false, attributionControl:false
     });
+    map.zoomControl.setPosition('bottomright');
 
-    L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+    // CARTO basemaps require a key since Sept 2026 (free for non-commercial use). Manage it at carto.com/basemaps/apikey.
+    const CARTO_KEY = 'cb1_3h7w_1_c69bb6cc5fcbd3d3cbb6dbcf';
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png?key=' + CARTO_KEY, {
       maxZoom:10, minZoom:3, subdomains:'abcd'
     }).addTo(map);
 
     function makeIcon(current) {
       return L.divIcon({
-        className: '',
-        html: `<div style="width:${current?'16px':'13px'};height:${current?'16px':'13px'};border-radius:50%;background:${current?'#2E52E8':'#C4782A'};border:2.5px solid ${current?'rgba(196,212,250,0.7)':'rgba(230,215,185,0.5)'};box-shadow:0 0 ${current?'12px rgba(46,82,232,0.5)':'8px rgba(196,120,42,0.4)'};position:relative;cursor:pointer;">
-          <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:28px;height:28px;border-radius:50%;background:${current?'rgba(46,82,232,0.15)':'rgba(196,120,42,0.15)'};animation:pulse 2.5s ease-out infinite;"></div>
-        </div>`,
-        iconSize:[current?16:13,current?16:13],
-        iconAnchor:[current?8:6,current?8:6],
-        popupAnchor:[0,-12]
+        className: 'pin-wrap',
+        html: `<div class="pin${current ? ' pin-current' : ''}"><span class="pin-pulse"></span><span class="pin-dot"></span></div>`,
+        iconSize:[26,26],
+        iconAnchor:[13,13],
+        popupAnchor:[0,-13]
       });
     }
 
     cities.forEach(city => {
       const tip = `<div class="popup-city">${city.name}${city.current?' ★':''}</div>${city.roles.map(r=>`<div class="popup-role"><div class="popup-title">${r.title}</div><div class="popup-dates">${r.dates}</div></div>`).join('')}`;
-      const marker = L.marker([city.lat,city.lng],{icon:makeIcon(city.current)}).addTo(map)
-        .bindTooltip(tip,{permanent:false,direction:'top',offset:[0,-10],opacity:1,className:'city-tooltip'});
+      const marker = L.marker([city.lat,city.lng],{icon:makeIcon(city.current),riseOnHover:true,riseOffset:1000}).addTo(map)
+        .bindTooltip(tip,{permanent:false,direction:'top',offset:[0,-12],opacity:1,className:'city-tooltip'});
+      // riseOnHover lifts the marker itself; the tooltip pane needs lifting too so a
+      // neighbouring pin can't sit on top of the panel that just opened.
       marker.on('mouseover',function(){this.openTooltip();});
       marker.on('mouseout',function(){this.closeTooltip();});
       marker.on('click', function() {
@@ -608,7 +687,7 @@
     });
 
     const latlngs = cities.map(c=>[c.lat,c.lng]);
-    const ghost = L.polyline(latlngs,{color:'#C4782A',weight:2,opacity:0}).addTo(map);
+    const ghost = L.polyline(latlngs,{color:'#D95A18',weight:2,opacity:0}).addTo(map);
     let pts=[latlngs[0]], seg=0;
     function animSeg() {
       if (seg>=latlngs.length-1) return;
@@ -617,15 +696,11 @@
         i++; const t=i/steps;
         pts.push([s[0]+(e[0]-s[0])*t, s[1]+(e[1]-s[1])*t]);
         map.eachLayer(l=>{if(l instanceof L.Polyline&&l!==ghost)map.removeLayer(l);});
-        L.polyline(pts,{color:'#C4782A',weight:2,opacity:0.7}).addTo(map);
+        L.polyline(pts,{color:'#D95A18',weight:2,opacity:0.7}).addTo(map);
         if(i>=steps){clearInterval(iv);seg++;setTimeout(animSeg,200);}
       },18);
     }
     setTimeout(animSeg,800);
-
-    const st=document.createElement('style');
-    st.textContent=`@keyframes pulse{0%{opacity:.6;transform:translate(-50%,-50%) scale(1);}70%{opacity:0;transform:translate(-50%,-50%) scale(2.5);}100%{opacity:0;transform:translate(-50%,-50%) scale(2.5);}}`;
-    document.head.appendChild(st);
   </script>
 
 </body>

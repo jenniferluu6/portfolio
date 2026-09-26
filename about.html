@@ -13,7 +13,6 @@
       --forest-mid: #243528;
       --orange:     #D95A18;
       --cream:      #F8F4EC;
-      --sky-nav:    rgba(140,180,210,0.55);
     }
 
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -40,16 +39,14 @@
 
     /* NAV — sky-toned, blends with photo */
     nav {
-      position: fixed;
+      position: absolute;
       top: 0; left: 0; right: 0;
       z-index: 100;
       display: flex;
       justify-content: space-between;
       align-items: center;
       padding: 28px 52px;
-      background: var(--sky-nav);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
+      background: transparent;
     }
 
     .nav-logo {
@@ -58,6 +55,8 @@
       letter-spacing: 0.24em; text-transform: uppercase;
       color: white; text-decoration: none;
     }
+
+    .nav-logo, .nav-links a { text-shadow: 0 1px 14px rgba(0,0,0,0.5); }
 
     .nav-links {
       display: flex; gap: 36px; list-style: none;
@@ -366,7 +365,6 @@
 
     <footer>
       <p>© 2026 Jun Luu</p>
-      <p>MUSA &nbsp;·&nbsp; University of Pennsylvania</p>
     </footer>
 
   </div>
