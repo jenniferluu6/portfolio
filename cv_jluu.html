@@ -102,6 +102,9 @@
 
   .page {
     max-width: 1040px;
+    /* keep a gutter so the photo stays visible either side of the sheet,
+       instead of the page going edge-to-edge below 1040px */
+    width: calc(100% - 48px);
     margin: 108px auto 64px;
     background: var(--cream);
     box-shadow:
@@ -385,7 +388,7 @@
     }
     nav, .site-footer, .cv-download-btn, .cv-back-btn { display: none; }
     .page {
-      margin: 0; max-width: 100%;
+      margin: 0; max-width: 100%; width: auto;
       box-shadow: none; padding: 0;
       background: transparent;
     }
@@ -397,12 +400,14 @@
   }
 
   @media (max-width: 640px) {
-    .page { padding: 36px 28px 48px; }
+    .page { width: calc(100% - 32px); padding: 36px 24px 48px; }
     .cv-name { font-size: 40px; }
     .edu-grid { grid-template-columns: 1fr; }
     .skills-block { grid-template-columns: 1fr; }
   }
 </style>
+<link rel="stylesheet" href="assets/site.css">
+<script src="assets/site.js" defer></script>
 </head>
 <body>
 
@@ -415,6 +420,19 @@
     <li><a href="inspiration.html">Inspiration</a></li>
     <li><a href="cv_jluu.html" class="active">CV</a></li>
   </ul>
+
+  <button class="nav-toggle" type="button" aria-label="Open menu"
+          aria-expanded="false" aria-controls="nav-sheet">
+    <span></span><span></span><span></span>
+  </button>
+
+  <div class="nav-sheet" id="nav-sheet">
+    <a href="about.html">About</a>
+    <a href="portfolio.html">Portfolio</a>
+    <a href="experience.html">Experience</a>
+    <a href="inspiration.html">Inspiration</a>
+    <a href="cv_jluu.html" class="active">CV</a>
+  </div>
 </nav>
 
 <div class="page">
