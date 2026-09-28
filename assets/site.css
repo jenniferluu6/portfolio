@@ -1,0 +1,186 @@
+/* ==========================================================================
+   Shared responsive layer — loaded by every page AFTER its own <style> block,
+   so these rules win on equal specificity without needing !important.
+
+   Breakpoint scale (was 640 / 700 / 900 / 1100, different on every page —
+   which is why 768px behaved differently everywhere):
+
+     640px   phone      nav -> menu overlay, 24px gutters, single column
+     900px   tablet     two-up grids collapse
+     1200px  laptop     masonry and wide grids step down
+
+   Only phone-width rules live here. Each page keeps its own desktop nav
+   styling, because the link colours differ by page on purpose.
+   ========================================================================== */
+
+:root {
+  /* Swap this one value to restyle the menu overlay on all six pages.
+     Forest is the site footer colour, so it reads the same over the blue
+     hero pages and the cream ones. */
+  --nav-sheet-bg: #1A2E1E;
+  --nav-sheet-fg: #F8F4EC;
+}
+
+/* ── Sticky footer ───────────────────────────────────────────────────────────
+   Without this the footer sits wherever the content happens to end, so a short
+   page leaves the background showing underneath it — a filtered gallery on
+   inspiration.html left up to 898px of sky below the green bar at 1920x1600.
+   This is a viewport-HEIGHT problem, so it applies at every width. */
+body {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+/* dvh excludes mobile browser chrome, so the page doesn't overflow by the
+   height of Safari's address bar */
+@supports (min-height: 100dvh) {
+  body { min-height: 100dvh; }
+}
+footer, .site-footer { margin-top: auto; }
+
+/* ── Menu toggle: hidden until phone width ───────────────────────────────── */
+.nav-toggle {
+  display: none;
+  width: 44px;                 /* 44x44 touch target, WCAG 2.5.5 */
+  height: 44px;
+  margin-right: -11px;         /* keep the bars optically aligned to the gutter */
+  padding: 15px 11px;
+  background: none;
+  border: 0;
+  cursor: pointer;
+  color: #F8F4EC;
+  /* must sit above .nav-sheet, or the overlay covers its own close button */
+  position: relative;
+  z-index: 310;
+}
+.nav-toggle span {
+  display: block;
+  height: 1px;
+  background: currentColor;
+  box-shadow: 0 1px 14px rgba(0, 0, 0, .5);
+  transition: transform .3s ease, opacity .2s ease;
+}
+.nav-toggle span + span { margin-top: 5.5px; }
+
+body.nav-open .nav-toggle span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+body.nav-open .nav-toggle span:nth-child(2) { opacity: 0; }
+body.nav-open .nav-toggle span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+
+/* ── The overlay itself ──────────────────────────────────────────────────── */
+.nav-sheet {
+  position: fixed;
+  inset: 0;
+  z-index: 300;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 2px;
+  padding: 0 34px;
+  background: var(--nav-sheet-bg);
+  opacity: 0;
+  visibility: hidden;          /* also drops the links out of the tab order */
+  transition: opacity .3s ease, visibility 0s linear .3s;
+}
+body.nav-open .nav-sheet {
+  opacity: 1;
+  visibility: visible;
+  transition: opacity .3s ease;
+}
+.nav-sheet a {
+  display: flex;
+  align-items: center;
+  min-height: 56px;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 32px;
+  font-weight: 300;
+  letter-spacing: .01em;
+  color: var(--nav-sheet-fg);
+  text-decoration: none;
+  text-shadow: none;
+  border-bottom: 1px solid rgba(248, 244, 236, .16);
+}
+.nav-sheet a:last-child { border-bottom: 0; }
+
+/* keep the wordmark readable on top of the overlay too */
+body.nav-open .nav-logo { position: relative; z-index: 310; color: var(--nav-sheet-fg); }
+.nav-sheet a.active { color: #D95A18; }
+
+@media (prefers-reduced-motion: reduce) {
+  .nav-toggle span,
+  .nav-sheet { transition: none; }
+}
+
+/* ── Laptop ──────────────────────────────────────────────────────────────── */
+/* Descending max-width order matters: at 768px both the 1200 and 900 blocks
+   match, and the later one wins. Widest first. */
+@media (max-width: 1200px) {
+  .masonry { columns: 3; }
+}
+
+/* ── Tablet ──────────────────────────────────────────────────────────────── */
+@media (max-width: 900px) {
+  .masonry { columns: 2; }
+}
+
+/* ── Phone ───────────────────────────────────────────────────────────────── */
+@media (max-width: 640px) {
+
+  /* Vertical padding drops because the 44px touch targets now set the bar
+     height; the bar ends up ~64px tall, close to where it was. */
+  nav { padding: 10px 24px; }
+  .nav-links { display: none; }
+  .nav-toggle { display: block; }
+
+  /* The logo is a link too — give it the same 44px target without
+     changing how big the letters look. */
+  .nav-logo {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+  }
+
+  /* Leaflet ships 24px controls and experience.html pins them with
+     !important, so matching it here is the only way to win on touch. */
+  .leaflet-control-zoom a {
+    width: 40px !important;
+    height: 40px !important;
+    line-height: 38px !important;
+    font-size: 19px !important;
+  }
+
+  .cv-strip-btn { min-height: 44px; display: inline-flex; align-items: center; }
+
+  body.nav-open { overflow: hidden; }
+
+  /* Filter bars: one swipeable row instead of wrapping to three. The bar
+     already spans full width with its own gutters, so it needs no negative
+     margin — the right-edge mask is what signals there is more to reach. */
+  .filter-bar {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+    -webkit-mask-image: linear-gradient(to right, #000 90%, transparent);
+            mask-image: linear-gradient(to right, #000 90%, transparent);
+  }
+  .filter-bar::-webkit-scrollbar { display: none; }
+  .filter-btn {
+    flex: 0 0 auto;
+    display: inline-flex;
+    align-items: center;
+    min-height: 40px;
+    padding-block: 0;
+  }
+
+  /* Map legend and hint were overlapping inside a space-between row */
+  .map-footer {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+  .map-legend { flex-wrap: wrap; gap: 14px; }
+
+  /* Touch targets */
+  footer a { display: inline-block; min-height: 32px; line-height: 32px; }
+}
+
