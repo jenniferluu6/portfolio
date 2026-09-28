@@ -22,6 +22,12 @@
 
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
+    /* Without a background on <html>, the body's background propagates to the
+       document canvas and paints the whole viewport — including the strip
+       below the footer and the overscroll bounce. Pin the canvas to the
+       footer colour so nothing shows through beneath the green bar. */
+    html { background: var(--forest, #1A2E1E); }
+
     body {
       font-family: 'DM Sans', sans-serif;
       min-height: 100vh;
@@ -417,8 +423,6 @@
 
     /* RESPONSIVE */
     @media (max-width: 900px) {
-      nav { padding: 20px 24px; }
-      .nav-links { gap: 18px; }
       .page-header { padding: 120px 24px 40px; }
       .exp-layout { grid-template-columns: 1fr; padding: 0 24px 40px; }
       .map-card { position: relative; top: auto; }
@@ -428,6 +432,8 @@
       footer { padding: 14px 24px; flex-direction: column; gap: 6px; text-align: center; }
     }
   </style>
+<link rel="stylesheet" href="assets/site.css">
+<script src="assets/site.js" defer></script>
 </head>
 <body>
 
@@ -440,6 +446,19 @@
       <li><a href="inspiration.html">Inspiration</a></li>
       <li><a href="cv_jluu.html">CV</a></li>
     </ul>
+
+    <button class="nav-toggle" type="button" aria-label="Open menu"
+            aria-expanded="false" aria-controls="nav-sheet">
+      <span></span><span></span><span></span>
+    </button>
+
+    <div class="nav-sheet" id="nav-sheet">
+      <a href="about.html">About</a>
+      <a href="portfolio.html">Portfolio</a>
+      <a href="experience.html" class="active">Experience</a>
+      <a href="inspiration.html">Inspiration</a>
+      <a href="cv_jluu.html">CV</a>
+    </div>
   </nav>
 
   <div class="page">
@@ -644,15 +663,30 @@
     // stays pannable/zoomable (minus scroll-wheel, which would hijack page scrolling).
     const map = L.map('journey-map', {
       center:[39.5,-96], zoom:4,
+      // fractional zoom: on a phone the country fits at ~2.9, and snapping to a
+      // whole level would either crop the coasts or jump to a level with no tiles
+      zoomSnap:0, zoomDelta:0.5,
       zoomControl:true, scrollWheelZoom:false, doubleClickZoom:true,
       dragging:true, touchZoom:true, boxZoom:false, keyboard:false, attributionControl:false
     });
     map.zoomControl.setPosition('bottomright');
 
+    // Fit the contiguous US rather than trusting a fixed zoom: zoom 4 cropped the
+    // west coast whenever the container was narrow. fitBounds picks whatever zoom
+    // actually shows the whole country in the space available.
+    const US_BOUNDS = L.latLngBounds([24.4, -125.0], [49.4, -66.9]);
+    function fitUS() {
+      map.invalidateSize();
+      map.fitBounds(US_BOUNDS, { padding: [12, 12] });
+    }
+    fitUS();
+    // the card can still be settling when fonts land, so measure once more
+    setTimeout(fitUS, 150);
+
     // CARTO basemaps require a key since Sept 2026 (free for non-commercial use). Manage it at carto.com/basemaps/apikey.
     const CARTO_KEY = 'cb1_3h7w_1_c69bb6cc5fcbd3d3cbb6dbcf';
     L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png?key=' + CARTO_KEY, {
-      maxZoom:10, minZoom:3, subdomains:'abcd'
+      maxZoom:10, minZoom:2, subdomains:'abcd'
     }).addTo(map);
 
     function makeIcon(current) {

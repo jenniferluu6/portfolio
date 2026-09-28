@@ -22,6 +22,12 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html, body { height: 100%; }
 
+    /* Without a background on <html>, the body's background propagates to the
+       document canvas and paints the whole viewport — including the strip
+       below the footer and the overscroll bounce. Pin the canvas to the
+       footer colour so nothing shows through beneath the green bar. */
+    html { background: var(--forest, #1A2E1E); }
+
     body {
       font-family: 'DM Sans', sans-serif;
       background: var(--sky);
@@ -29,7 +35,6 @@
       min-height: 100vh;
       display: flex;
       flex-direction: column;
-      overflow-x: hidden;
     }
 
     /* ── HERO ── */
@@ -41,30 +46,19 @@
       overflow: hidden;
     }
 
-    /* Photo: top-right, no distortion, natural proportions */
+    .hero picture { display: contents; }
+
+    /* Photo: full-bleed. The sky is extended outward in the files themselves,
+       so the whole frame is photograph — nothing is masked or colour-matched. */
     .hero-photo {
       position: absolute;
-      top: 0;
-      right: 0;
+      inset: 0;
+      width: 100%;
       height: 100%;
-      width: auto;
-      max-width: 85%;
       object-fit: cover;
-      object-position: left top;
+      object-position: 100% 50%;
       pointer-events: none;
       user-select: none;
-    }
-
-    /* Fade left edge of photo into sky blue */
-    .hero-photo-fade {
-      position: absolute;
-      top: 0;
-      right: 0;
-      height: 100%;
-      width: 52%;
-      background: linear-gradient(to right, var(--sky) 0%, var(--sky) 35%, transparent 68%);
-      pointer-events: none;
-      z-index: 2;
     }
 
     /* ── NAV ── */
@@ -205,27 +199,31 @@
     }
 
     /* ── RESPONSIVE ── */
-    @media (max-width: 700px) {
-      nav { padding: 24px 24px; }
-      .nav-links { gap: 20px; }
+    @media (max-width: 640px) {
       .hero-content { left: 24px; bottom: 52px; }
-      .hero-photo { max-width: 80%; }
-      .hero-photo-fade { width: 65%; }
+      .hero-photo { object-position: 50% 50%; }
       footer { padding: 14px 24px; flex-direction: column; gap: 6px; text-align: center; }
     }
   </style>
+<link rel="stylesheet" href="assets/site.css">
+<script src="assets/site.js" defer></script>
 </head>
 <body>
 
   <div class="hero">
 
-    <img
-      class="hero-photo"
-      src="images/index/cover-photo.png"
-      alt=""
-      aria-hidden="true"
-    >
-    <div class="hero-photo-fade"></div>
+    <picture>
+      <source
+        media="(min-width: 701px)"
+        srcset="images/index/cover-photo-wide.webp"
+      >
+      <img
+        class="hero-photo"
+        src="images/index/cover-photo-tall.webp"
+        alt=""
+        aria-hidden="true"
+      >
+    </picture>
 
     <nav>
       <a href="index.html" class="nav-logo">JL</a>
@@ -236,6 +234,19 @@
         <li><a href="inspiration.html">Inspiration</a></li>
         <li><a href="cv_jluu.html">CV</a></li>
       </ul>
+
+      <button class="nav-toggle" type="button" aria-label="Open menu"
+              aria-expanded="false" aria-controls="nav-sheet">
+        <span></span><span></span><span></span>
+      </button>
+
+      <div class="nav-sheet" id="nav-sheet">
+        <a href="about.html">About</a>
+        <a href="portfolio.html">Portfolio</a>
+        <a href="experience.html">Experience</a>
+        <a href="inspiration.html">Inspiration</a>
+        <a href="cv_jluu.html">CV</a>
+      </div>
     </nav>
 
     <div class="hero-content">

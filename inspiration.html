@@ -20,6 +20,12 @@
 
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
+    /* Without a background on <html>, the body's background propagates to the
+       document canvas and paints the whole viewport — including the strip
+       below the footer and the overscroll bounce. Pin the canvas to the
+       footer colour so nothing shows through beneath the green bar. */
+    html { background: var(--forest, #1A2E1E); }
+
     body {
       font-family: 'DM Sans', sans-serif;
       background-image: url('images/inspiration/inspiration-photo.jpeg');
@@ -334,17 +340,15 @@
     footer a:hover { color: rgba(214,228,216,0.7); }
 
     /* RESPONSIVE */
-    @media (max-width: 1100px) { .masonry { columns: 3; } }
-    @media (max-width: 700px) {
-      nav { padding: 20px 24px; }
-      .nav-links { gap: 18px; }
+    @media (max-width: 640px) {
       .page-header { padding: 120px 24px 32px; }
       .filter-bar { padding: 24px 24px 32px; }
       .masonry-wrap { padding: 0 24px 64px; }
-      .masonry { columns: 2; }
       footer { padding: 14px 24px; flex-direction: column; gap: 6px; text-align: center; }
     }
   </style>
+<link rel="stylesheet" href="assets/site.css">
+<script src="assets/site.js" defer></script>
 </head>
 <body>
 
@@ -357,6 +361,19 @@
       <li><a href="inspiration.html" class="active">Inspiration</a></li>
       <li><a href="cv_jluu.html">CV</a></li>
     </ul>
+
+    <button class="nav-toggle" type="button" aria-label="Open menu"
+            aria-expanded="false" aria-controls="nav-sheet">
+      <span></span><span></span><span></span>
+    </button>
+
+    <div class="nav-sheet" id="nav-sheet">
+      <a href="about.html">About</a>
+      <a href="portfolio.html">Portfolio</a>
+      <a href="experience.html">Experience</a>
+      <a href="inspiration.html" class="active">Inspiration</a>
+      <a href="cv_jluu.html">CV</a>
+    </div>
   </nav>
 
   <div class="page-header">
