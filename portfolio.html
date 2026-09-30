@@ -237,6 +237,76 @@
     .modal-visual { width: 100%; overflow: hidden; }
     .modal-visual img { width: 100%; height: auto; display: block; }
 
+    /* MODAL LINK ROW — the project link under the visual */
+    .modal-links { display: flex; flex-wrap: wrap; gap: 10px; padding: 1.5rem 3rem 0; }
+    .modal-btn {
+      display: inline-block; padding: 10px 24px;
+      background: var(--forest); color: var(--cream);
+      border: 1px solid var(--forest);
+      font-size: 9px; font-weight: 500;
+      letter-spacing: 0.14em; text-transform: uppercase;
+      text-decoration: none;
+      transition: background 0.2s, color 0.2s, border-color 0.2s;
+    }
+    .modal-btn:hover { background: var(--orange); border-color: var(--orange); color: var(--cream); }
+
+    /* SLIDE CAROUSEL — used by any project entry that carries a `slides` block.
+       The track holds every slide side by side and slides by whole widths;
+       images are loaded on demand (current slide plus its neighbours). */
+    .slides {
+      position: relative; width: 100%; aspect-ratio: 16 / 9;
+      background: #0D1B2A; overflow: hidden;
+      user-select: none; -webkit-user-select: none;
+      outline: none;
+    }
+    .slides-track {
+      display: flex; height: 100%;
+      transition: transform 0.35s cubic-bezier(.4, 0, .2, 1);
+      will-change: transform;
+    }
+    .slides-track img {
+      flex: 0 0 100%; width: 100%; height: 100%;
+      object-fit: contain; display: block;
+    }
+    .slides-arrow {
+      position: absolute; top: 50%; transform: translateY(-50%);
+      width: 40px; height: 40px; border: none; cursor: pointer;
+      background: rgba(10,20,12,0.55); color: var(--cream);
+      font-family: 'DM Sans', sans-serif; font-size: 18px; line-height: 1;
+      display: flex; align-items: center; justify-content: center;
+      backdrop-filter: blur(4px);
+      transition: background 0.2s, opacity 0.2s; z-index: 2;
+    }
+    .slides-arrow:hover { background: var(--orange); }
+    .slides-arrow.prev { left: 12px; }
+    .slides-arrow.next { right: 12px; }
+    .slides-arrow[disabled] { opacity: 0.25; cursor: default; }
+    .slides-arrow[disabled]:hover { background: rgba(10,20,12,0.55); }
+    .slides-bar {
+      position: absolute; left: 12px; right: 12px; bottom: 10px;
+      display: flex; justify-content: space-between; align-items: center;
+      pointer-events: none; z-index: 2;
+    }
+    .slides-counter, .slides-full {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 9px; font-weight: 500;
+      letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--cream); background: rgba(10,20,12,0.55);
+      padding: 6px 10px; backdrop-filter: blur(4px);
+    }
+    .slides-full { border: none; cursor: pointer; pointer-events: auto; transition: background 0.2s; }
+    .slides-full:hover { background: var(--orange); }
+    /* Full screen: the element is moved to <body> (the modal is transformed, so
+       position:fixed would otherwise pin to the modal) and pinned to the viewport. */
+    .slides.is-full {
+      position: fixed; inset: 0; z-index: 600;
+      width: auto; height: auto; aspect-ratio: auto;
+      background: #0a0a0a;
+    }
+    .slides.is-full .slides-track img { padding: 24px 60px 44px; }
+    .slides.is-full .slides-arrow { width: 48px; height: 48px; }
+    .slides.is-full .slides-bar { left: 24px; right: 24px; bottom: 20px; }
+
     .modal-body { padding: 2.5rem 3rem; }
 
     .modal-close {
@@ -291,6 +361,10 @@
       .gallery { grid-template-columns: 1fr; }
       .gallery-card.featured { grid-column: span 1; aspect-ratio: 4/3; }
       .modal-body { padding: 2rem 1.5rem; }
+      .modal-links { padding: 1.5rem 1.5rem 0; }
+      .slides.is-full .slides-track img { padding: 44px 8px 52px; }
+      .slides.is-full .slides-arrow { width: 40px; height: 40px; }
+      .slides.is-full .slides-bar { left: 12px; right: 12px; bottom: 12px; }
       footer { padding: 14px 24px; flex-direction: column; gap: 6px; text-align: center; }
     }
   </style>
@@ -358,6 +432,15 @@
             <h3 class="card-title-hover">NYCHA Through the Decades</h3>
             <p class="card-snippet">Mapping when and where New York City's public housing was built, from the New Deal to today.</p>
             <span class="card-cta">View project →</span>
+          </div></div>
+        </div>
+
+        <div class="gallery-card" data-tags="ml cartography research" data-id="ian">
+          <div class="card-visual"><img src="images/portfolio/hurricane-ian.webp" alt="Hurricane Ian Building Damage Classification"></div>
+          <div class="card-overlay"><div class="card-meta">
+            <h3 class="card-title-hover">Hurricane Ian Building Damage Classification</h3>
+            <p class="card-snippet">Fine-tuning the xBD damage model on Maxar imagery of Fort Myers Beach, then classifying 2,298 buildings.</p>
+            <span class="card-cta">View slides →</span>
           </div></div>
         </div>
 
@@ -438,7 +521,9 @@
     <div class="modal" id="modal">
       <button class="modal-close" id="modal-close">✕</button>
       <div class="modal-visual" id="modal-visual"></div>
-      <a id="modal-link" href="#" style="display:none; margin: 1.5rem 0 0 3rem; padding: 10px 24px; background: var(--forest); color: var(--cream); font-size: 9px; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; text-decoration: none; transition: background 0.2s;" onmouseover="this.style.background='#D95A18'" onmouseout="this.style.background='#1A2E1E'">Open project →</a>
+      <div class="modal-links" id="modal-links" style="display:none">
+        <a id="modal-link" class="modal-btn" href="#" target="_blank" rel="noopener">Open project →</a>
+      </div>
       <div class="modal-body">
         <h2 class="modal-title" id="modal-title"></h2>
         <div class="modal-desc" id="modal-desc"></div>
@@ -485,6 +570,34 @@
         desc: `<p>I built this because I wanted to understand the history of what I was working in. During my time at Fairstead, I was working on the NYCHA renovations as they were changing from Section 9 to Section 8. I was curious about when NYCHA's portfolio was actually built.</p><p>The map visualizes all 218 NYCHA developments by construction era, from pre-1940 to the 2000s. The bulk of the portfolio was built in the 1950s and 60s, which tells you a lot about the deferred maintenance problem the system is dealing with today.</p>`,
         methods: ['Leaflet','JavaScript','NYC Open Data','NYCHA Development Data'],
         meta: [['Year','2024'],['Type','Personal project'],['Data','NYC Open Data · NYCHA Development Data Book']]
+      },
+      ian: {
+        tag: 'Machine Learning · Cartography · Research',
+        title: 'Hurricane Ian Building Damage Classification',
+        link: 'portfolio-links/hurricane-ian-notebook.html',
+        cta: 'Open notebook',
+        img: 'images/portfolio/hurricane-ian.webp',
+        slides: {
+          dir: 'images/portfolio/hurricane-ian',
+          alts: [
+            'Title slide: Hurricane Ian Building Damage Classification. Fort Myers Beach, Florida, September 2022. Mark Deng, Jun Luu, Sam Sen, University of Pennsylvania.',
+            'Background and the problem. After landfall on September 28, 2022, emergency managers needed to know which buildings were still standing. $113B in estimated damages, 2,298 buildings classified in the study area, Category 4 with 150 mph winds.',
+            'Study area: Fort Myers Beach barrier island before and after, in Maxar high-resolution satellite imagery. Pre image January 2022, post image September 30, 2022, about 0.5 m RGB.',
+            'Data: 457 manually labeled buildings in three damage classes. No damage 140, damaged 202, destroyed 115. 128 by 128 chips per building, 70/15/15 train, validation and test split.',
+            'Prior work: the xBD dataset and baseline model (Gupta et al., 2019), Siamese networks for change detection (Daudt et al., 2018), and transfer learning for disaster imagery (Weber and Kane, 2020).',
+            'Approach: four models of progressive complexity. A simple CNN, the xBD baseline applied zero-shot, a post-only fine-tune, and a bi-temporal fine-tune as the main model.',
+            'Models 2 and 3: the xBD baseline architecture and the fine-tuning strategy. ResNet frozen, shallow CNN and dense head fine-tuned on local labels.',
+            'Model 4 architecture: a shared encoder with bi-temporal feature fusion. Shared weights, ResNet50 frozen, shallow CNN trainable, fusion with the absolute feature difference.',
+            'Results: Model 4 reaches 59.42% test accuracy on 69 held-out buildings. Zero-shot transfer fails; fine-tuning recovers performance, and the pre-event image adds six points.',
+            'Diagnostics for Model 4: strong recall on the damage classes. The main source of error is confusion between no damage and moderate damage.',
+            'Model 4 as a binary damage detector: 71.01% accuracy for no damage versus damage.',
+            'Deployment: Model 4 applied to all 2,298 buildings in the study area, OSM footprints colored by predicted class. No damage 363, damaged 1,132, destroyed 803.',
+            'Closing: limitations, discussion and policy implications. A small labeled set and RGB only; transfer learning with a small local sample can adapt a pretrained damage model to a new disaster.'
+          ]
+        },
+        desc: `<p>After Hurricane Ian made landfall in September 2022, emergency managers needed to know which buildings on Fort Myers Beach were still standing. This project asks whether a damage-assessment model pretrained on other disasters can be adapted to a new one with a small amount of local labeling. We hand-labeled 457 buildings on Maxar pre- and post-storm imagery and compared four models: a CNN trained from scratch, the xBD baseline applied zero-shot, a post-image-only fine-tune, and a bi-temporal fine-tune that passes pre and post chips through a shared encoder.</p><p>Zero-shot transfer failed outright, collapsing to "no damage." Fine-tuning recovered it, and adding the pre-event image added another six points, reaching 59% three-class accuracy and 71% as a binary damage detector on the held-out set. The final model was then applied to all 2,298 OpenStreetMap footprints in the study area. With 457 labels and RGB only, it over-calls damage on intact buildings, which the closing slides discuss.</p>`,
+        methods: ['TensorFlow / Keras','Transfer Learning','ResNet50','Rasterio','GeoPandas','Maxar Imagery','xBD / xView2','OpenStreetMap'],
+        meta: [['Year','2026'],['Context','MUSA 650, Spring 2026'],['Team','Mark Deng · Jun Luu · Sam Sen'],['Data','Maxar satellite imagery · xBD baseline weights']]
       },
       flight: {
         tag: 'Research · Data Analysis',
@@ -546,6 +659,66 @@
       });
     });
 
+    /* ── Slide carousel: built for any project entry that carries `slides` ──
+       Slides are images (the deck exactly as designed); arrows, keyboard,
+       touch swipe and a full-screen mode handle navigation. */
+    let deck = null;   // state of the open carousel, null when the visual is a plain image
+    function buildSlides(host, p) {
+      const n = p.slides.alts.length;
+      host.innerHTML = `
+        <div class="slides" tabindex="0" aria-roledescription="carousel" aria-label="${p.title} slides">
+          <div class="slides-track">${p.slides.alts.map((alt, i) =>
+            `<img data-src="${p.slides.dir}/slide-${String(i + 1).padStart(2, '0')}.webp" alt="${alt.replace(/"/g, '&quot;')}" draggable="false">`).join('')}</div>
+          <button class="slides-arrow prev" aria-label="Previous slide">&#8592;</button>
+          <button class="slides-arrow next" aria-label="Next slide">&#8594;</button>
+          <div class="slides-bar">
+            <span class="slides-counter" aria-live="polite">1 / ${n}</span>
+            <button class="slides-full" aria-label="View slides full screen">Full screen</button>
+          </div>
+        </div>`;
+      const el = host.querySelector('.slides');
+      deck = { el, host, track: el.querySelector('.slides-track'), imgs: Array.from(el.querySelectorAll('img')), i: 0, n };
+      el.querySelector('.prev').addEventListener('click', () => go(deck.i - 1));
+      el.querySelector('.next').addEventListener('click', () => go(deck.i + 1));
+      el.querySelector('.slides-full').addEventListener('click', () => toggleFull());
+      let x0 = null;
+      el.addEventListener('touchstart', e => { x0 = e.touches[0].clientX; }, { passive: true });
+      el.addEventListener('touchend', e => {
+        if (x0 === null) return;
+        const dx = e.changedTouches[0].clientX - x0; x0 = null;
+        if (Math.abs(dx) > 40) go(deck.i + (dx < 0 ? 1 : -1));
+      });
+      go(0);
+    }
+    function go(i) {
+      if (!deck) return;
+      deck.i = Math.max(0, Math.min(deck.n - 1, i));
+      // fetch only the current slide and its neighbours
+      [deck.i - 1, deck.i, deck.i + 1].forEach(k => {
+        const im = deck.imgs[k];
+        if (im && !im.getAttribute('src')) im.src = im.dataset.src;
+      });
+      deck.track.style.transform = `translateX(-${deck.i * 100}%)`;
+      deck.el.querySelector('.prev').disabled = deck.i === 0;
+      deck.el.querySelector('.next').disabled = deck.i === deck.n - 1;
+      deck.el.querySelector('.slides-counter').textContent = `${deck.i + 1} / ${deck.n}`;
+    }
+    function toggleFull(force) {
+      if (!deck) return;
+      const on = typeof force === 'boolean' ? force : !deck.el.classList.contains('is-full');
+      // The modal is transformed, so position:fixed would pin to it rather than
+      // the viewport: move the same element to <body> and back instead.
+      (on ? document.body : deck.host).appendChild(deck.el);
+      deck.el.classList.toggle('is-full', on);
+      deck.el.querySelector('.slides-full').textContent = on ? 'Exit full screen' : 'Full screen';
+      if (on) deck.el.focus();
+    }
+    document.addEventListener('keydown', e => {
+      if (!deck || !backdrop.classList.contains('open')) return;
+      if (e.key === 'ArrowRight') { go(deck.i + 1); e.preventDefault(); }
+      else if (e.key === 'ArrowLeft') { go(deck.i - 1); e.preventDefault(); }
+    });
+
     const backdrop = document.getElementById('modal-backdrop');
     document.querySelectorAll('.gallery-card').forEach(card => {
       card.addEventListener('click', () => {
@@ -553,16 +726,18 @@
         document.getElementById('modal-title').textContent = p.title;
         document.getElementById('modal-desc').innerHTML = p.desc;
         document.getElementById('modal-meta').innerHTML = p.meta.map(([k,v]) => `<span><strong>${k}:</strong> ${v}</span>`).join('');
-        document.getElementById('modal-visual').innerHTML = `<img src="${p.img}" alt="${p.title}">`;
+        const visual = document.getElementById('modal-visual');
+        if (p.slides) buildSlides(visual, p);
+        else { deck = null; visual.innerHTML = `<img src="${p.img}" alt="${p.title}">`; }
         const linkEl = document.getElementById('modal-link');
         if (p.link) {
           linkEl.textContent = (p.cta || 'Open project') + ' →';
           linkEl.href = p.link;
-          linkEl.target = p.link.startsWith('http') ? '_blank' : '_blank';
           linkEl.style.display = 'inline-block';
         } else {
           linkEl.style.display = 'none';
         }
+        document.getElementById('modal-links').style.display = p.link ? 'flex' : 'none';
         backdrop.classList.add('open');
         document.body.style.overflow = 'hidden';
       });
@@ -570,8 +745,14 @@
 
     document.getElementById('modal-close').addEventListener('click', closeModal);
     backdrop.addEventListener('click', e => { if (e.target === backdrop) closeModal(); });
-    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
-    function closeModal() { backdrop.classList.remove('open'); document.body.style.overflow = ''; }
+    document.addEventListener('keydown', e => {
+      if (e.key !== 'Escape') return;
+      if (deck && deck.el.classList.contains('is-full')) toggleFull(false); else closeModal();
+    });
+    function closeModal() {
+      if (deck) { if (deck.el.classList.contains('is-full')) toggleFull(false); deck = null; }
+      backdrop.classList.remove('open'); document.body.style.overflow = '';
+    }
   </script>
 
 </body>
