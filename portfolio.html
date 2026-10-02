@@ -175,47 +175,55 @@
     }
     .gallery-card:hover .card-visual img { transform: scale(1.04); }
 
-    /* The title always sits at the bottom of the card, over a dark fade so it
-       reads on light images too. Phones have no hover, so the title is all
-       they see before tapping. */
+    /* With a mouse, the card text stays hidden until hover */
     .card-overlay {
       position: absolute; inset: 0;
-      background-color: rgba(10,20,12,0);
-      background-image: linear-gradient(to top, rgba(10,20,12,0.85) 0, rgba(10,20,12,0.6) 90px, rgba(10,20,12,0) 170px);
+      background: rgba(10,20,12,0);
       display: flex; flex-direction: column;
       justify-content: flex-end;
       padding: 24px;
-      transition: background-color 0.35s;
+      transition: background 0.35s;
       z-index: 1;
+    }
+
+    .card-meta {
+      transform: translateY(10px);
+      opacity: 0;
+      transition: transform 0.3s, opacity 0.3s;
+    }
+
+    @media (hover: hover) {
+      .gallery-card:hover .card-overlay { background: rgba(10,20,12,0.82); }
+      .gallery-card:hover .card-meta { transform: translateY(0); opacity: 1; }
     }
 
     .card-title {
       font-family: 'Cormorant Garamond', serif;
       font-size: 1.35rem; font-weight: 400;
       color: var(--cream); line-height: 1.2; margin-bottom: 6px;
-      text-shadow: 0 1px 8px rgba(0,0,0,0.35);
     }
     .card-snippet {
       font-size: 0.78rem; font-weight: 300;
       color: rgba(248,244,236,0.6); line-height: 1.5;
     }
     .card-cta {
-      display: inline-block;
+      display: inline-block; margin-top: 12px;
       font-size: 9px; font-weight: 500;
       letter-spacing: 0.1em; text-transform: uppercase;
       color: rgba(248,244,236,0.5);
     }
 
-    /* With a mouse, hovering darkens the card and opens the snippet under the title */
-    .card-snippet, .card-cta {
-      max-height: 0; opacity: 0; overflow: hidden; margin-top: 0;
-      transition: max-height 0.35s, opacity 0.3s, margin-top 0.35s;
-    }
-    @media (hover: hover) {
-      .gallery-card:hover .card-overlay { background-color: rgba(10,20,12,0.82); }
-      .gallery-card:hover .card-snippet,
-      .gallery-card:hover .card-cta { max-height: 6em; opacity: 1; }
-      .gallery-card:hover .card-cta { margin-top: 12px; }
+    /* Phones and tablets can't hover, so they always get the title at the
+       bottom of the card, over a dark fade so it reads on light images too.
+       Tapping opens the project, which has the rest. Kept after the card text
+       rules so its display: none wins over .card-cta's inline-block. */
+    @media (hover: none) {
+      .card-overlay {
+        background: linear-gradient(to top, rgba(10,20,12,0.85) 0, rgba(10,20,12,0.6) 90px, rgba(10,20,12,0) 170px);
+      }
+      .card-meta { transform: none; opacity: 1; }
+      .card-title { text-shadow: 0 1px 8px rgba(0,0,0,0.35); }
+      .card-snippet, .card-cta { display: none; }
     }
 
     /* MODAL */
