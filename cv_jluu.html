@@ -121,9 +121,18 @@
     line-height: 0.95;
     letter-spacing: -0.5px;
     color: var(--ink);
-    margin-bottom: 44px;
+    margin-bottom: 14px;
   }
   .cv-name em { font-style: italic; color: var(--clay); }
+
+  /* Full addresses rather than "LinkedIn", so they still work on a printed copy */
+  .cv-contact {
+    font-size: 12px;
+    color: var(--ink-mid);
+    margin-bottom: 44px;
+  }
+  .cv-contact a { color: inherit; text-decoration: none; }
+  .cv-contact a:hover { color: var(--clay); }
 
   .cv-tagline {
     font-size: 9.5px;
@@ -392,7 +401,7 @@
       box-shadow: none; padding: 0;
       background: transparent;
     }
-    .cv-name { margin-bottom: 30px; }
+    .cv-contact { margin-bottom: 30px; }
     .sec { margin-bottom: 30px; }
     /* keep an entry and its section heading from splitting across the break */
     .sec-title { break-after: avoid; }
@@ -402,6 +411,12 @@
   @media (max-width: 640px) {
     .page { width: calc(100% - 32px); padding: 36px 24px 48px; }
     .cv-name { font-size: 40px; }
+    /* one address per line instead of wrapping with a dot left at the end */
+    .cv-contact a { display: block; line-height: 1.7; }
+    .cv-contact .sep { display: none; }
+    /* stack like the other pages' footers, and leave room under the links
+       for the fixed Download PDF button so it doesn't cover them */
+    .site-footer { padding: 14px 24px 84px; flex-direction: column; gap: 6px; text-align: center; }
     .edu-grid { grid-template-columns: 1fr; }
     .skills-block { grid-template-columns: 1fr; }
   }
@@ -438,6 +453,11 @@
 <div class="page">
 
   <h1 class="cv-name">Jun (Jennifer) Luu</h1>
+  <p class="cv-contact">
+    <a href="mailto:jennifer.luu6@gmail.com">jennifer.luu6@gmail.com</a><span class="sep"> &nbsp;·&nbsp; </span>
+    <a href="https://www.linkedin.com/in/jenniferluu6/" target="_blank" rel="noopener">linkedin.com/in/jenniferluu6</a><span class="sep"> &nbsp;·&nbsp; </span>
+    <a href="https://github.com/jenniferluu6" target="_blank" rel="noopener">github.com/jenniferluu6</a>
+  </p>
 
   <!-- EDUCATION -->
   <section class="sec">
@@ -489,7 +509,7 @@
       <div class="r-sub">PIs: Prof. Elizabeth Delmelle (University of Pennsylvania) &amp; Prof. Isabelle Nilsson (UNC Charlotte)</div>
       <div class="r-sub">Presented at AAG Annual Meeting, San Francisco, March 2026</div>
       <ul class="bullets">
-        <li>Developed a generalizable inductive text analysis pipeline applying <strong>TF-IDF vectorization</strong> to MLS listing remarks across Mecklenburg County, NC to identify latent vocabulary patterns signaling neighborhood change across census tract-periods.</li>
+        <li>Developed a generalizable inductive text analysis pipeline applying <strong>sentence embeddings</strong> to MLS listing remarks across Mecklenburg County, NC to identify latent vocabulary patterns signaling neighborhood change across census tract-periods.</li>
         <li>Implemented a <strong>Self-Organizing Map (SOM)</strong> trained on listing language to cluster neighborhoods by linguistic profile, enabling unsupervised detection of gentrification stages without imposing predetermined typologies.</li>
         <li>Analyzed temporal sequences of SOM cluster membership across tract-periods to construct a <strong>transition matrix</strong> of neighborhood trajectories, tracing how individual tracts move through discursive market segments over time.</li>
       </ul>
@@ -552,7 +572,7 @@
         <div class="w-title">Research Analyst</div>
         <div class="w-date">2026</div>
       </div>
-      <div class="w-org">Penn Institute for Urban Research <span>— University of Pennsylvania, Dr. Eugenia Birch</span></div>
+      <div class="w-org">Penn Institute for Urban Research <span>— University of Pennsylvania, Dr. Eugénie Birch</span></div>
       <ul class="bullets">
         <li>Wrote foundational research memo defining scope, analytical framework, and survey strategy for a multi-year study on Penn's role as an anchor institution, informing research on a <strong>$37.7B annual regional economic footprint</strong>.</li>
         <li>Developed and mapped a spatial inventory of Penn's full regional footprint using <strong>ArcGIS Pro, R, and Adobe InDesign</strong>, producing deliverable-quality maps of West Philadelphia and the broader metro region.</li>
@@ -609,7 +629,7 @@
     <div class="w-entry">
       <div class="w-head">
         <div class="w-title">Assistant Engineer</div>
-        <div class="w-date">2021 – 2023</div>
+        <div class="w-date">2022 – 2023</div>
       </div>
       <div class="w-org">Turner Construction Company <span>— Advocate Illinois Masonic Medical Center, Chicago, IL</span></div>
       <ul class="bullets">
@@ -661,6 +681,7 @@
 
 <footer class="site-footer">
   <p>© 2026 Jun Luu</p>
+  <p><a href="mailto:jennifer.luu6@gmail.com">Email</a> &nbsp;·&nbsp; <a href="https://www.linkedin.com/in/jenniferluu6/" target="_blank" rel="noopener">LinkedIn</a> &nbsp;·&nbsp; <a href="https://github.com/jenniferluu6" target="_blank" rel="noopener">GitHub</a></p>
 </footer>
 
 <a href="CV_JLuu.pdf" download="CV_JLuu.pdf">

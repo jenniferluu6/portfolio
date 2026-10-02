@@ -175,39 +175,47 @@
     }
     .gallery-card:hover .card-visual img { transform: scale(1.04); }
 
-    /* Hover overlay */
+    /* The title always sits at the bottom of the card, over a dark fade so it
+       reads on light images too. Phones have no hover, so the title is all
+       they see before tapping. */
     .card-overlay {
       position: absolute; inset: 0;
-      background: rgba(10,20,12,0);
+      background-color: rgba(10,20,12,0);
+      background-image: linear-gradient(to top, rgba(10,20,12,0.85) 0, rgba(10,20,12,0.6) 90px, rgba(10,20,12,0) 170px);
       display: flex; flex-direction: column;
       justify-content: flex-end;
       padding: 24px;
-      transition: background 0.35s;
+      transition: background-color 0.35s;
       z-index: 1;
     }
-    .gallery-card:hover .card-overlay { background: rgba(10,20,12,0.82); }
 
-    .card-meta {
-      transform: translateY(10px);
-      opacity: 0;
-      transition: transform 0.3s, opacity 0.3s;
-    }
-    .gallery-card:hover .card-meta { transform: translateY(0); opacity: 1; }
-
-    .card-title-hover {
+    .card-title {
       font-family: 'Cormorant Garamond', serif;
       font-size: 1.35rem; font-weight: 400;
       color: var(--cream); line-height: 1.2; margin-bottom: 6px;
+      text-shadow: 0 1px 8px rgba(0,0,0,0.35);
     }
     .card-snippet {
       font-size: 0.78rem; font-weight: 300;
       color: rgba(248,244,236,0.6); line-height: 1.5;
     }
     .card-cta {
-      display: inline-block; margin-top: 12px;
+      display: inline-block;
       font-size: 9px; font-weight: 500;
       letter-spacing: 0.1em; text-transform: uppercase;
       color: rgba(248,244,236,0.5);
+    }
+
+    /* With a mouse, hovering darkens the card and opens the snippet under the title */
+    .card-snippet, .card-cta {
+      max-height: 0; opacity: 0; overflow: hidden; margin-top: 0;
+      transition: max-height 0.35s, opacity 0.3s, margin-top 0.35s;
+    }
+    @media (hover: hover) {
+      .gallery-card:hover .card-overlay { background-color: rgba(10,20,12,0.82); }
+      .gallery-card:hover .card-snippet,
+      .gallery-card:hover .card-cta { max-height: 6em; opacity: 1; }
+      .gallery-card:hover .card-cta { margin-top: 12px; }
     }
 
     /* MODAL */
@@ -420,7 +428,7 @@
         <div class="gallery-card featured" data-tags="research ml housing dataanalysis" data-id="som">
           <div class="card-visual"><img src="images/portfolio/som_k20.webp" alt="Neighborhood Change SOM"></div>
           <div class="card-overlay"><div class="card-meta">
-            <h3 class="card-title-hover">Mapping New Vocabularies of Neighborhood Change</h3>
+            <h3 class="card-title">Mapping New Vocabularies of Neighborhood Change</h3>
             <p class="card-snippet">SOM + sentence embeddings on MLS listing language. Mecklenburg County, NC. AAG 2026.</p>
             <span class="card-cta">View project →</span>
           </div></div>
@@ -429,7 +437,7 @@
         <div class="gallery-card" data-tags="housing dataanalysis research policywriting" data-id="nycha">
           <div class="card-visual"><img src="images/portfolio/nycha-housing.webp" alt="NYCHA Through the Decades"></div>
           <div class="card-overlay"><div class="card-meta">
-            <h3 class="card-title-hover">NYCHA Through the Decades</h3>
+            <h3 class="card-title">NYCHA Through the Decades</h3>
             <p class="card-snippet">Mapping when and where New York City's public housing was built, from the New Deal to today.</p>
             <span class="card-cta">View project →</span>
           </div></div>
@@ -438,7 +446,7 @@
         <div class="gallery-card" data-tags="ml cartography research" data-id="ian">
           <div class="card-visual"><img src="images/portfolio/hurricane-ian.webp" alt="Hurricane Ian Building Damage Classification"></div>
           <div class="card-overlay"><div class="card-meta">
-            <h3 class="card-title-hover">Hurricane Ian Building Damage Classification</h3>
+            <h3 class="card-title">Hurricane Ian Building Damage Classification</h3>
             <p class="card-snippet">Fine-tuning the xBD damage model on Maxar imagery of Fort Myers Beach, then classifying 2,298 buildings.</p>
             <span class="card-cta">View slides →</span>
           </div></div>
@@ -447,7 +455,7 @@
         <div class="gallery-card" data-tags="dataanalysis housing" data-id="eviction">
           <div class="card-visual"><img src="images/portfolio/eviction-prediction.png" alt="Eviction Prediction"></div>
           <div class="card-overlay"><div class="card-meta">
-            <h3 class="card-title-hover">Predicting Eviction Risk in Philadelphia</h3>
+            <h3 class="card-title">Predicting Eviction Risk in Philadelphia</h3>
             <p class="card-snippet">Poisson model with temporal and spatial lags to forecast eviction filings by census tract.</p>
             <span class="card-cta">View project →</span>
           </div></div>
@@ -456,7 +464,7 @@
         <div class="gallery-card" data-tags="research dataanalysis" data-id="flight">
           <div class="card-visual"><img src="images/portfolio/flight-diversions.jpeg" alt="Flight Diversions Dashboard"></div>
           <div class="card-overlay"><div class="card-meta">
-            <h3 class="card-title-hover">Flight Diversion Pattern Analysis</h3>
+            <h3 class="card-title">Flight Diversion Pattern Analysis</h3>
             <p class="card-snippet">Dashboard analyzing flight diversion patterns using BTS On-Time Performance data.</p>
             <span class="card-cta">View project →</span>
           </div></div>
@@ -465,7 +473,7 @@
         <div class="gallery-card" data-tags="research" data-id="anchor">
           <div class="card-visual"><img src="images/portfolio/anchorMap.png" alt="Penn Anchor Institution Map"></div>
           <div class="card-overlay"><div class="card-meta">
-            <h3 class="card-title-hover">Penn as an Anchor Institution</h3>
+            <h3 class="card-title">Penn as an Anchor Institution</h3>
             <p class="card-snippet">Mapping the physical footprint of Penn across the greater Philadelphia region.</p>
             <span class="card-cta">Open website →</span>
           </div></div>
@@ -474,7 +482,7 @@
         <div class="gallery-card" data-tags="research ml housing" data-id="synthetic">
           <div class="card-visual"><img src="images/portfolio/synthetic-data.jpeg" alt="Synthetic MLS Pipeline"></div>
           <div class="card-overlay"><div class="card-meta">
-            <h3 class="card-title-hover">Synthetic MLS Remark Generation</h3>
+            <h3 class="card-title">Synthetic MLS Remark Generation</h3>
             <p class="card-snippet">Batch API pipeline for augmenting sparse tract-period real estate data.</p>
             <span class="card-cta">View project →</span>
           </div></div>
@@ -483,7 +491,7 @@
         <div class="gallery-card" data-tags="dataanalysis" data-id="crash">
           <div class="card-visual"><img src="images/portfolio/crash-predictor.png" alt="Crash Predictor"></div>
           <div class="card-overlay"><div class="card-meta">
-            <h3 class="card-title-hover">Predicting Drunk Driving Crashes</h3>
+            <h3 class="card-title">Predicting Drunk Driving Crashes</h3>
             <p class="card-snippet">Logistic regression identifying predictors of alcohol-involved crashes in Philadelphia.</p>
             <span class="card-cta">Open paper →</span>
           </div></div>
@@ -492,7 +500,7 @@
         <div class="gallery-card" data-tags="cartography dataanalysis" data-id="dc-metro">
           <div class="card-visual"><img src="images/portfolio/dc_metro_coverage_map.png" alt="DC Metro Coverage Map"></div>
           <div class="card-overlay"><div class="card-meta">
-            <h3 class="card-title-hover">Washington DC Metro Station Coverage</h3>
+            <h3 class="card-title">Washington DC Metro Station Coverage</h3>
             <p class="card-snippet">Mapping transit accessibility by walking distance across Washington DC.</p>
             <span class="card-cta">View project →</span>
           </div></div>
@@ -501,7 +509,7 @@
         <div class="gallery-card" data-tags="policy" data-id="south-africa">
           <div class="card-visual"><img src="images/portfolio/south-africa.jpg" alt="South Africa Policy Paper"></div>
           <div class="card-overlay"><div class="card-meta">
-            <h3 class="card-title-hover">Financing Climate Resilient Infrastructure in South Africa</h3>
+            <h3 class="card-title">Financing Climate Resilient Infrastructure in South Africa</h3>
             <p class="card-snippet">Analyzing climate finance mechanisms for urban resilience in post-apartheid South Africa.</p>
             <span class="card-cta">Open paper →</span>
           </div></div>
@@ -512,6 +520,7 @@
 
     <footer>
       <p>© 2026 Jun Luu</p>
+      <p><a href="mailto:jennifer.luu6@gmail.com">Email</a> &nbsp;·&nbsp; <a href="https://www.linkedin.com/in/jenniferluu6/" target="_blank" rel="noopener">LinkedIn</a> &nbsp;·&nbsp; <a href="https://github.com/jenniferluu6" target="_blank" rel="noopener">GitHub</a></p>
     </footer>
 
   </div>
@@ -550,7 +559,7 @@
         img: 'images/portfolio/eviction-prediction.png',
         desc: `<p>This project builds a predictive model to identify which Philadelphia census tracts are most at risk for future eviction filings. Using tract-level eviction data from 2020 to 2025, combined with ACS socioeconomic indicators, crime metrics, and 311 complaints, we built a monthly panel dataset and tested multiple model specifications.</p><p>The Poisson model with temporal and spatial lags came out strongest with MAE: 1.764 and RMSE: 2.53 as it captures the persistence of eviction risk within tracts and spillover effects from neighboring areas.</p>`,
         methods: ['Poisson Regression','Temporal Lags','Spatial Lags','R','ACS Data','Eviction Lab Data','311 Data','Census Data'],
-        meta: [['Year','2025'],['Context','MUSA 5080: Public Policy Analytics'],['Status','Complete']]
+        meta: [['Year','2025'],['Context','MUSA 5080: Public Policy Analytics'],['Team','Mohammad AlAbbas · Jed Chew · Mark Deng · Jun Luu'],['Status','Complete']]
       },
       anchor: {
         tag: 'Research',
@@ -567,7 +576,7 @@
         title: 'NYCHA Through the Decades',
         link: 'portfolio-links/nycha_interactive_map.html',
         img: 'images/portfolio/nycha-housing.webp',
-        desc: `<p>I built this because I wanted to understand the history of what I was working in. During my time at Fairstead, I was working on the NYCHA renovations as they were changing from Section 9 to Section 8. I was curious about when NYCHA's portfolio was actually built.</p><p>The map visualizes all 218 NYCHA developments by construction era, from pre-1940 to the 2000s. The bulk of the portfolio was built in the 1950s and 60s, which tells you a lot about the deferred maintenance problem the system is dealing with today.</p>`,
+        desc: `<p>I built this because I wanted to understand the history of what I was working in. During my time at Fairstead, I was working on the NYCHA renovations as they were changing from Section 9 to Section 8. I was curious about when NYCHA's portfolio was actually built.</p><p>The map shows NYCHA developments by construction era, from pre-1940 to the 2000s. The bulk of the portfolio was built in the 1950s and 60s, which tells you a lot about the deferred maintenance problem the system is dealing with today.</p>`,
         methods: ['Leaflet','JavaScript','NYC Open Data','NYCHA Development Data'],
         meta: [['Year','2024'],['Type','Personal project'],['Data','NYC Open Data · NYCHA Development Data Book']]
       },
@@ -625,7 +634,7 @@
         img: 'images/portfolio/crash-predictor.png',
         desc: `<p>This project uses logistic regression to identify which crash characteristics are most predictive of alcohol involvement in Philadelphia traffic crashes from 2008 to 2012. Speeding came out as the strongest predictor: crashes involving speeding were 4.66 times more likely to involve a drunk driver.</p><p>Cell phone use and socioeconomic indicators showed no significant association, which points toward individual driver behavior as a stronger signal than neighborhood context for this particular outcome.</p>`,
         methods: ['Logistic Regression','ROC Analysis','R','Philadelphia Crash Data','ACS Data'],
-        meta: [['Year','2024'],['Context','MUSA 5000: Statistical and Data Mining Methods'],['Status','Complete']]
+        meta: [['Year','2025'],['Context','MUSA 5000: Statistical and Data Mining Methods'],['Team','Jun Luu · Alex Stauffer · Tessa Vu'],['Status','Complete']]
       },
       'dc-metro': {
         tag: 'Cartography',

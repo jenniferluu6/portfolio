@@ -154,32 +154,30 @@
     }
     .masonry-item:hover .img-card img { transform: scale(1.04); }
 
+    /* The artist's name always shows at the bottom of the photo, over a dark
+       fade sized in px so tall images don't get a tall shadow */
     .img-card-overlay {
       position: absolute; inset: 0;
-      background: rgba(20,18,16,0);
+      background-color: rgba(20,18,16,0);
+      background-image: linear-gradient(to top, rgba(20,18,16,0.7) 0, rgba(20,18,16,0) 90px);
       display: flex; flex-direction: column;
       justify-content: flex-end;
       padding: 14px;
-      transition: background 0.28s;
+      transition: background-color 0.28s;
       border-radius: 16px;
     }
-    .masonry-item:hover .img-card-overlay { background: rgba(20,18,16,0.55); }
-
-    .img-card-meta {
-      opacity: 0; transform: translateY(5px);
-      transition: opacity 0.28s, transform 0.28s;
-    }
-    .masonry-item:hover .img-card-meta { opacity: 1; transform: translateY(0); }
+    .masonry-item:hover .img-card-overlay { background-color: rgba(20,18,16,0.55); }
 
     .img-card-creator {
       font-family: 'Cormorant Garamond', serif;
       font-size: 0.95rem; font-weight: 400;
       color: white; line-height: 1.3; margin-bottom: 2px;
+      text-shadow: 0 1px 6px rgba(0,0,0,0.4);
     }
     .img-card-label {
       font-size: 9px; font-weight: 500;
       letter-spacing: 0.14em; text-transform: uppercase;
-      color: rgba(255,255,255,0.55);
+      color: rgba(255,255,255,0.75);
     }
 
     /* PAPER CARDS */
@@ -617,6 +615,7 @@
 
   <footer>
     <p>© 2026 Jun Luu</p>
+    <p><a href="mailto:jennifer.luu6@gmail.com">Email</a> &nbsp;·&nbsp; <a href="https://www.linkedin.com/in/jenniferluu6/" target="_blank" rel="noopener">LinkedIn</a> &nbsp;·&nbsp; <a href="https://github.com/jenniferluu6" target="_blank" rel="noopener">GitHub</a></p>
   </footer>
 
   <script>
